@@ -1,0 +1,18 @@
+.badgeBtn {
+    cursor: pointer;
+    -webkit-animation: sink .1s forwards; /* Safari 4+ */
+    -moz-animation:    sink .1s forwards; /* Fx 5+ */
+    -o-animation:      sink .1s forwards; /* Opera 12+ */
+    animation:         sink .1s forwards;
+}
+
+@keyframes sink {
+    from {
+        box-shadow: 4px -4px lightgray;
+        transform: translate(0px, 0px);
+    }
+    to {
+        box-shadow: 0px 0px lightgray;
+        transform: translate(4px, -4px);
+    }
+}

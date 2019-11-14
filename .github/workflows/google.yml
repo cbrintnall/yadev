@@ -1,0 +1,29 @@
+name: Build and Deploy to GCS
+
+on:
+  push:
+    branches:
+    - master
+    - feature/add-gcs-deployment
+
+jobs:
+  build-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '270.0.0'
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Deploy
+        run: gsutil cp -r build/* gs://yadev.app
