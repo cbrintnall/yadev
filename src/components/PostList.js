@@ -6,9 +6,37 @@ import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
 import Rating from './Rating';
 
+const OK_START = 10;
+const OK_END = 30;
+const GOOD_END = 60;
+const AMAZING_END = 100;
+
 class Post extends React.Component {
     constructor() {
         super();
+    }
+
+    getCompleteBadge() {
+        let variant = "danger";
+        const { post: { user: { completed } } } = this.props;
+
+        if (completed >= OK_START && completed < OK_END) {
+            variant = "warning"
+        }
+
+        if (completed >= OK_END && completed < GOOD_END) {
+            variant = "success"
+        }
+
+        if (completed >= GOOD_END && completed < AMAZING_END) {
+            variant = "info"
+        }
+
+        if (completed > AMAZING_END) {
+            variant = "primary"
+        }
+
+        return (<Badge variant={variant}>{String(completed)}</Badge>)
     }
 
     render() {
@@ -53,7 +81,12 @@ class Post extends React.Component {
                     />
                     </Col>
                     <Col>
-                        <Rating ratings={this.props.post.avgRating}/>
+                        <Row>
+                            <Rating ratings={this.props.post.user.avgRating}/>
+                        </Row>
+                        <Row>
+                            <Badge>Completed: </Badge> {this.getCompleteBadge()}
+                        </Row>
                     </Col>
                 </Row>
             </Card.Body>

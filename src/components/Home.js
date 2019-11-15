@@ -7,13 +7,14 @@ function createFakePosts() {
     let amt = 10;
     let obj = {
         user: {
-            username: "Jon101"
+            username: "Jon101",
+            avgRating: 2,
+            completed: 20
         },
         description: "Need a Youtuber with gaming experience, 500+ subscribers required. Need promotion for new action adventure indie game.",
         askingPrice: 50,
         isDev: true,
         tags: ["Urgent", "Indie"],
-        avgRating: 2
     };
 
     let arr = [];
