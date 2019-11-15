@@ -4,20 +4,23 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import YouDevButton from './YouDevButton';
 
 export default class PostList extends React.Component {
     constructor() {
         super();
     }
 
-    createPosts() {
-        let interval = 1;
-        let posts = [];
+    onContact(post) {
+        if (this.props.onContact !== undefined) {
+            this.props.onContact(post)
+        }
+    }
 
-        for (let i = interval; i < this.props.posts.length; i += interval) {
-            let post = this.props.posts[i];
-            posts.push(
-                <Col>
+    createPosts() {
+        return this.props.posts.map((post, i) => {
+            return (
+                <Col key={i}>
                     <Card style={{ 
                         width: '18rem', 
                         borderRadius: '2rem', 
@@ -25,7 +28,6 @@ export default class PostList extends React.Component {
                         boxShadow: "5px 10px #888888",
                         border: "4px solid black"
                     }} 
-                    key={i}
                     >
                         <Card.Body>
                             <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.isDev ? "Youtuber" : "Developer"}</h2></Card.Title> 
@@ -40,9 +42,10 @@ export default class PostList extends React.Component {
                                 >{post.description}</span>
                             </Card.Text>
                             {
-                                post.tags.map(tag => {
+                                post.tags.map((tag, j) => {
                                     return (
                                         <Badge 
+                                            key={j}
                                             variant="secondary"
                                             style={{ margin: ".2rem" }}
                                         > {tag} </Badge>
@@ -50,14 +53,16 @@ export default class PostList extends React.Component {
                                 })
                             }
                             <br />
-                            <Button style={{marginTop: ".3rem", backgroundColor: "#A492E8"}}>Contact</Button>
+                            <YouDevButton 
+                                style={{marginTop: ".3rem"}} 
+                                text="Contact"
+                                onClick={() => this.onContact(post)}
+                            ></YouDevButton>
                         </Card.Body>
                     </Card>
                 </Col>
             )
-        }
-
-        return posts;
+        })
     }
 
     render() {
