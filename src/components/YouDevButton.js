@@ -10,7 +10,10 @@ export default class YouDevButton extends React.Component {
         return (
             <Button 
                 {...this.props}
-                style={{backgroundColor: "#A492E8"}}
+                style={{
+                    backgroundColor: "#A492E8", 
+                    color: "white",
+                    ...this.props.style}}
             >
                 {this.props.text}
             </Button>

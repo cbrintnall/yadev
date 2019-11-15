@@ -20,7 +20,8 @@ export default class ContactModal extends React.Component {
             submitting: false,
             submitted: false,
             submitTimer: undefined,
-            errors: ""
+            errors: "",
+            text: ""
         }
 
         this.textRef = React.createRef();
@@ -39,15 +40,18 @@ export default class ContactModal extends React.Component {
 
     onSubmitClick() {
         if (this.textRef.current) {
-            if (this.textRef.current.value.length < 1) {
+            const currentText = this.textRef.current.value;
+            if (currentText.length < 1) {
                 this.setState({errors: "No text entered."})
                 return;
             }
 
-            if (this.textRef.current.value.length < MINIMUM_MESSAGE_LENGTH) {
+            if (currentText.length < MINIMUM_MESSAGE_LENGTH) {
                 this.setState({errors: `Message must be at least ${MINIMUM_MESSAGE_LENGTH} characters.`})
                 return;
             }
+
+            this.setState({errors: "", text: currentText});
         }
 
         if (this.state.confirmed) {
@@ -106,9 +110,17 @@ export default class ContactModal extends React.Component {
                     style={{borderRadius: "3px solid black"}}
                 >
                     <InputGroup className="mb-3">
-                        <FormControl as="textarea" ref={this.textRef} />
+                        <FormControl 
+                            as="textarea" 
+                            ref={this.textRef} 
+                            style={{borderRadius: "7px", border: "3px solid black"}}
+                        />
                     </InputGroup>
+                    <div style={{color:"LightSlateGrey", textAlign: "center"}}>
+                        Remember to not share any passwords or credit card numbers.
+                    </div>
                     <div style={{color: "red"}}>
+                        {this.state.errors ? <hr /> : <span></span>}
                         {this.state.errors}
                     </div>
                 </Modal.Body>

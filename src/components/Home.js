@@ -1,10 +1,6 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
 import PostList from './PostList';
-import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import YouDevButton from './YouDevButton';
-import LoginModal from './LoginModal';
 import ContactModal from './ContactModal';
 
 function createFakePosts() {
@@ -17,8 +13,7 @@ function createFakePosts() {
         askingPrice: 50,
         isDev: true,
         tags: ["Urgent", "Indie"],
-        avgRating: 5
-        // createdAt: 
+        avgRating: 2
     };
 
     let arr = [];
