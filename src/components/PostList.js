@@ -29,40 +29,56 @@ class Post extends React.Component {
         }
 
         if (completed >= GOOD_END && completed < AMAZING_END) {
-            variant = "info"
+            variant = "primary"
         }
 
-        if (completed > AMAZING_END) {
-            variant = "primary"
+        if (completed >= AMAZING_END) {
+            variant = "info"
         }
 
         return (<Badge variant={variant}>{String(completed)}</Badge>)
     }
 
+    getShadow() {
+        const { post } = this.props;
+
+        if (post.hasBeenAccepted && post.contacted) {
+            return "#7AFF99";
+        }
+
+        if (!post.hasBeenAccepted && post.contacted) {
+            return "#FFFB7A";
+        }
+
+        return "LightGray";
+    }
+
     render() {
+        const { post } = this.props;
+
         return (
         <Card style={{ 
                 width: '18rem', 
                 borderRadius: '2rem', 
                 margin: "1rem",
-                boxShadow: "5px 10px #888888",
+                boxShadow: ("10px -10px " + this.getShadow()),
                 border: "4px solid black"
-            }} 
+            }}
         >
             <Card.Body>
-                <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{this.props.post.isDev ? "Youtuber" : "Developer"}</h2></Card.Title> 
+                <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.isDev ? "Youtuber" : "Developer"}</h2></Card.Title> 
                 <Card.Subtitle> 
                     <h4>
-                        <Badge>${this.props.post.askingPrice}</Badge> 
+                        <Badge>${post.askingPrice} {post.willWork ? "/ will work" : ""}</Badge> 
                     </h4>
                 </Card.Subtitle>
                 <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
                     <span
                         style={{textShadow: "1px 1px 2px black, 0 0 1em blue, 0 0 0.2em", color: "white"}}
-                    >{this.props.post.description}</span>
+                    >{post.description}</span>
                 </Card.Text>
                 {
-                    this.props.post.tags.map((tag, j) => {
+                    post.tags.map((tag, j) => {
                         return (
                             <Badge 
                                 key={j}
@@ -77,12 +93,12 @@ class Post extends React.Component {
                         <YouDevButton 
                         style={{marginTop: ".3rem"}} 
                         text="Contact"
-                        onClick={() => this.props.onContact(this.props.post)}
+                        onClick={() => this.props.onContact(post)}
                     />
                     </Col>
                     <Col>
                         <Row>
-                            <Rating ratings={this.props.post.user.avgRating}/>
+                            <Rating ratings={post.user.avgRating}/>
                         </Row>
                         <Row>
                             <Badge>Completed: </Badge> {this.getCompleteBadge()}

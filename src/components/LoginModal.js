@@ -24,7 +24,9 @@ export default class LoginModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-                            <Col>
+                            <Col
+                                style={{textAlign: "center"}}
+                            >
                                 <span>
                                     Please login with your preferred provider.
                                 </span>

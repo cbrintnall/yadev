@@ -9,12 +9,15 @@ function createFakePosts() {
         user: {
             username: "Jon101",
             avgRating: 2,
-            completed: 20
+            completed: 100
         },
         description: "Need a Youtuber with gaming experience, 500+ subscribers required. Need promotion for new action adventure indie game.",
         askingPrice: 50,
         isDev: true,
         tags: ["Urgent", "Indie"],
+        willWork: true,
+        hasBeenAccepted: true,
+        contacted: true
     };
 
     let arr = [];
