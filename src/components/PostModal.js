@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import YouDevButton from './YouDevButton';
+import TagInput from './TagInput';
 
 class PostModal extends React.Component {
     constructor() {
@@ -71,7 +72,7 @@ class PostModal extends React.Component {
                                     Tags:
                                 </h5>
                             </Form.Label>
-                            <Form.Control style={{marginBottom: "1rem"}} as="text"/>
+                            <TagInput style={{marginBottom: "1rem"}} />
                         </Form.Row>
                         <Modal.Footer>
                         <YouDevButton
