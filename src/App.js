@@ -8,7 +8,7 @@ import Home from './components/Home';
 import ContactPage from './components/ContactPage';
 import MainNav from './components/MainNav';
 import AuthHandler from './components/Auth';
-import Cookies from 'js-cookie';
+import { getToken, loggedIn } from './utils';
 
 export default class App extends React.Component {
   constructor() {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
     return (
       <div>
         <MainNav
-          loggedIn={false}
+          loggedIn={loggedIn()}
         />
         <Router>
           <Switch>

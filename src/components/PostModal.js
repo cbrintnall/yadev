@@ -13,8 +13,18 @@ class PostModal extends React.Component {
         this.postRef = React.createRef();
     }
 
-    submitForm(hlelo) {
-        console.log(hlelo)
+    submitForm(val) {
+        val.preventDefault();
+        const form = this.postRef.current;
+
+        const payload = {
+            description: form.elements.description.value,
+            tags: form.elements.tags.value,
+            price: form.elements.price.value,
+            type: form.elements.type.value
+        }
+        
+        console.log(payload)
     }
 
     render() {
@@ -27,7 +37,7 @@ class PostModal extends React.Component {
                     <h2>Make a new post</h2>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form ref={this.postRef}>
+                    <Form ref={this.postRef} onSubmit={this.submitForm.bind(this)}>
                         <Form.Row>
                             <Col>
                                 <Form.Label>
@@ -38,13 +48,15 @@ class PostModal extends React.Component {
                                     inline
                                     type="radio"
                                     label="Youtuber"
-                                    name="postType"
+                                    name="type"
+                                    value="youtuber"
                                 />
                                 <Form.Check
                                     inline
                                     type="radio"
                                     label="Developer"
-                                    name="postType"
+                                    name="type"
+                                    value="developer"
                                 />
                             </Col>
                             <Col>
@@ -55,7 +67,11 @@ class PostModal extends React.Component {
                                     <InputGroup.Prepend>
                                         <InputGroup.Text>$</InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control type="text" placeholder="50" />
+                                    <Form.Control 
+                                        type="text" 
+                                        placeholder="50" 
+                                        name="price"
+                                    />
                                 </InputGroup>
                             </Col>
                         </Form.Row>
@@ -64,7 +80,11 @@ class PostModal extends React.Component {
                             <Form.Label>
                                 <h5>Description:</h5>
                             </Form.Label>
-                            <Form.Control style={{marginBottom: "1rem"}} as="textarea" />
+                            <Form.Control 
+                                style={{marginBottom: "1rem"}} 
+                                as="textarea" 
+                                name="description"
+                            />
                         </Form.Row>
                         <Form.Row>
                             <Form.Label>
@@ -72,13 +92,15 @@ class PostModal extends React.Component {
                                     Tags:
                                 </h5>
                             </Form.Label>
-                            <TagInput style={{marginBottom: "1rem"}} />
+                            <TagInput 
+                                style={{marginBottom: "1rem"}} 
+                                name="tags"
+                            />
                         </Form.Row>
                         <Modal.Footer>
                         <YouDevButton
                             type="submit"
                             text="Submit"
-                            onClick={this.submitForm}
                         />
                         </Modal.Footer>
                     </Form>

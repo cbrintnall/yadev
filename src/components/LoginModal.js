@@ -3,9 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import Settings from '../settings';
-import { FaGithub, FaFacebookSquare, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 
 export default class LoginModal extends React.Component {
     constructor() {
@@ -47,11 +46,6 @@ export default class LoginModal extends React.Component {
                                         onClick={this.handleGithubLogin}
                                     >
                                         <h4> Github <FaGithub /> </h4>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item 
-                                        action
-                                    >        
-                                        <h4> Facebook <FaFacebookSquare /> </h4>
                                     </ListGroup.Item>
                                     <ListGroup.Item action>
                                         <h4> Twitter <FaTwitter /> </h4>

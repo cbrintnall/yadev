@@ -4,6 +4,7 @@ import LoginModal from './LoginModal';
 import Form from 'react-bootstrap/Form';
 import YouDevButton from './YouDevButton';
 import PostModal from './PostModal';
+import { logout } from '../utils';
 
 class MainNav extends React.Component {
     constructor() {
@@ -15,11 +16,24 @@ class MainNav extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            loggedIn: !!this.props.loggedIn
+        })
+    }
+
+    logout() {
+        logout();
+        this.setState({
+            loggedIn: false
+        })
+    }
+
     getAccountButton() {
-        if (this.props.loggedIn) {
+        if (this.state.loggedIn) {
             return (
                 <YouDevButton
-                    onClick={() => console.log("Logging out.")}
+                    onClick={() => this.logout()}
                     text="Logout"
                 />
             )
@@ -49,11 +63,11 @@ class MainNav extends React.Component {
                 />
                 <Form inline>
                     {this.getAccountButton()}
-                    <YouDevButton
+                    {this.state.loggedIn ? <YouDevButton
                         style={{marginLeft: "1rem"}}
                         text="Make Post"
                         onClick={() => this.setState({showPostModal: true})}
-                    />
+                    /> : <span></span>}
                 </Form>
             </Navbar>
         )
