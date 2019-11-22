@@ -19,6 +19,7 @@ const githubAccountId = {
     prod: ""
 }
 
+Settings.postEndpoint = "/post"
 Settings.authRedirect = "/"
 Settings.hostBase = hostBase[ENV]
 Settings.backendUrl = backendUrl[ENV]

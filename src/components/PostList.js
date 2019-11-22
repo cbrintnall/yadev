@@ -69,7 +69,7 @@ class Post extends React.Component {
                 <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.isDev ? "Youtuber" : "Developer"}</h2></Card.Title> 
                 <Card.Subtitle> 
                     <h4>
-                        <Badge>${post.askingPrice} {post.willWork ? "/ will work" : ""}</Badge> 
+                        <Badge>${post.askingPrice}</Badge> 
                     </h4>
                 </Card.Subtitle>
                 <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
@@ -98,7 +98,10 @@ class Post extends React.Component {
                     </Col>
                     <Col>
                         <Row>
-                            <Rating ratings={post.user.avgRating}/>
+                            {
+                              post.user.avgRating ? 
+                                <Rating ratings={post.user.avgRating}/> : <Rating ratings={0}/>
+                            }
                         </Row>
                         <Row>
                             <Badge>Completed: </Badge> {this.getCompleteBadge()}

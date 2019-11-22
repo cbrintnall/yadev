@@ -5,12 +5,22 @@ import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import YouDevButton from './YouDevButton';
 import TagInput from './TagInput';
+import Badge from 'react-bootstrap/Badge';
+
+const MAX_DESCRIPTION_LENGTH = 120;
+const MIN_DESCRIPTION_LENGTH = 30;
 
 class PostModal extends React.Component {
     constructor() {
         super();
 
         this.postRef = React.createRef();
+
+        this.state = {
+          descriptionValid: false,
+          descriptionLength: 0,
+          priceValid: false
+        }
     }
 
     submitForm(val) {
@@ -22,9 +32,22 @@ class PostModal extends React.Component {
             tags: form.elements.tags.value,
             price: form.elements.price.value,
             type: form.elements.type.value
-        }
-        
-        console.log(payload)
+        }   
+    }
+
+    onDescriptionChange(e) {
+      const description = this.postRef.current.description.value;
+      this.setState({
+        descriptionLength: description.length,
+        descriptionValid: description.length > MIN_DESCRIPTION_LENGTH && description.length < MAX_DESCRIPTION_LENGTH
+      })
+    }
+
+    onPriceChange(e) {
+      const price = this.postRef.current.price.value;
+      this.setState({
+        priceValid: /^\d{1,5}$/.test(price)
+      })
     }
 
     render() {
@@ -46,6 +69,7 @@ class PostModal extends React.Component {
                                 <br/>
                                 <Form.Check
                                     inline
+                                    required
                                     type="radio"
                                     label="Youtuber"
                                     name="type"
@@ -53,6 +77,7 @@ class PostModal extends React.Component {
                                 />
                                 <Form.Check
                                     inline
+                                    required
                                     type="radio"
                                     label="Developer"
                                     name="type"
@@ -68,9 +93,12 @@ class PostModal extends React.Component {
                                         <InputGroup.Text>$</InputGroup.Text>
                                     </InputGroup.Prepend>
                                     <Form.Control 
+                                        required
                                         type="text" 
                                         placeholder="50" 
                                         name="price"
+                                        isInvalid={!this.state.priceValid}
+                                        onChange={this.onPriceChange.bind(this)}
                                     />
                                 </InputGroup>
                             </Col>
@@ -82,11 +110,16 @@ class PostModal extends React.Component {
                             </Form.Label>
                             <Form.Control 
                                 style={{marginBottom: "1rem"}} 
+                                required
                                 as="textarea" 
                                 name="description"
+                                onChange={this.onDescriptionChange.bind(this)}
+                                isInvalid={!this.state.descriptionValid}
                             />
+                            <br />
+                            <Badge> {this.state.descriptionLength} / {MAX_DESCRIPTION_LENGTH} </Badge>
                         </Form.Row>
-                        <Form.Row>
+                        <Form.Row style={{marginTop: ".1rem"}}>
                             <Form.Label>
                                 <h5>
                                     Tags:

@@ -2,6 +2,7 @@ import React from 'react';
 import PostList from './PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from './ContactModal';
+import { getPosts } from '../calls';
 
 function createFakePosts() {
     let amt = 10;
@@ -33,7 +34,8 @@ export default class Home extends React.Component {
         this.state = {
             showLoginModal: false,
             showContactModal: false,
-            currentContact: {}
+            currentContact: {},
+            posts: []
         }
 
         this.onContact = this.onContact.bind(this);
@@ -47,6 +49,18 @@ export default class Home extends React.Component {
         })
     }
 
+    componentDidMount() {
+      getPosts(1)
+        .then(res => {
+          this.setState({
+            posts: res.data.results
+          })
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
     render() {
         return (
             <div>
@@ -57,7 +71,7 @@ export default class Home extends React.Component {
                         onHide={() => this.setState({showContactModal: false})}
                     />
                     <PostList 
-                        posts={createFakePosts()}
+                        posts={this.state.posts}
                         onContact={this.onContact}
                     />
                 </Container>

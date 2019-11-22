@@ -17,3 +17,11 @@ export const sendCodeToBackend = (code) => {
         console.log(err.error)
     })
 };
+
+export const getUser = (username) => {
+  return instance.get(`/user/${username}`);
+}
+
+export const getPosts = (page) => {
+  return instance.get(`/post/${page}`);
+}
