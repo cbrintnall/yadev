@@ -1,8 +1,11 @@
 const ENV = process.env.NODE_ENV || "nonprod"
 const Settings = {}
 
+const hostBase = {
+    development: "http://localhost:3000"
+}
 const backendUrl = {
-    development: "http://127.0.0.1:8000",
+    development: "http://localhost:8000",
     prod: ""
 }
 
@@ -16,6 +19,8 @@ const githubAccountId = {
     prod: ""
 }
 
+Settings.authRedirect = "/"
+Settings.hostBase = hostBase[ENV]
 Settings.backendUrl = backendUrl[ENV]
 Settings.githubAccountId = githubAccountId[ENV]
 Settings.facebookAccountId = facebookAccountId[ENV]

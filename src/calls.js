@@ -6,7 +6,7 @@ const instance = axios.create({
 })
 
 export const sendCodeToBackend = (code) => {
-    instance.post("/auth/github", {
+    instance.get("/auth/github", {
         code: code
     })
     .then(res => {
@@ -14,6 +14,6 @@ export const sendCodeToBackend = (code) => {
         console.log(res)
     })
     .catch(err => {
-        console.log(err.response)
+        console.log(err.error)
     })
 };

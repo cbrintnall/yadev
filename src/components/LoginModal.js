@@ -16,7 +16,7 @@ export default class LoginModal extends React.Component {
     }
 
     handleGithubLogin() {
-        window.location = `https://github.com/login/oauth/authorize?client_id=${Settings.githubAccountId}&redirect_uri=http://localhost:3000/auth/github`
+        window.location = `https://github.com/login/oauth/authorize?client_id=${Settings.githubAccountId}&redirect_uri=${Settings.backendUrl}/auth/github?next=${Settings.hostBase}/`
     }
 
     render() {

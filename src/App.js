@@ -8,6 +8,7 @@ import Home from './components/Home';
 import ContactPage from './components/ContactPage';
 import MainNav from './components/MainNav';
 import AuthHandler from './components/Auth';
+import Cookies from 'js-cookie';
 
 export default class App extends React.Component {
   constructor() {
