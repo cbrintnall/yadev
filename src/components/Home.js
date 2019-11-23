@@ -2,7 +2,9 @@ import React from 'react';
 import PostList from './PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from './ContactModal';
+import Nav from 'react-bootstrap/Nav';
 import { getPosts } from '../calls';
+import { IoIosRefresh } from 'react-icons/io';
 
 function createFakePosts() {
     let amt = 10;
@@ -35,9 +37,11 @@ export default class Home extends React.Component {
             showLoginModal: false,
             showContactModal: false,
             currentContact: {},
+            currentPage: 1,
             posts: []
         }
 
+        this.refreshRef = React.createRef();
         this.onContact = this.onContact.bind(this);
     }
 
@@ -49,8 +53,8 @@ export default class Home extends React.Component {
         })
     }
 
-    componentDidMount() {
-      getPosts(1)
+    setPosts() {
+      getPosts(this.state.currentPage)
         .then(res => {
           this.setState({
             posts: res.data.results
@@ -61,10 +65,28 @@ export default class Home extends React.Component {
         });
     }
 
+    onRefresh() {
+      this.setPosts();
+    }
+
+    componentDidMount() {
+      this.setPosts()
+    }
+
     render() {
         return (
             <div>
                 <Container>
+                    <Nav className="justify-content-end" style={{margin: "1rem"}}>
+                      <Nav.Item>
+                        <h3>
+                          <IoIosRefresh 
+                            ref={this.refreshRef}
+                            onClick={this.onRefresh.bind(this)}
+                          />
+                        </h3>
+                      </Nav.Item>
+                    </Nav>
                     <ContactModal 
                         contact={this.state.currentContact}
                         show={this.state.showContactModal}

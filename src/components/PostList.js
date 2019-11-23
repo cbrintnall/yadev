@@ -17,6 +17,10 @@ class Post extends React.Component {
     }
 
     getCompleteBadge() {
+        if (!this.props.post.user || !this.props.post.user.completed) {
+          return (<Badge>N/A</Badge>)
+        }
+
         let variant = "danger";
         const { post: { user: { completed } } } = this.props;
 
@@ -55,7 +59,7 @@ class Post extends React.Component {
 
     render() {
         const { post } = this.props;
-
+        
         return (
         <Card style={{ 
                 width: '18rem', 
@@ -66,10 +70,10 @@ class Post extends React.Component {
             }}
         >
             <Card.Body>
-                <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.isDev ? "Youtuber" : "Developer"}</h2></Card.Title> 
+                <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.type.charAt(0).toUpperCase() + post.type.substring(1)}</h2></Card.Title> 
                 <Card.Subtitle> 
                     <h4>
-                        <Badge>${post.askingPrice}</Badge> 
+                        <Badge>${post.price}</Badge> 
                     </h4>
                 </Card.Subtitle>
                 <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
@@ -99,7 +103,7 @@ class Post extends React.Component {
                     <Col>
                         <Row>
                             {
-                              post.user.avgRating ? 
+                              post.user && post.user.avgRating ? 
                                 <Rating ratings={post.user.avgRating}/> : <Rating ratings={0}/>
                             }
                         </Row>
@@ -126,6 +130,10 @@ export default class PostList extends React.Component {
         if (this.props.onContact !== undefined) {
             this.props.onContact(post)
         }
+    }
+  
+    componentDidMount() {
+        console.log(this.props)
     }
 
     createPosts() {

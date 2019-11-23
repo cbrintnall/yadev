@@ -102,7 +102,7 @@ export default class ContactModal extends React.Component {
                 <Modal.Header>
                     <Modal.Title>
                         <h3>
-                            Sending {this.props.contact.user ? this.props.contact.user.username : "Unknown user"} a message...
+                            Sending {this.props.contact.user ? this.props.contact.user.username : "< Unknown user >"} a message...
                         </h3>
                     </Modal.Title>
                 </Modal.Header>

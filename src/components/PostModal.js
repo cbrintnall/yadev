@@ -6,7 +6,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import YouDevButton from './YouDevButton';
 import TagInput from './TagInput';
 import Badge from 'react-bootstrap/Badge';
+import { sendPost } from '../calls';
+import { getTokenInfo } from '../utils';
 
+const MAX_TAGS_AMOUNT = 15;
 const MAX_DESCRIPTION_LENGTH = 120;
 const MIN_DESCRIPTION_LENGTH = 30;
 
@@ -19,20 +22,32 @@ class PostModal extends React.Component {
         this.state = {
           descriptionValid: false,
           descriptionLength: 0,
-          priceValid: false
+          priceValid: false,
+          tags: ""
         }
     }
 
     submitForm(val) {
         val.preventDefault();
+        // Extract user data from the token, so we can set the owner appropriately
+        const info = getTokenInfo()
         const form = this.postRef.current;
 
         const payload = {
+            owner: info._id,
             description: form.elements.description.value,
-            tags: form.elements.tags.value,
+            tags: form.elements.tags.value.split(","),
             price: form.elements.price.value,
             type: form.elements.type.value
-        }   
+        }
+
+        sendPost(payload)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
     }
 
     onDescriptionChange(e) {
@@ -48,6 +63,24 @@ class PostModal extends React.Component {
       this.setState({
         priceValid: /^\d{1,5}$/.test(price)
       })
+    }
+
+    onTagChange(e) {
+      const tags = this.postRef.current.tags.value;
+
+      if (tags.split(',').length > MAX_TAGS_AMOUNT) {
+        this.setState({
+          tagsInvalid: true
+        })
+
+        return;
+      } else {
+        this.setState({
+          tagsInvalid: false
+        })
+      }
+
+      this.setState({ tags });
     }
 
     render() {
@@ -123,13 +156,29 @@ class PostModal extends React.Component {
                             <Form.Label>
                                 <h5>
                                     Tags:
-                                </h5>
+                                </h5> 
+                            {
+                              this.postRef && this.postRef.current && this.postRef.current.tags.value ?
+                                this.postRef.current.tags.value.split(',').map(val => {
+                                  if (val && val.trim().length > 0 && val !== "") {
+                                    return (
+                                      <div style={{marginLeft: ".05rem", marginRight: ".05rem", display: "inline"}}>
+                                        <Badge variant="dark"> { val } </Badge>
+                                      </div>
+                                    )
+                                  }
+                                }) :
+                                <span> </span>
+                            }
                             </Form.Label>
                             <TagInput 
                                 style={{marginBottom: "1rem"}} 
                                 name="tags"
+                                onChange={this.onTagChange.bind(this)}
+                                isInvalid={this.state.tagsInvalid}
                             />
                         </Form.Row>
+                        <br />
                         <Modal.Footer>
                         <YouDevButton
                             type="submit"
