@@ -41,7 +41,6 @@ export default class Home extends React.Component {
             posts: []
         }
 
-        this.refreshRef = React.createRef();
         this.onContact = this.onContact.bind(this);
     }
 
@@ -81,7 +80,6 @@ export default class Home extends React.Component {
                       <Nav.Item>
                         <h3>
                           <IoIosRefresh 
-                            ref={this.refreshRef}
                             onClick={this.onRefresh.bind(this)}
                           />
                         </h3>

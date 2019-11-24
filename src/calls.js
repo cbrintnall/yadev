@@ -6,7 +6,7 @@ const instance = axios.create({
 })
 
 export const removePost = (postId, userToken) => {
-  return instance.delete(`/post/${postId}`, {}, { headers: { token: userToken }});
+  return instance.delete(`/post/${postId}`, { headers: { token: userToken }});
 };
 
 export const sendPost = (post) => {

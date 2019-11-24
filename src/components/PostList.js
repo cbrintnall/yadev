@@ -5,7 +5,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
 import Rating from './Rating';
-import { getTokenInfo } from '../utils';
+import { differenceWith, isEqual } from 'lodash';
+import { userToken, getTokenInfo } from '../utils';
+import { removePost } from '../calls';
 
 const OK_START = 10;
 const OK_END = 30;
@@ -70,10 +72,6 @@ class Post extends React.Component {
       return `${date.getMonth()} / ${day} / ${date.getFullYear()} @ ${date.getHours()}:${minutes}`
     }
 
-    removePost() {
-      
-    }
-
     render() {
         const { post } = this.props;    
         const userIsOwner = post.owner === getTokenInfo()._id;
@@ -92,8 +90,8 @@ class Post extends React.Component {
                   <h2 style={{borderBottom: "3px solid black"}}>
                     {post.type.charAt(0).toUpperCase() + post.type.substring(1)}
                   </h2> 
-                  <Badge variant="secondary" onClick={this.props.onHidePost && this.props.onHidePost(post)}> Hide </Badge>
-                  { userIsOwner ? <Badge variant="danger" style={{marginLeft: ".1rem"}} onClick={this.removePost.bind(this)}> Remove </Badge> : <span></span> }
+                  <Badge variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </Badge>
+                  { userIsOwner ? <Badge variant="danger" style={{marginLeft: ".1rem"}} onClick={() => { this.props.onRemovePost(post) }}> Remove </Badge> : <span></span> }
                 </Card.Title> 
                 <Card.Subtitle> 
                     <h4>
@@ -148,8 +146,14 @@ export default class PostList extends React.Component {
     constructor() {
         super();
 
+        this.getNonHiddenPosts = this.getNonHiddenPosts.bind(this);
         this.createPosts = this.createPosts.bind(this);
         this.onContact = this.onContact.bind(this);
+        this.onHidePost = this.onHidePost.bind(this);
+
+        this.state = {
+          hiddenPosts: []
+        }
     }
 
     onContact(post) {
@@ -158,12 +162,39 @@ export default class PostList extends React.Component {
         }
     }
 
+    onRemovePost(post) {
+      removePost(post._id, userToken())
+        .then(res => {
+          this.onHidePost(post)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  
+    onHidePost(post) {
+      let hiddenPosts = this.state.hiddenPosts;
+      hiddenPosts.push(post);
+
+      this.setState({ hiddenPosts });
+    }
+
+    getNonHiddenPosts() {
+      if (this.state.hiddenPosts.length === 0) {
+        return this.props.posts;
+      }
+
+      return differenceWith(this.props.posts, this.state.hiddenPosts, isEqual);
+    }
+
     createPosts() {
-        return this.props.posts.map((post, i) => {
+        return this.getNonHiddenPosts().map((post, i) => {
             return (
                 <Col key={i}>
                     <Post
                         post={post}
+                        onHidePost={this.onHidePost}
+                        onRemovePost={this.onRemovePost}
                         onContact={this.onContact}
                     />
                 </Col>
