@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
 import Rating from './Rating';
+import { humanized_time_span } from '../extra/humanized_time';
 import { differenceWith, isEqual } from 'lodash';
 import { userToken, getTokenInfo } from '../utils';
 import { removePost } from '../calls';
@@ -65,11 +66,7 @@ class Post extends React.Component {
         return "";
       }
 
-      const date = new Date(dateString);
-      const day = String(date.getDay()).length == 1 ? "0" + date.getDay() : date.getDay();
-      const minutes = String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() : date.getMinutes();
-    
-      return `${date.getMonth()} / ${day} / ${date.getFullYear()} @ ${date.getHours()}:${minutes}`
+      return humanized_time_span(dateString);
     }
 
     render() {
@@ -103,6 +100,8 @@ class Post extends React.Component {
                         style={{textShadow: "1px 1px 2px black, 0 0 1em blue, 0 0 0.2em", color: "white"}}
                     >{post.description}</span>
                 </Card.Text>
+                <Badge style={{color: "darkgrey"}}> posted: { this.getDate(post.creation_date) } </Badge>
+                <br />
                 {
                   post.tags ? post.tags.map((tag, j) => {
                         return (
@@ -134,8 +133,6 @@ class Post extends React.Component {
                         </Row>
                     </Col>
                 </Row>
-                {/*Commented out until we can make it look better*/}
-                { /* <Badge variant="secondary"> { this.getDate(post.creation_date) } </Badge> */ }
             </Card.Body>
         </Card>
         )
