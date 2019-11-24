@@ -16,6 +16,7 @@ export default class YouDevButton extends React.Component {
                     ...this.props.style}}
             >
                 {this.props.text}
+                {this.props.children}
             </Button>
         )
     }

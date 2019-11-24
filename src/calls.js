@@ -5,6 +5,10 @@ const instance = axios.create({
     baseURL: Settings.backendUrl
 })
 
+export const removePost = (postId, userToken) => {
+  return instance.delete(`/post/${postId}`, {}, { headers: { token: userToken }});
+};
+
 export const sendPost = (post) => {
   return instance.post('/post', post);
 };

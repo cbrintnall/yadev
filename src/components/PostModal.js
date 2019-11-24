@@ -8,6 +8,7 @@ import TagInput from './TagInput';
 import Badge from 'react-bootstrap/Badge';
 import { sendPost } from '../calls';
 import { getTokenInfo } from '../utils';
+import Spinner from 'react-bootstrap/Spinner';
 
 const MAX_TAGS_AMOUNT = 15;
 const MAX_DESCRIPTION_LENGTH = 120;
@@ -23,7 +24,9 @@ class PostModal extends React.Component {
           descriptionValid: false,
           descriptionLength: 0,
           priceValid: false,
-          tags: ""
+          tags: "",
+          submitting: false,
+          submitted: false
         }
     }
 
@@ -41,12 +44,20 @@ class PostModal extends React.Component {
             type: form.elements.type.value
         }
 
+        this.setState({
+          submitting: true
+        })
+
         sendPost(payload)
         .then(res => {
-          console.log(res);
+          if (this.props.onPost) {
+            this.props.onPost(payload);
+          }
         })
         .catch(err => {
-          console.log(err.response);
+          if (this.props.onPostError) {
+            this.props.onPostError(payload);
+          }
         });
     }
 
@@ -152,6 +163,7 @@ class PostModal extends React.Component {
                             <br />
                             <Badge> {this.state.descriptionLength} / {MAX_DESCRIPTION_LENGTH} </Badge>
                         </Form.Row>
+                        <hr />
                         <Form.Row style={{marginTop: ".1rem"}}>
                             <Form.Label>
                                 <h5>
@@ -182,8 +194,18 @@ class PostModal extends React.Component {
                         <Modal.Footer>
                         <YouDevButton
                             type="submit"
-                            text="Submit"
-                        />
+                        >
+                          { 
+                            this.state.submitting ? 
+                              <Spinner
+                                as="span"
+                                size="sm"
+                              /> :
+                              <span></span>
+                          }
+                              
+                          { this.state.submitting ? "Submitting..." : "Submit" }
+                        </YouDevButton>
                         </Modal.Footer>
                     </Form>
                 </Modal.Body>

@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
 import Rating from './Rating';
+import { getTokenInfo } from '../utils';
 
 const OK_START = 10;
 const OK_END = 30;
@@ -57,9 +58,26 @@ class Post extends React.Component {
         return "LightGray";
     }
 
+    getDate(dateString) {
+      if (!dateString) {
+        return "";
+      }
+
+      const date = new Date(dateString);
+      const day = String(date.getDay()).length == 1 ? "0" + date.getDay() : date.getDay();
+      const minutes = String(date.getMinutes()).length == 1 ? "0" + date.getMinutes() : date.getMinutes();
+    
+      return `${date.getMonth()} / ${day} / ${date.getFullYear()} @ ${date.getHours()}:${minutes}`
+    }
+
+    removePost() {
+      
+    }
+
     render() {
-        const { post } = this.props;
-        
+        const { post } = this.props;    
+        const userIsOwner = post.owner === getTokenInfo()._id;
+
         return (
         <Card style={{ 
                 width: '18rem', 
@@ -70,7 +88,13 @@ class Post extends React.Component {
             }}
         >
             <Card.Body>
-                <Card.Title><h2 style={{borderBottom: "3px solid black"}}>{post.type.charAt(0).toUpperCase() + post.type.substring(1)}</h2></Card.Title> 
+                <Card.Title>
+                  <h2 style={{borderBottom: "3px solid black"}}>
+                    {post.type.charAt(0).toUpperCase() + post.type.substring(1)}
+                  </h2> 
+                  <Badge variant="secondary" onClick={this.props.onHidePost && this.props.onHidePost(post)}> Hide </Badge>
+                  { userIsOwner ? <Badge variant="danger" style={{marginLeft: ".1rem"}} onClick={this.removePost.bind(this)}> Remove </Badge> : <span></span> }
+                </Card.Title> 
                 <Card.Subtitle> 
                     <h4>
                         <Badge>${post.price}</Badge> 
@@ -82,7 +106,7 @@ class Post extends React.Component {
                     >{post.description}</span>
                 </Card.Text>
                 {
-                    post.tags.map((tag, j) => {
+                  post.tags ? post.tags.map((tag, j) => {
                         return (
                             <Badge 
                                 key={j}
@@ -90,7 +114,7 @@ class Post extends React.Component {
                                 style={{ margin: ".2rem" }}
                             > {tag} </Badge>
                         );
-                    })
+                  }) : <span></span>
                 }
                 <Row>
                     <Col>
@@ -112,6 +136,8 @@ class Post extends React.Component {
                         </Row>
                     </Col>
                 </Row>
+                {/*Commented out until we can make it look better*/}
+                { /* <Badge variant="secondary"> { this.getDate(post.creation_date) } </Badge> */ }
             </Card.Body>
         </Card>
         )
@@ -130,10 +156,6 @@ export default class PostList extends React.Component {
         if (this.props.onContact !== undefined) {
             this.props.onContact(post)
         }
-    }
-  
-    componentDidMount() {
-        console.log(this.props)
     }
 
     createPosts() {
