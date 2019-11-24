@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import GlobalNotificationManager from '../gnm';
 import { logout } from '../utils';
 
 class MainNav extends React.Component {
@@ -19,6 +20,13 @@ class MainNav extends React.Component {
             showPostModal: false,
             alerts: []
         }
+
+        GlobalNotificationManager.subscribe('alert', this.onAlertNotification.bind(this));
+    }
+
+    onAlertNotification(msg) {
+      console.log(msg)
+      this.addAlert(msg, false);
     }
 
     componentDidMount() {
@@ -57,10 +65,10 @@ class MainNav extends React.Component {
       let alerts = this.state.alerts;
       alerts.push(
           <Alert
+            key={text}
             onClick={this.onAlertClick.bind(this)}
             onMouseEnter={this.onHoverAlert.bind(this)}
             onMouseLeave={this.onLeaveHoverAlert.bind(this)}
-            dismissable={true}
             style={{width: "100%", margin: "0px", textAlign: "center"}}
             variant={success ? "success" : "danger"}
           >
