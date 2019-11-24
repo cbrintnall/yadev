@@ -18,6 +18,8 @@ const AMAZING_END = 100;
 class Post extends React.Component {
     constructor() {
         super();
+
+        this.getFilteredTags = this.getFilteredTags.bind(this);
     }
 
     getCompleteBadge() {
@@ -69,6 +71,12 @@ class Post extends React.Component {
       return humanized_time_span(dateString);
     }
 
+    getFilteredTags(tags) {
+      return tags.filter(tag => {
+        return !!tag
+      })
+    }
+
     render() {
         const { post } = this.props;    
         const userIsOwner = post.owner === getTokenInfo()._id;
@@ -100,10 +108,9 @@ class Post extends React.Component {
                         style={{textShadow: "1px 1px 2px black, 0 0 1em blue, 0 0 0.2em", color: "white"}}
                     >{post.description}</span>
                 </Card.Text>
-                <Badge style={{color: "darkgrey"}}> posted: { this.getDate(post.creation_date) } </Badge>
-                <br />
+                { post.creation_date && <div><Badge style={{color: "darkgrey"}}> posted: { this.getDate(post.creation_date) } </Badge> </div> }
                 {
-                  post.tags ? post.tags.map((tag, j) => {
+                  post.tags && this.getFilteredTags(post.tags).map((tag, j) => {
                         return (
                             <Badge 
                                 key={j}
@@ -111,7 +118,7 @@ class Post extends React.Component {
                                 style={{ margin: ".2rem" }}
                             > {tag} </Badge>
                         );
-                  }) : <span></span>
+                  })
                 }
                 <Row>
                     <Col>
