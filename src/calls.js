@@ -20,3 +20,7 @@ export const getUser = (username) => {
 export const getPosts = (page) => {
   return instance.get(`/post/${page}`);
 }
+
+export const sendMessage = (from, to, message, token) => {
+  return instance.post(`/message/${from}/${to}`, { message }, { headers: { token: token }});
+}

@@ -6,6 +6,10 @@ import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
+import GlobalNotificationManager from '../gnm';
+import { sendMessage } from '../calls';
+import { userToken, getTokenInfo } from '../utils';
+import { ok } from 'assert';
 
 // Confirm times out in 5 seconds.
 const CONFIRM_TIMEOUT_SECONDS = 5;
@@ -36,6 +40,30 @@ export default class ContactModal extends React.Component {
         if (this.state.submitTimer) {
             clearTimeout(this.state.submitTimer);
         }
+
+
+        sendMessage(getTokenInfo()._id, this.props.contact.owner, this.textRef.current.value, userToken())
+            .then(res => {
+                GlobalNotificationManager.push('alert',  {
+                    msg: 'Successfully sent message.',
+                    ok: true
+                })
+            })
+            .catch(err => {
+                GlobalNotificationManager.push('alert',  {
+                    msg: 'Failed to sent message.',
+                    ok: false
+                })
+            })
+            .finally(() => {
+                this.setState({ 
+                    confirmed: false,
+                    submitting: false,
+                    submitted: false
+                })
+
+                this.props.onSubmit && this.props.onSubmit();
+            })
     }
 
     onSubmitClick() {
@@ -102,7 +130,7 @@ export default class ContactModal extends React.Component {
                 <Modal.Header>
                     <Modal.Title>
                         <h3>
-                            Sending {this.props.contact.user ? this.props.contact.user.username : "< Unknown user >"} a message...
+                            Send a message...
                         </h3>
                     </Modal.Title>
                 </Modal.Header>

@@ -5,6 +5,7 @@ import ContactModal from './ContactModal';
 import Nav from 'react-bootstrap/Nav';
 import { getPosts } from '../calls';
 import { IoIosRefresh } from 'react-icons/io';
+import GlobalNotificationManager from '../gnm';
 
 function createFakePosts() {
     let amt = 10;
@@ -42,6 +43,9 @@ export default class Home extends React.Component {
         }
 
         this.onContact = this.onContact.bind(this);
+        this.onNewPost = this.onNewPost.bind(this);
+
+        GlobalNotificationManager.subscribe('newPost', this.onNewPost);
     }
 
     onContact(contact) {
@@ -50,6 +54,13 @@ export default class Home extends React.Component {
             currentContact: contact,
             loggedIn: false
         })
+    }
+
+    onNewPost(post) {
+      let posts = this.state.posts;
+      posts.push(post)
+
+      this.setState({ posts })
     }
 
     setPosts() {
@@ -89,6 +100,7 @@ export default class Home extends React.Component {
                         contact={this.state.currentContact}
                         show={this.state.showContactModal}
                         onHide={() => this.setState({showContactModal: false})}
+                        onSubmit={() => this.setState({showContactModal: false})}
                     />
                     <PostList 
                         posts={this.state.posts}

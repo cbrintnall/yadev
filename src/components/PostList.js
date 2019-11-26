@@ -78,8 +78,8 @@ class Post extends React.Component {
     }
 
     render() {
-        const { post } = this.props;    
-        const userIsOwner = post.owner === getTokenInfo()._id;
+        const { post } = this.props;
+        const userIsOwner = getTokenInfo() && post.owner === getTokenInfo()._id;
 
         return (
         <Card style={{ 

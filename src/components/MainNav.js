@@ -25,8 +25,13 @@ class MainNav extends React.Component {
     }
 
     onAlertNotification(msg) {
-      console.log(msg)
-      this.addAlert(msg, false);
+        if (typeof msg === "string") {
+            this.addAlert(msg, false);
+        }
+
+        if (typeof msg === "object") {
+            this.addAlert(msg.msg, msg.ok);
+        }
     }
 
     componentDidMount() {

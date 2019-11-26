@@ -6,9 +6,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import YouDevButton from './YouDevButton';
 import TagInput from './TagInput';
 import Badge from 'react-bootstrap/Badge';
+import Spinner from 'react-bootstrap/Spinner';
 import { sendPost } from '../calls';
 import { getTokenInfo } from '../utils';
-import Spinner from 'react-bootstrap/Spinner';
+import GlobalNotificationManager from '../gnm';
 
 const MAX_TAGS_AMOUNT = 15;
 const MAX_DESCRIPTION_LENGTH = 120;
@@ -51,6 +52,7 @@ class PostModal extends React.Component {
         sendPost(payload)
         .then(res => {
           if (this.props.onPost) {
+            GlobalNotificationManager.push('newPost', res.data)
             this.props.onPost(payload);
           }
         })
