@@ -24,3 +24,7 @@ export const getPosts = (page) => {
 export const sendMessage = (from, to, message, token) => {
   return instance.post(`/message/${from}/${to}`, { message }, { headers: { token: token }});
 }
+
+export const getMessages = (to, token) => {
+  return instance.get(`/message/${to}`, { headers: { token: token }});
+}

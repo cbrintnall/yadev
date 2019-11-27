@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from './YouDevButton';
 import Rating from './Rating';
+import BadgeButton from './buttons/BadgeButton';
 import { humanized_time_span } from '../extra/humanized_time';
 import { differenceWith, isEqual } from 'lodash';
 import { userToken, getTokenInfo } from '../utils';
@@ -95,8 +96,8 @@ class Post extends React.Component {
                   <h2 style={{borderBottom: "3px solid black"}}>
                     {post.type.charAt(0).toUpperCase() + post.type.substring(1)}
                   </h2> 
-                  <Badge variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </Badge>
-                  { userIsOwner ? <Badge variant="danger" style={{marginLeft: ".1rem"}} onClick={() => { this.props.onRemovePost(post) }}> Remove </Badge> : <span></span> }
+                  <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
+                  { userIsOwner ? <BadgeButton variant="danger" style={{marginLeft: ".1rem"}} onClick={() => { this.props.onRemovePost(post) }}> Remove </BadgeButton> : <span></span> }
                 </Card.Title> 
                 <Card.Subtitle> 
                     <h4>

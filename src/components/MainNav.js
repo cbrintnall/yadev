@@ -9,7 +9,88 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GlobalNotificationManager from '../gnm';
-import { logout } from '../utils';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Badge from 'react-bootstrap/Badge';
+import Dropdown from 'react-bootstrap/Dropdown';
+import BadgeButton from './buttons/BadgeButton';
+import { logout, userToken, getTokenInfo } from '../utils';
+import { FiMessageSquare } from 'react-icons/fi';
+import { getMessages } from '../calls';
+
+const MAX_MESSAGE_PREVIEW_LENGTH = 45;
+
+class MessageTab extends React.Component {
+    constructor() {
+        super();
+    }
+
+    render() {
+        const msg = this.props.message.message.length > MAX_MESSAGE_PREVIEW_LENGTH ? 
+            this.props.message.message.substring(0,MAX_MESSAGE_PREVIEW_LENGTH-3) + "..." :
+                this.props.message.message
+
+        return (
+            <div>
+                <p> {msg} </p>
+            </div>
+        )
+    }
+}
+
+class MessageButton extends React.Component {
+    constructor() {
+        super();
+    }
+
+    getTitle() {
+        return (
+            <span>
+                Messages 
+                <Badge 
+                    variant={this.props.messages && this.props.messages.length > 0 ? "danger" : "dark"}
+                    style={{marginLeft: ".3rem", marginRight: ".1rem"}}
+                >
+                    {
+                        this.props.messages.filter(msg => {
+                            return !msg.read
+                        }).length
+                    }
+                </Badge>
+            </span>
+        )
+    }
+
+    render() {
+        return (
+            <YouDevButton
+                subtype="dropdown"
+                title={this.getTitle()}
+            >
+                <Dropdown.Item
+                    disabled
+                    style={{color: "black"}}
+                >
+                    <h5>Messages:</h5>
+                </Dropdown.Item>
+                <hr />
+                {
+                    this.props.messages.map((msg, i) => {
+                        return (
+                            <Dropdown.Item
+                                key={i}
+                                eventKey={msg}
+                            >
+                                <MessageTab
+                                    message={msg}
+                                />
+                            </Dropdown.Item>
+                        )
+                    })
+                }
+            </YouDevButton>
+        )
+    }
+}
 
 class MainNav extends React.Component {
     constructor() {
@@ -18,7 +99,8 @@ class MainNav extends React.Component {
         this.state = {
             showLoginModal: false,
             showPostModal: false,
-            alerts: []
+            alerts: [],
+            messages: []
         }
 
         GlobalNotificationManager.subscribe('alert', this.onAlertNotification.bind(this));
@@ -39,6 +121,8 @@ class MainNav extends React.Component {
             loggedIn: !!this.props.loggedIn,
             alerts: this.props.alerts ? this.props.alerts : []
         })
+
+        this.getMessages()
     }
 
     logout() {
@@ -48,10 +132,26 @@ class MainNav extends React.Component {
         })
     }
 
+    getMessages() {
+        const userId = getTokenInfo()._id
+        const token = userToken()
+
+        getMessages(userId, token)
+        .then(res => {
+            this.setState({
+                messages: res.data.results
+            })
+        })
+        .catch(err => {
+            GlobalNotificationManager.push('alert', { msg: "Failed to retrieve messages!", ok: false });
+        })
+    }
+
     getAccountButton() {
         if (this.state.loggedIn) {
             return (
                 <YouDevButton
+                    style={{marginLeft: "1rem"}}
                     onClick={() => this.logout()}
                     text="Logout"
                 />
@@ -59,6 +159,7 @@ class MainNav extends React.Component {
         } else {
             return (
                 <YouDevButton
+                    style={{marginLeft: "1rem"}}
                     onClick={() => this.setState({showLoginModal: !this.state.showLoginModal})}
                     text="Login"
                 />
@@ -86,18 +187,18 @@ class MainNav extends React.Component {
 
     onPostSuccess(payload) {
       this.addAlert("Successfully added post!");
-
       this.setState({ showPostModal: false });
     }
 
     onPostError(payload) {
       this.addAlert("Failed to post!", false);
-
       this.setState({ showPostModal: false });
     }
 
     onAlertClick(e) {
-      e.target.remove();
+        if (e.target.classList.contains('alert')) {
+            e.target.remove();
+        }
     }
 
     onHoverAlert(e) { }
@@ -125,12 +226,21 @@ class MainNav extends React.Component {
                     onPostError={this.onPostError.bind(this)}
                 />
                 <Form inline>
+                    {
+                        this.state.loggedIn && 
+                        <MessageButton
+                            messages={this.state.messages}
+                        />
+                    }
+                    {
+                        this.state.loggedIn && 
+                        <YouDevButton
+                            style={{marginLeft: "1rem"}}
+                            text="Make Post"
+                            onClick={() => this.setState({showPostModal: true})}
+                        />
+                    }
                     {this.getAccountButton()}
-                    {this.state.loggedIn ? <YouDevButton
-                        style={{marginLeft: "1rem"}}
-                        text="Make Post"
-                        onClick={() => this.setState({showPostModal: true})}
-                    /> : <span></span>}
                 </Form>
             </Navbar>
           </div>
