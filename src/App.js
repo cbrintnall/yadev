@@ -7,7 +7,7 @@ import {
 import Home from './components/Home';
 import ContactPage from './components/ContactPage';
 import MainNav from './components/MainNav';
-import AuthHandler from './components/Auth';
+import BrokerPage from './components/pages/Messaging';
 import { getToken, loggedIn } from './utils';
 
 export default class App extends React.Component {
@@ -18,14 +18,14 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <MainNav
-          loggedIn={loggedIn()}
-        />
         <Router>
+          <MainNav
+            loggedIn={loggedIn()}
+          />
           <Switch>
-            <Route path="/auth" component={AuthHandler} />
             <Route exact path="/" component={Home} />
             <Route exact path="/contact/:user" component={ContactPage} />
+            <Route exact path="/messages/:to/:from" component={BrokerPage} />
           </Switch>
         </Router>
       </div>

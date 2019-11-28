@@ -13,6 +13,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BadgeButton from './buttons/BadgeButton';
+import { withRouter } from 'react-router-dom';
 import { logout, userToken, getTokenInfo } from '../utils';
 import { FiMessageSquare } from 'react-icons/fi';
 import { getMessages } from '../calls';
@@ -51,7 +52,7 @@ class MessageButton extends React.Component {
                     style={{marginLeft: ".3rem", marginRight: ".1rem"}}
                 >
                     {
-                        this.props.messages.filter(msg => {
+                        this.props.messages && this.props.messages.filter(msg => {
                             return !msg.read
                         }).length
                     }
@@ -61,6 +62,8 @@ class MessageButton extends React.Component {
     }
 
     render() {
+        const conversations = {};
+
         return (
             <YouDevButton
                 subtype="dropdown"
@@ -74,17 +77,26 @@ class MessageButton extends React.Component {
                 </Dropdown.Item>
                 <hr />
                 {
-                    this.props.messages.map((msg, i) => {
-                        return (
-                            <Dropdown.Item
-                                key={i}
-                                eventKey={msg}
-                            >
-                                <MessageTab
-                                    message={msg}
-                                />
-                            </Dropdown.Item>
-                        )
+                    this.props.messages && this.props.messages.map((msg, i) => {
+                        if (!(msg.receiver in conversations)) {
+                            conversations[msg.receiver] = [];
+                        }
+
+                        if (!!conversations[msg.receiver].indexOf(msg.sender)) {
+                            conversations[msg.receiver].push(msg.sender);
+
+                            return (
+                                <Dropdown.Item
+                                    key={i}
+                                    eventKey={msg}
+                                    onClick={() => { this.props.onMessageClick && this.props.onMessageClick(msg) }}
+                                >
+                                    <MessageTab
+                                        message={msg}
+                                    />
+                                </Dropdown.Item>
+                            )
+                        }
                     })
                 }
             </YouDevButton>
@@ -126,13 +138,21 @@ class MainNav extends React.Component {
     }
 
     logout() {
+        const { history } = this.props;
+
         logout();
+
+        history.push('/')
+
         this.setState({
             loggedIn: false
         })
     }
 
     getMessages() {
+        // don't attempt to grab messages if the user isn't even logged in
+        if (!getTokenInfo()) return;
+
         const userId = getTokenInfo()._id
         const token = userToken()
 
@@ -201,6 +221,10 @@ class MainNav extends React.Component {
         }
     }
 
+    onMessageClick(msg) {
+        this.props.history.push(`/messages/${msg.receiver}/${msg.sender}`);
+    }
+
     onHoverAlert(e) { }
 
     onLeaveHoverAlert(e) { }
@@ -212,8 +236,10 @@ class MainNav extends React.Component {
               { this.state.alerts } 
             </Row>
             <Navbar expand="lg" style={{backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)", borderBottom: "3px solid black"}}>
-                <Navbar.Brand href="">
-                    <h2>YaDev</h2>
+                <Navbar.Brand href="/">
+                    <h2>
+                        YaDev
+                    </h2>
                 </Navbar.Brand>
                 <LoginModal
                     show={this.state.showLoginModal}
@@ -230,6 +256,7 @@ class MainNav extends React.Component {
                         this.state.loggedIn && 
                         <MessageButton
                             messages={this.state.messages}
+                            onMessageClick={this.onMessageClick.bind(this)}
                         />
                     }
                     {
@@ -248,4 +275,4 @@ class MainNav extends React.Component {
     }
 }
 
-export default MainNav;
+export default withRouter(MainNav);

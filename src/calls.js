@@ -21,10 +21,18 @@ export const getPosts = (page) => {
   return instance.get(`/post/${page}`);
 }
 
-export const sendMessage = (from, to, message, token) => {
-  return instance.post(`/message/${from}/${to}`, { message }, { headers: { token: token }});
+export const getPost = (_id) => {
+  return instance.post(`/post/${_id}`);
+}
+
+export const sendMessage = (from, to, message, relatedPost, token) => {
+  return instance.post(`/message/${to}/${from}`, { message, relatedPost }, { headers: { token: token }});
 }
 
 export const getMessages = (to, token) => {
   return instance.get(`/message/${to}`, { headers: { token: token }});
+}
+
+export const getConversation = (to, from, token) => {
+  return instance.get(`/message/${to}/${from}`, { headers: { token: token }})
 }
