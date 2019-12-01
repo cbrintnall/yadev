@@ -5,17 +5,12 @@ import Form from 'react-bootstrap/Form';
 import YouDevButton from './YouDevButton';
 import PostModal from './PostModal';
 import Alert from 'react-bootstrap/Alert';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import GlobalNotificationManager from '../gnm';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
-import BadgeButton from './buttons/BadgeButton';
 import { withRouter } from 'react-router-dom';
-import { logout, userToken, getTokenInfo } from '../utils';
-import { FiMessageSquare } from 'react-icons/fi';
+import { logout, userToken, getTokenInfo, messageToConversation } from '../utils';
 import { getMessages } from '../calls';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
@@ -77,26 +72,18 @@ class MessageButton extends React.Component {
                 </Dropdown.Item>
                 <hr />
                 {
-                    this.props.messages && this.props.messages.map((msg, i) => {
-                        if (!(msg.receiver in conversations)) {
-                            conversations[msg.receiver] = [];
-                        }
-
-                        if (!!conversations[msg.receiver].indexOf(msg.sender)) {
-                            conversations[msg.receiver].push(msg.sender);
-
-                            return (
-                                <Dropdown.Item
-                                    key={i}
-                                    eventKey={msg}
-                                    onClick={() => { this.props.onMessageClick && this.props.onMessageClick(msg) }}
-                                >
-                                    <MessageTab
-                                        message={msg}
-                                    />
-                                </Dropdown.Item>
-                            )
-                        }
+                    this.props.messages && messageToConversation(this.props.messages).map((msg, i) => {
+                        return (
+                            <Dropdown.Item
+                                key={i}
+                                eventKey={msg}
+                                onClick={() => { this.props.onMessageClick && this.props.onMessageClick(msg) }}
+                            >
+                                <MessageTab
+                                    message={msg}
+                                />
+                            </Dropdown.Item>
+                        )
                     })
                 }
             </YouDevButton>

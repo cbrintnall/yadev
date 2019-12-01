@@ -74,6 +74,9 @@ class MessageTab extends React.Component {
             <Row>
                 <div
                     style={style}
+                    onClick={() => {
+                        this.props.onClick && this.props.onClick(this.props.message)
+                    }}
                 >
                     {this.props.message.message}
                     <br/>
@@ -91,6 +94,10 @@ class MessageList extends React.Component {
         super();
     }
 
+    onMessageClick(msg) {
+        this.props.selectedMessage && this.props.selectedMessage(msg);
+    }
+
     render() {
         return (
             <div>
@@ -101,15 +108,11 @@ class MessageList extends React.Component {
                         return <MessageTab
                             key={i}
                             isOwner={isOwner}
+                            onClick={this.onMessageClick.bind(this)}
                             message={msg}
                         />
                     })
                 }
-                <Row>
-                    <MessageBox
-                        onSubmit={console.log}
-                    />
-                </Row>
             </div>
         )
     }

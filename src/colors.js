@@ -1,0 +1,1 @@
+export const yaDevPurple = "#A492E8";

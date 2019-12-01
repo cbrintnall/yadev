@@ -13,10 +13,6 @@ export const sendPost = (post) => {
   return instance.post('/post', post);
 };
 
-export const getUser = (username) => {
-  return instance.get(`/user/${username}`);
-}
-
 export const getPosts = (page) => {
   return instance.get(`/post/${page}`);
 }
@@ -35,4 +31,8 @@ export const getMessages = (to, token) => {
 
 export const getConversation = (to, from, token) => {
   return instance.get(`/message/${to}/${from}`, { headers: { token: token }})
+}
+
+export const getUser = (userId, token="") => {
+  return instance.get(`/user/${userId}`, { headers: { token: token }})
 }

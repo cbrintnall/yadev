@@ -22,3 +22,18 @@ export const getTokenInfo = () => {
     return undefined;
   }
 };
+
+export const messageToConversation = (msgs) => {
+  const conversations = {};
+
+  return msgs.map(msg => {
+    if (!(msg.receiver in conversations)) {
+      conversations[msg.receiver] = [];
+    }
+  
+    if (!!conversations[msg.receiver].indexOf(msg.sender)) {
+        conversations[msg.receiver].push(msg.sender);
+        return msg;
+    }
+  }).filter(item => !!item);
+}

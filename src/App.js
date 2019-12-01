@@ -5,10 +5,10 @@ import {
     Route
 } from 'react-router-dom';
 import Home from './components/Home';
-import ContactPage from './components/ContactPage';
 import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
-import { getToken, loggedIn } from './utils';
+import Footer from './components/Footer';
+import { loggedIn } from './utils';
 
 export default class App extends React.Component {
   constructor() {
@@ -19,15 +19,16 @@ export default class App extends React.Component {
     return (
       <div>
         <Router>
-          <MainNav
-            loggedIn={loggedIn()}
-          />
+            <MainNav
+              loggedIn={loggedIn()}
+            />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/contact/:user" component={ContactPage} />
             <Route exact path="/messages/:to/:from" component={BrokerPage} />
           </Switch>
         </Router>
+        <Footer
+        />
       </div>
     );
  }

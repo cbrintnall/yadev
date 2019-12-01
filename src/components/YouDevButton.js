@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import * as color from '../colors';
 
 export default class YouDevButton extends React.Component {
     constructor() {
@@ -15,7 +16,7 @@ export default class YouDevButton extends React.Component {
             <ButtonType
                 {...this.props}
                 style={{
-                    backgroundColor: "#A492E8",
+                    backgroundColor: color.yaDevPurple,
                     color: "white",
                     ...this.props.style}}
             >
