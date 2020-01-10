@@ -36,3 +36,7 @@ export const getConversation = (to, from, token) => {
 export const getUser = (userId, token="") => {
   return instance.get(`/user/${userId}`, { headers: { token: token }})
 }
+
+export const getUsersRatings = (ids) => {
+  return instance.get(`/ratings`, { params: { ids } });
+}

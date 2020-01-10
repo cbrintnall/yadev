@@ -8,7 +8,7 @@ import Rating from './Rating';
 import BadgeButton from './buttons/BadgeButton';
 import { humanized_time_span } from '../extra/humanized_time';
 import { differenceWith, isEqual } from 'lodash';
-import { userToken, getTokenInfo } from '../utils';
+import { userToken, getTokenInfo, loggedIn } from '../utils';
 import { removePost } from '../calls';
 
 const OK_START = 10;
@@ -101,7 +101,7 @@ class Post extends React.Component {
                 </Card.Title> 
                 <Card.Subtitle> 
                     <h4>
-                        <Badge>${post.price}</Badge> 
+                        <Badge>${post.price}</Badge> { post.price == 0 && <span style={{fontSize: "20px"}}><Badge variant="success"><u>Free</u></Badge></span> }
                     </h4>
                 </Card.Subtitle>
                 <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
@@ -123,17 +123,17 @@ class Post extends React.Component {
                 }
                 <Row>
                     <Col>
-                        <YouDevButton 
-                        style={{marginTop: ".3rem"}} 
-                        text="Contact"
-                        onClick={() => this.props.onContact(post)}
-                    />
+                        <YouDevButton
+                            disabled={!loggedIn()}
+                            style={{marginTop: ".3rem"}} 
+                            text="Contact"
+                            onClick={() => this.props.onContact(post)}
+                        />
                     </Col>
                     <Col>
                         <Row>
                             {
-                              post.user && post.user.avgRating ? 
-                                <Rating ratings={post.user.avgRating}/> : <Rating ratings={0}/>
+                              post.user && post.user.avgRating ? <Rating ratings={post.user.avgRating}/> : <Rating ratings={0}/>
                             }
                         </Row>
                         <Row>

@@ -5,13 +5,15 @@ import Form from 'react-bootstrap/Form';
 import YouDevButton from './YouDevButton';
 import PostModal from './PostModal';
 import Alert from 'react-bootstrap/Alert';
+import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import GlobalNotificationManager from '../gnm';
 import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { withRouter } from 'react-router-dom';
-import { logout, userToken, getTokenInfo, messageToConversation } from '../utils';
+import { logout, userToken, getTokenInfo, messageToConversation, loggedIn } from '../utils';
 import { getMessages } from '../calls';
+import * as colors from '../colors';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
@@ -218,11 +220,21 @@ class MainNav extends React.Component {
 
     render() {
         return (
-          <div>
+          <Col style={{padding: "0px"}}>
             <Row>
               { this.state.alerts } 
             </Row>
-            <Navbar expand="lg" style={{backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)", borderBottom: "3px solid black"}}>
+            <Row>
+            <Navbar 
+                expand="lg" 
+                style={{
+                    zIndex: "500",
+                    backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)", 
+                    borderBottom: "3px solid black", 
+                    margin: "0px 12px 0px 12px", 
+                    width: "100%"
+                }}
+            >
                 <Navbar.Brand href="/">
                     <h2>
                         YaDev
@@ -257,7 +269,32 @@ class MainNav extends React.Component {
                     {this.getAccountButton()}
                 </Form>
             </Navbar>
-          </div>
+            </Row>
+            {
+                loggedIn() ?
+                <Row style={{
+                    textAlign: "center",
+                }}
+                >
+                    <Col>
+                        <span style={{
+                                display: "inline-block",
+                                transform: "translateY(-1em)",
+                                marginTop: "6px",
+                                zIndex: "-500000",
+                                color: "white",
+                                padding: "16px",
+                                backgroundColor: colors.yaDevPurple,
+                                borderRadius: "12px"
+                            }}
+                        > Logged in as <u>{getTokenInfo().username}</u> </span>
+                    </Col>
+                </Row> :
+                <span>
+                    
+                </span>
+            }
+            </Col>
         )
     }
 }

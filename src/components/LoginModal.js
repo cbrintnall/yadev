@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Settings from '../settings';
-import { FaGithub, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 export default class LoginModal extends React.Component {
     constructor() {
@@ -16,6 +16,17 @@ export default class LoginModal extends React.Component {
 
     handleGithubLogin() {
         window.location = `https://github.com/login/oauth/authorize?client_id=${Settings.githubAccountId}&redirect_uri=${Settings.backendUrl}/auth/github?next=${Settings.hostBase}/`
+    }
+
+    handleGoogleLogin() {
+        const params = [
+            `client_id=${Settings.googleAccountId}`,
+            `redirect_uri=http://localhost:3000/auth/google`,
+            `response_type=token`,
+            `scope=email`
+        ].join("&")
+
+        window.location = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
     }
 
     render() {
@@ -47,8 +58,11 @@ export default class LoginModal extends React.Component {
                                     >
                                         <h4> Github <FaGithub /> </h4>
                                     </ListGroup.Item>
-                                    <ListGroup.Item action>
-                                        <h4> Twitter <FaTwitter /> </h4>
+                                    <ListGroup.Item 
+                                        action
+                                        onClick={this.handleGoogleLogin}
+                                    >
+                                        <h4> Google <FaGoogle /> </h4>
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Col>

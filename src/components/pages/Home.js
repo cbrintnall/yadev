@@ -1,11 +1,14 @@
 import React from 'react';
-import PostList from './PostList';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import PostList from '../PostList';
+import PostFilter from '../PostFilter';
 import Container from 'react-bootstrap/Container';
-import ContactModal from './ContactModal';
+import ContactModal from '../ContactModal';
 import Nav from 'react-bootstrap/Nav';
-import { getPosts } from '../calls';
+import { getPosts, getUsersRatings, getUser } from '../../calls';
 import { IoIosRefresh } from 'react-icons/io';
-import GlobalNotificationManager from '../gnm';
+import GlobalNotificationManager from '../../gnm';
 
 function createFakePosts() {
     let amt = 10;
@@ -19,7 +22,6 @@ function createFakePosts() {
         askingPrice: 50,
         isDev: true,
         tags: ["Urgent", "Indie"],
-        willWork: true,
         hasBeenAccepted: true,
         contacted: true
     };
@@ -30,7 +32,7 @@ function createFakePosts() {
     return arr;
   }
 
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor() {
         super()
 
@@ -42,6 +44,7 @@ export default class Home extends React.Component {
             posts: []
         }
 
+        this.getUserInfo = this.getUserInfo.bind(this);
         this.onContact = this.onContact.bind(this);
         this.onNewPost = this.onNewPost.bind(this);
 
@@ -69,10 +72,44 @@ export default class Home extends React.Component {
           this.setState({
             posts: res.data.results
           })
+
+          this.getUserInfo();
         })
         .catch(err => {
           console.log(err);
         });
+    }
+
+    getUserInfo() {
+      const users = this.state.posts.map(val => val.owner);
+
+      getUsersRatings(users)
+      .then(res => {
+        const userRatings = {};
+
+        res.data.forEach(rating => {
+          userRatings[rating._id] = rating.avgRating
+        })
+
+
+
+        // Modify the posts to now include the rating
+        this.setState({
+          posts: this.state.posts.map(val => {
+            return {
+              ...val,
+              user: {
+                avgRating: userRatings[val.owner]
+              }
+            }
+          })
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+      //get users completion amount
     }
 
     onRefresh() {
@@ -87,22 +124,29 @@ export default class Home extends React.Component {
         return (
             <div>
                 <Container>
-                    <Nav className="justify-content-end" style={{margin: "1rem"}}>
-                      <Nav.Item>
-                        <h3>
-                          <IoIosRefresh 
-                            onClick={this.onRefresh.bind(this)}
-                          />
-                        </h3>
-                      </Nav.Item>
-                    </Nav>
-                    <ContactModal 
+                    <Row>
+                      <Col>
+                      {/* <PostFilter
+                        TODO: Add this back in!
+                      /> */}
+                      <Nav className="justify-content-end" style={{margin: "1rem"}}>
+                        <Nav.Item>
+                          <h3>
+                            <IoIosRefresh
+                              onClick={this.onRefresh.bind(this)}
+                            />
+                          </h3>
+                        </Nav.Item>
+                      </Nav>
+                      </Col>
+                    </Row>
+                    <ContactModal
                         contact={this.state.currentContact}
                         show={this.state.showContactModal}
                         onHide={() => this.setState({showContactModal: false})}
                         onSubmit={() => this.setState({showContactModal: false})}
                     />
-                    <PostList 
+                    <PostList
                         posts={this.state.posts}
                         onContact={this.onContact}
                     />
@@ -111,3 +155,5 @@ export default class Home extends React.Component {
         )
     }
 }
+
+export default Home;

@@ -4,7 +4,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/pages/Home';
 import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
 import Footer from './components/Footer';
@@ -17,7 +17,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{
+        height: "100%"
+      }}>
         <Router>
             <MainNav
               loggedIn={loggedIn()}
@@ -28,6 +30,7 @@ export default class App extends React.Component {
           </Switch>
         </Router>
         <Footer
+          style={{bottom: "0px", height: "100%"}}
         />
       </div>
     );
