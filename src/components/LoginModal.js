@@ -21,12 +21,14 @@ export default class LoginModal extends React.Component {
     handleGoogleLogin() {
         const params = [
             `client_id=${Settings.googleAccountId}`,
-            `redirect_uri=http://localhost:3000/auth/google`,
+            `redirect_uri=${Settings.backendUrl}/auth/google`,
             `response_type=token`,
             `scope=email`
         ].join("&")
 
-        window.location = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
+        // window.location = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
+        console.log(Settings.hostBase);
+        window.location = `${Settings.backendUrl}/auth/google?next=${Settings.hostBase}`;
     }
 
     render() {

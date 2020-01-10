@@ -1,10 +1,11 @@
 const VERSION = "0.1.0";
-const ENV = process.env.NODE_ENV || "nonprod"
+const ENV = process.env.NODE_ENV || "development"
 const Settings = {}
 
 const hostBase = {
     development: "http://localhost:3000"
 }
+
 const backendUrl = {
     development: "http://localhost:8000",
     prod: ""
