@@ -2,12 +2,15 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import Row from 'react-bootstrap/Row';
 import Badge from 'react-bootstrap/Badge';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';  
 import { humanized_time_span } from '../../extra/humanized_time';
 import { getTokenInfo } from '../../utils';
+import { myMessage, otherMessage } from '../../colors';
 
-class MessageBox extends React.Component {
+export class MessageBox extends React.Component {
     constructor() {
         super();
 
@@ -53,37 +56,47 @@ class MessageBox extends React.Component {
 class MessageTab extends React.Component {
     constructor() {
         super();
+
+        this.isSender = this.isSender.bind(this);
+    }
+
+    isSender() {
+        return getTokenInfo()._id === this.props.message.sender;
     }
 
     getColor() {
-        return this.props.isOwner && this.props.isOwner ? "lightgray" : "red"
+        return this.isSender() ? myMessage : otherMessage
     }
 
     render() {
         const style = {
+            float: this.isSender(),
+            textAlign: this.isSender() ? "left" : "right",
+            color: "white",
             borderRadius: "5px",
             backgroundColor: this.getColor(),
             padding: ".5rem",
             margin: ".25rem .5rem .25rem .5rem",
             overflow: "auto",
             wordWrap: "normal",
-            wordBreak: "break-all"
+            wordBreak: "break-all",
         }
 
         return (
             <Row>
-                <div
-                    style={style}
-                    onClick={() => {
-                        this.props.onClick && this.props.onClick(this.props.message)
-                    }}
-                >
-                    {this.props.message.message}
-                    <br/>
-                    <Badge style={{margin: ".1rem .05rem .1rem .05rem"}}>
-                        {humanized_time_span(this.props.message.sentAt)}
-                    </Badge>
-                </div>
+                {this.isSender() && <Col></Col>}
+                <Col>
+                    <div
+                        style={style}
+                    >
+                        {this.props.message.message}
+                        <br/>
+                        <Badge style={{margin: ".1rem .05rem .1rem .05rem"}}>
+                            {humanized_time_span(this.props.message.sentAt)}
+                        </Badge>
+                    </div>
+                </Col>
+                {!this.isSender() && <Col></Col>}
             </Row>
         )
     }
@@ -103,11 +116,8 @@ class MessageList extends React.Component {
             <div>
                 {
                     this.props.messages && this.props.messages.map((msg, i) => {
-                        const isOwner = getTokenInfo()._id === msg.sender
-
                         return <MessageTab
                             key={i}
-                            isOwner={isOwner}
                             onClick={this.onMessageClick.bind(this)}
                             message={msg}
                         />

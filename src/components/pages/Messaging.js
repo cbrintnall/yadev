@@ -3,12 +3,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import GlobalNotificationManager from '../../gnm';
-import MessageList from '../lists/messagelist';
+import MessageList, { MessageBox } from '../lists/messagelist';
 import Badge from 'react-bootstrap/Badge';
 
 import * as colors from '../../colors';
 import { userToken, getTokenInfo, messageToConversation } from '../../utils';
-import { getConversation, getUser } from '../../calls';
+import { getConversation, getUser, sendMessage } from '../../calls';
 
 class BrokerPage extends React.Component {
     constructor() {
@@ -73,12 +73,32 @@ class BrokerPage extends React.Component {
         })
     }
 
+    sendMessage(msg) {
+        const {
+            to,
+            from
+        } = this.props.match.params;
+
+        sendMessage(from, to, msg, userToken())
+            .then(res => {
+                const messages = [res.data, ...this.state.messages]
+                this.setState({ messages })
+            })
+            .catch(err => {
+                GlobalNotificationManager.push('alert', { 
+                    msg: "Failed to send message!", ok: false 
+                })
+            })
+    }
+
     render() {
         return (
             <Container fluid style={{height: "100%"}}>
                 <Row>
                     <Col sm={7}>
-                        <Row>
+                    </Col>
+                    <Col sm={5}>
+                    <Row>
                             <div
                                 style={{
                                     width: "100%",
@@ -100,8 +120,9 @@ class BrokerPage extends React.Component {
                                 </div>
                             </div>
                         </Row>
-                    </Col>
-                    <Col sm={5}>
+                        <MessageBox
+                            onSubmit={this.sendMessage.bind(this)}
+                        />
                         <MessageList
                             messages={this.state.messages}
                             selectedMessage={this.setSelectedMessage}

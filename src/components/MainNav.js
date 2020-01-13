@@ -74,7 +74,7 @@ class MessageButton extends React.Component {
                 </Dropdown.Item>
                 <hr />
                 {
-                    this.props.messages && messageToConversation(this.props.messages).map((msg, i) => {
+                    this.props.messages.map((msg, i) => {
                         return (
                             <Dropdown.Item
                                 key={i}
@@ -151,7 +151,7 @@ class MainNav extends React.Component {
                 messages: res.data.results
             })
         })
-        .catch(err => {
+        .catch(_ => {
             GlobalNotificationManager.push('alert', { msg: "Failed to retrieve messages!", ok: false });
         })
     }
