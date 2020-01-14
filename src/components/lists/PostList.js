@@ -3,13 +3,13 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import YouDevButton from './YouDevButton';
-import Rating from './Rating';
-import BadgeButton from './buttons/BadgeButton';
-import { humanized_time_span } from '../extra/humanized_time';
+import YouDevButton from '../YouDevButton';
+import Rating from '../Rating';
+import BadgeButton from '../buttons/BadgeButton';
+import { humanized_time_span } from '../../extra/humanized_time';
 import { differenceWith, isEqual } from 'lodash';
-import { userToken, getTokenInfo, loggedIn } from '../utils';
-import { removePost } from '../calls';
+import { userToken, getTokenInfo, loggedIn } from '../../utils';
+import { removePost } from '../../calls';
 
 const OK_START = 10;
 const OK_END = 30;
@@ -20,7 +20,17 @@ class Post extends React.Component {
     constructor() {
         super();
 
+        this.state = {
+            canContact: false
+        }
+
         this.getFilteredTags = this.getFilteredTags.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            canContact: !!this.props.canContact || true
+        })
     }
 
     getCompleteBadge() {
@@ -123,12 +133,15 @@ class Post extends React.Component {
                 }
                 <Row>
                     <Col>
-                        <YouDevButton
-                            disabled={!loggedIn()}
-                            style={{marginTop: ".3rem"}} 
-                            text="Contact"
-                            onClick={() => this.props.onContact(post)}
-                        />
+                        {
+                            this.state.canContact && 
+                            <YouDevButton
+                                disabled={!loggedIn()}
+                                style={{marginTop: ".3rem"}} 
+                                text="Contact"
+                                onClick={() => this.props.onContact(post)}
+                            />
+                        }
                     </Col>
                     <Col>
                         <Row>

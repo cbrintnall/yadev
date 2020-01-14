@@ -7,8 +7,9 @@ import Badge from 'react-bootstrap/Badge';
 import * as colors from '../../colors';
 import GlobalNotificationManager from '../../gnm';
 import MessageList, { MessageBox } from '../lists/messagelist';
-import { userToken, getTokenInfo, messageToConversation } from '../../utils';
-import { getConversation, getUser, sendMessage } from '../../calls';
+import PostList from '../lists/PostList';
+import { userToken, getTokenInfo } from '../../utils';
+import { getConversation, getUser, sendMessage, getUsersPosts } from '../../calls';
 
 class BrokerPage extends React.Component {
     constructor() {
@@ -17,17 +18,33 @@ class BrokerPage extends React.Component {
         this.state = {
             messages: [],
             selectedMessage: {},
-            selectedMessageUser: {}
+            selectedMessageUser: {},
+            otherUsersPosts: []
         }
 
         this.setSelectedMessage = this.setSelectedMessage.bind(this);
     }
 
     componentDidMount() {
+        const currUser = getTokenInfo();
         const {
             to,
             from
         } = this.props.match.params;
+
+        const otherUser = from === currUser._id ? to : from;
+
+        getUsersPosts(otherUser)
+            .then(res => {
+                this.setState({
+                    otherUsersPosts: res.data.results
+                })
+            })
+            .catch(err => {
+                GlobalNotificationManager.push('alert', { 
+                    msg: "Failed to get other user's posts", ok: false 
+                })
+            })
 
         getConversation(to, from, userToken())
         .then(res => {
@@ -96,6 +113,26 @@ class BrokerPage extends React.Component {
             <Container fluid style={{height: "100%"}}>
                 <Row>
                     <Col sm={7}>
+                        <Row>
+                            <div
+                                style={{
+                                    width: "100%",
+                                    padding: "1rem",
+                                    borderRadius: "2rem",
+                                    textAlign: "center"
+                                }}
+                            >
+                                <h3 style={{
+                                        padding: "0rem 1rem .3rem 1rem"
+                                    }}
+                                >
+                                    <span style={{ color: colors.yaDevPurple }}>{ this.state.selectedMessageUser.username }</span>'s Posts:
+                                </h3>
+                            </div>
+                        </Row>
+                        <PostList
+                            posts={this.state.otherUsersPosts}
+                        />
                     </Col>
                     <Col xs={12} sm={5}>
                         <Row>

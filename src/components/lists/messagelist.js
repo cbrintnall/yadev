@@ -88,7 +88,6 @@ class MessageTab extends React.Component {
             wordBreak: "break-all",
         }
 
-
         return (
             <Row>
                 {this.isSender() && <Col></Col>}

@@ -40,3 +40,8 @@ export const getUser = (userId, token="") => {
 export const getUsersRatings = (ids) => {
   return instance.get(`/ratings`, { params: { ids } });
 }
+
+export const getUsersPosts = (id, page = 1) => {
+  console.log(id)
+  return instance.get(`/user/${id}/posts/${page}`);
+}
