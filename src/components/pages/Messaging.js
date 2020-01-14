@@ -2,11 +2,11 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import GlobalNotificationManager from '../../gnm';
-import MessageList, { MessageBox } from '../lists/messagelist';
 import Badge from 'react-bootstrap/Badge';
 
 import * as colors from '../../colors';
+import GlobalNotificationManager from '../../gnm';
+import MessageList, { MessageBox } from '../lists/messagelist';
 import { userToken, getTokenInfo, messageToConversation } from '../../utils';
 import { getConversation, getUser, sendMessage } from '../../calls';
 
@@ -97,8 +97,8 @@ class BrokerPage extends React.Component {
                 <Row>
                     <Col sm={7}>
                     </Col>
-                    <Col sm={5}>
-                    <Row>
+                    <Col xs={12} sm={5}>
+                        <Row>
                             <div
                                 style={{
                                     width: "100%",
@@ -121,6 +121,7 @@ class BrokerPage extends React.Component {
                             </div>
                         </Row>
                         <MessageBox
+                            style={{marginBottom: "12px"}}
                             onSubmit={this.sendMessage.bind(this)}
                         />
                         <MessageList

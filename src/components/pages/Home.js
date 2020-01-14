@@ -91,8 +91,6 @@ class Home extends React.Component {
           userRatings[rating._id] = rating.avgRating
         })
 
-
-
         // Modify the posts to now include the rating
         this.setState({
           posts: this.state.posts.map(val => {

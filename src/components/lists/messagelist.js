@@ -1,4 +1,5 @@
 import React from 'react';
+import Tab from 'react-bootstrap/Tab';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
@@ -20,6 +21,8 @@ export class MessageBox extends React.Component {
     onSubmit() {
         this.textRef.current && this.props.onSubmit &&
             this.props.onSubmit(this.textRef.current.value);
+
+        this.textRef.current.value = "";
     }
 
     render() {
@@ -29,14 +32,15 @@ export class MessageBox extends React.Component {
         }
 
         return (
+            <div>
             <InputGroup>
                 <FormControl
+                    style={{resize: "none"}}
                     ref={this.textRef}
                     as="textarea" 
-                    style={style}
                     onKeyPress={(e) => {
                         // If shift or ctrl is held and enter is pressed, submit text
-                        if ((e.shiftKey || e.ctrlKey) && e.keyCode === 0) {
+                        if (e.shiftKey && e.key === "Enter") {
                             e.preventDefault();
                             this.onSubmit();
                         }
@@ -44,11 +48,13 @@ export class MessageBox extends React.Component {
                 />
                 <InputGroup.Append>
                     <Button
-                        style={{margin: ".15rem .3rem .15rem 0rem"}}
                         onClick={this.onSubmit.bind(this)}
-                    >Send</Button>
+                    >
+                        Send
+                    </Button>
                 </InputGroup.Append>
             </InputGroup>
+            </div>
         )
     }
 }
@@ -81,6 +87,7 @@ class MessageTab extends React.Component {
             wordWrap: "normal",
             wordBreak: "break-all",
         }
+
 
         return (
             <Row>
