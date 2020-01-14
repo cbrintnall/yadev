@@ -131,6 +131,7 @@ class BrokerPage extends React.Component {
                             </div>
                         </Row>
                         <PostList
+                            display
                             posts={this.state.otherUsersPosts}
                         />
                     </Col>

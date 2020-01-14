@@ -21,16 +21,13 @@ class Post extends React.Component {
         super();
 
         this.state = {
-            canContact: false
+            display: false
         }
 
         this.getFilteredTags = this.getFilteredTags.bind(this);
     }
 
     componentDidMount() {
-        this.setState({
-            canContact: !!this.props.canContact || true
-        })
     }
 
     getCompleteBadge() {
@@ -134,7 +131,7 @@ class Post extends React.Component {
                 <Row>
                     <Col>
                         {
-                            this.state.canContact && 
+                            !this.props.display &&
                             <YouDevButton
                                 disabled={!loggedIn()}
                                 style={{marginTop: ".3rem"}} 
@@ -210,6 +207,7 @@ export default class PostList extends React.Component {
             return (
                 <Col key={i}>
                     <Post
+                        display={this.props.display}
                         post={post}
                         onHidePost={this.onHidePost}
                         onRemovePost={this.onRemovePost}
