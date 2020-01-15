@@ -1,4 +1,4 @@
-.badgeBtn:hover {
+.badgeBtn {
     cursor: pointer;
     -webkit-animation: sink .1s forwards; /* Safari 4+ */
     -moz-animation:    sink .1s forwards; /* Fx 5+ */

@@ -1,0 +1,20 @@
+#msgInner {
+    background-color: #A492E8;
+}
+
+.btn {
+    border: none;
+    border-radius: 6px;
+    box-shadow: 10 10 lightgray !important;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus,
+textarea:focus, textarea.active.focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

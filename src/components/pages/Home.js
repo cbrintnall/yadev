@@ -138,16 +138,18 @@ class Home extends React.Component {
                       </Nav>
                       </Col>
                     </Row>
-                    <ContactModal
-                        contact={this.state.currentContact}
-                        show={this.state.showContactModal}
-                        onHide={() => this.setState({showContactModal: false})}
-                        onSubmit={() => this.setState({showContactModal: false})}
-                    />
-                    <PostList
-                        posts={this.state.posts}
-                        onContact={this.onContact}
-                    />
+                    <Row>
+                      <ContactModal
+                          contact={this.state.currentContact}
+                          show={this.state.showContactModal}
+                          onHide={() => this.setState({showContactModal: false})}
+                          onSubmit={() => this.setState({showContactModal: false})}
+                      />
+                      <PostList
+                          posts={this.state.posts}
+                          onContact={this.onContact}
+                      />
+                    </Row>
                 </Container>
             </div>
         )

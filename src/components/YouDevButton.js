@@ -18,7 +18,8 @@ export default class YouDevButton extends React.Component {
                 style={{
                     backgroundColor: color.yaDevPurple,
                     color: "white",
-                    ...this.props.style}}
+                    ...this.props.style
+                }}
             >
                 {this.props.text}
                 {this.props.children}

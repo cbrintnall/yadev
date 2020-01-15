@@ -1,12 +1,11 @@
 import React from 'react';
-import Tab from 'react-bootstrap/Tab';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Badge from 'react-bootstrap/Badge';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';  
+import * as colors from '../../colors';
 import { humanized_time_span } from '../../extra/humanized_time';
 import { getTokenInfo } from '../../utils';
 import { myMessage, otherMessage } from '../../colors';
@@ -26,34 +25,38 @@ export class MessageBox extends React.Component {
     }
 
     render() {
-        const style = {
-            resize: "none",
-            margin: ".15rem 0rem .15rem .3rem"
-        }
-
         return (
-            <div>
-            <InputGroup>
-                <FormControl
-                    style={{resize: "none"}}
-                    ref={this.textRef}
-                    as="textarea" 
-                    onKeyPress={(e) => {
-                        // If shift or ctrl is held and enter is pressed, submit text
-                        if (e.shiftKey && e.key === "Enter") {
-                            e.preventDefault();
-                            this.onSubmit();
-                        }
-                    }}
-                />
-                <InputGroup.Append>
-                    <Button
-                        onClick={this.onSubmit.bind(this)}
-                    >
-                        Send
-                    </Button>
-                </InputGroup.Append>
-            </InputGroup>
+            <div
+                style={{
+                    border: "3px solid black",
+                    borderRadius: "16px"
+                }}
+            >
+                <InputGroup>
+                    <FormControl
+                        style={{resize: "none", border: "0px", borderRadius: "16px"}}
+                        ref={this.textRef}
+                        as="textarea" 
+                        onKeyPress={(e) => {
+                            // If shift or ctrl is held and enter is pressed, submit text
+                            if ((e.shiftKey || e.ctrlKey) && e.key === "Enter") {
+                                e.preventDefault();
+                                this.onSubmit();
+                            }
+                        }}
+                    />
+                    <InputGroup.Append>
+                        <Button
+                            style={{
+                                backgroundColor: colors.yaDevPurple,
+                                borderRadius: "14px"
+                            }}
+                            onClick={this.onSubmit.bind(this)}
+                        >
+                            Send
+                        </Button>
+                    </InputGroup.Append>
+                </InputGroup>
             </div>
         )
     }

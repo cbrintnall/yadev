@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from '../YouDevButton';
@@ -21,16 +22,13 @@ class Post extends React.Component {
         super();
 
         this.state = {
-            canContact: false
+            display: false
         }
 
         this.getFilteredTags = this.getFilteredTags.bind(this);
     }
 
     componentDidMount() {
-        this.setState({
-            canContact: !!this.props.canContact || true
-        })
     }
 
     getCompleteBadge() {
@@ -103,7 +101,7 @@ class Post extends React.Component {
         >
             <Card.Body>
                 <Card.Title>
-                  <h2 style={{borderBottom: "3px solid black"}}>
+                  <h2 style={{borderBottom: "3px solid black", paddingBottom: "4px" }}>
                     {post.type.charAt(0).toUpperCase() + post.type.substring(1)}
                   </h2> 
                   <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
@@ -134,7 +132,7 @@ class Post extends React.Component {
                 <Row>
                     <Col>
                         {
-                            this.state.canContact && 
+                            !this.props.display &&
                             <YouDevButton
                                 disabled={!loggedIn()}
                                 style={{marginTop: ".3rem"}} 
@@ -210,6 +208,7 @@ export default class PostList extends React.Component {
             return (
                 <Col key={i}>
                     <Post
+                        display={this.props.display}
                         post={post}
                         onHidePost={this.onHidePost}
                         onRemovePost={this.onRemovePost}
@@ -222,9 +221,11 @@ export default class PostList extends React.Component {
 
     render() {
         return (
-            <Row>
-                {this.createPosts()}
-            </Row>
+            <Container>
+                <Row className="justify-content-end">
+                    {this.createPosts()}
+                </Row>
+            </Container>
         )
     }
 }
