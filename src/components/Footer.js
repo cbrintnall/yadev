@@ -19,28 +19,28 @@ class Footer extends React.Component {
                 height: "100%"
             }}
             >
-            <Col>
-                <Container>
-                    <Row style={{marginTop: "1rem"}}>
-                        <Col style={{textAlign: "center"}}>
-                            <h4 style={{color: "white", textShadow: "2px 2px black"}}>Links</h4>
-                            <hr />
-                            <ul>
-                                <li>Github</li>
-                                <li>Twitter</li>
-                            </ul>
-                        </Col>
-                        <Col style={{textAlign: "center"}}>
-                            <h4 style={{color: "white", textShadow: "2px 2px black"}}>Social</h4>
-                            <hr />
-                        </Col>
-                        <Col style={{textAlign: "center"}}>
-                            <h4 style={{color: "white", textShadow: "2px 2px black"}}>About <span style={{fontSize: "12px"}}>v{Settings.VERSION}</span></h4>
-                            <hr />
-                        </Col>
-                    </Row>
-                </Container>
-            </Col>
+                <Col>
+                    <Container>
+                        <Row style={{marginTop: "1rem"}}>
+                            <Col style={{textAlign: "center"}}>
+                                <h4 style={{color: "white", textShadow: "2px 2px black"}}>Links</h4>
+                                <hr />
+                                <ul>
+                                    <li>Github</li>
+                                    <li>Twitter</li>
+                                </ul>
+                            </Col>
+                            <Col style={{textAlign: "center"}}>
+                                <h4 style={{color: "white", textShadow: "2px 2px black"}}>Social</h4>
+                                <hr />
+                            </Col>
+                            <Col style={{textAlign: "center"}}>
+                                <h4 style={{color: "white", textShadow: "2px 2px black"}}>About <span style={{fontSize: "12px"}}>v{Settings.VERSION}</span></h4>
+                                <hr />
+                            </Col>
+                        </Row>
+                    </Container>
+                </Col>
             </Row>
         )
     }

@@ -18,7 +18,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div style={{
-        height: "100%"
+        height: "25vh"
       }}>
         <Router>
             <MainNav

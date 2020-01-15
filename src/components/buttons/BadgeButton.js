@@ -20,7 +20,7 @@ class BadgeButton extends React.Component {
             <div
                 style={{
                     display: "inline-block",
-                    padding: "2px"
+                    margin: "1px"
                 }}
                 onMouseEnter={e => {
                     if (!!this.r.current) {

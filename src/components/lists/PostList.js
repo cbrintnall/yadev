@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import YouDevButton from '../YouDevButton';
@@ -220,9 +221,11 @@ export default class PostList extends React.Component {
 
     render() {
         return (
-            <Row>
-                {this.createPosts()}
-            </Row>
+            <Container>
+                <Row className="justify-content-end">
+                    {this.createPosts()}
+                </Row>
+            </Container>
         )
     }
 }

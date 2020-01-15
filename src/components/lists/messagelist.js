@@ -39,7 +39,7 @@ export class MessageBox extends React.Component {
                         as="textarea" 
                         onKeyPress={(e) => {
                             // If shift or ctrl is held and enter is pressed, submit text
-                            if (e.shiftKey && e.key === "Enter") {
+                            if ((e.shiftKey || e.ctrlKey) && e.key === "Enter") {
                                 e.preventDefault();
                                 this.onSubmit();
                             }
