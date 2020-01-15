@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Badge from 'react-bootstrap/Badge';
 
+import "./css/messaging.css";
+import Rating from '../Rating';
 import * as colors from '../../colors';
 import GlobalNotificationManager from '../../gnm';
 import MessageList, { MessageBox } from '../lists/messagelist';
@@ -19,6 +21,7 @@ class BrokerPage extends React.Component {
             messages: [],
             selectedMessage: {},
             selectedMessageUser: {},
+            selectUserRating: 0,
             otherUsersPosts: []
         }
 
@@ -73,6 +76,8 @@ class BrokerPage extends React.Component {
         // NOTE: Determines who isn't the current user in this conversation.
         const otherUser = sender === currUser._id ? receiver : sender;
 
+
+
         getUser(otherUser)
         .then(res => {
             this.setState({
@@ -111,61 +116,75 @@ class BrokerPage extends React.Component {
     render() {
         return (
             <Container fluid style={{height: "100%"}}>
-                <Row>
-                    <Col sm={7}>
+                <Row
+                    className="justify-content-md-center"
+                >
+                    <Col
+                        sm={2}
+                        style={{
+                            padding: "1rem",
+                            borderRadius: "2rem",
+                            textAlign: "center",
+                            margin: "24px 0px 24px 0px",
+                            backgroundColor: colors.yaDevPurple,
+                            boxShadow: ("10px -10px " + colors.yaDevGrey),
+                            border: "3px solid white"
+                        }}
+                    >
+                        <h3 style={{
+                                padding: "0rem 1rem .3rem 1rem",
+                                color: "white"
+                            }}
+                        >
+                            { this.state.selectedMessageUser.username }
+                        </h3>
                         <Row>
-                            <div
-                                style={{
-                                    width: "100%",
-                                    padding: "1rem",
-                                    borderRadius: "2rem",
-                                    textAlign: "center"
-                                }}
-                            >
-                                <h3 style={{
-                                        padding: "0rem 1rem .3rem 1rem"
-                                    }}
-                                >
-                                    <span style={{ color: colors.yaDevPurple }}>{ this.state.selectedMessageUser.username }</span>'s Posts:
-                                </h3>
-                            </div>
+                            <Col>
+                                <Badge variant="info">
+                                    Completed: { this.state.selectedMessageUser.completed } 
+                                </Badge>
+                            </Col>
+                            <Col>
+                                <Rating
+                                    ratings={this.state.selectUserRating}
+                                />
+                            </Col>
                         </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col 
+                        sm={7}
+                    >
                         <PostList
                             display
                             posts={this.state.otherUsersPosts}
                         />
                     </Col>
-                    <Col xs={12} sm={5}>
-                        <Row>
-                            <div
-                                style={{
-                                    width: "100%",
-                                    padding: "1rem",
-                                    borderRadius: "2rem",
-                                    textAlign: "center"
-                                }}
-                            >
-                                <h3 style={{
-                                        padding: "0rem 1rem .3rem 1rem"
-                                    }}
-                                >
-                                    Talking to <span style={{ color: colors.yaDevPurple }}>{ this.state.selectedMessageUser.username }</span>:
-                                </h3>
-                                <div>
-                                    <Badge variant="info">
-                                        Completed: { this.state.selectedMessageUser.completed } 
-                                    </Badge>
-                                </div>
-                            </div>
-                        </Row>
+                    <Col 
+                        xs={12}
+                        sm={5}
+                    >
                         <MessageBox
                             style={{marginBottom: "12px"}}
                             onSubmit={this.sendMessage.bind(this)}
                         />
-                        <MessageList
-                            messages={this.state.messages}
-                            selectedMessage={this.setSelectedMessage}
-                        />
+                        <Row
+                            style={{
+                                border: "3px solid black",
+                                borderRadius: "12px",
+                                margin: "24px",
+                                maxHeight: "50vh",
+                                overflow: "scroll",
+                                overflowX: "hidden",
+                                boxShadow: (`10px -10px ${colors.yaDevGrey}`)
+                            }}
+                        >
+                            <MessageList
+                                messages={this.state.messages}
+                                selectedMessage={this.setSelectedMessage}
+                            />
+                        </Row>
                     </Col>
                 </Row>
             </Container>

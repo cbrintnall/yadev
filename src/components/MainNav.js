@@ -1,3 +1,4 @@
+import './css/mainnav.css';
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import LoginModal from './LoginModal';
@@ -10,6 +11,7 @@ import Row from 'react-bootstrap/Row';
 import GlobalNotificationManager from '../gnm';
 import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
 import { logout, userToken, getTokenInfo, messageToConversation, loggedIn } from '../utils';
 import { getMessages } from '../calls';
@@ -59,11 +61,9 @@ class MessageButton extends React.Component {
     }
 
     render() {
-        const conversations = {};
-
         return (
-            <YouDevButton
-                subtype="dropdown"
+            <DropdownButton className="messagingBtn"
+                style={{backgroundColor: colors.yaDevPurple}}
                 title={this.getTitle()}
             >
                 <Dropdown.Item
@@ -88,7 +88,7 @@ class MessageButton extends React.Component {
                         )
                     })
                 }
-            </YouDevButton>
+            </DropdownButton>
         )
     }
 }

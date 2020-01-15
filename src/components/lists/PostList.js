@@ -100,7 +100,7 @@ class Post extends React.Component {
         >
             <Card.Body>
                 <Card.Title>
-                  <h2 style={{borderBottom: "3px solid black"}}>
+                  <h2 style={{borderBottom: "3px solid black", paddingBottom: "4px" }}>
                     {post.type.charAt(0).toUpperCase() + post.type.substring(1)}
                   </h2> 
                   <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
