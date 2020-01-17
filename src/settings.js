@@ -29,6 +29,5 @@ Settings.googleAccountId = googleAccountId[ENV]
 Settings.hostBase = hostBase[ENV]
 Settings.backendUrl = backendUrl[ENV]
 Settings.githubAccountId = githubAccountId[ENV]
-Settings.facebookAccountId = facebookAccountId[ENV]
 
 export default Settings;
