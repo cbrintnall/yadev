@@ -12,15 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '270.0.0'
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
-      - run: |
+
+      - name: Build
+        run: |
           yarn install
           yarn build
 
-    # Setup gcloud CLI
-    # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-    #   with:
-    #     version: '270.0.0'
-    #     service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
+      - name: Deploy
+        run: gsutil cp -r dist/* gs://yadev.app
