@@ -1,0 +1,25 @@
+name: Build and Push to GCR
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: |
+          yarn install
+          yarn build
+
+    # Setup gcloud CLI
+    # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    #   with:
+    #     version: '270.0.0'
+    #     service_account_key: ${{ secrets.SERVICE_ACCOUNT }}

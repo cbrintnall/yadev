@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+semiotic-pact-265219-7ca24063f4a8.json
+yadev-265117-7be9e4439219.json
+.terraform/
+terraform.*
+
 # dependencies
 /node_modules
 /.pnp

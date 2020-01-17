@@ -1,29 +1,25 @@
 const VERSION = "0.1.0";
-const ENV = process.env.NODE_ENV || "development"
+const ENV = "prod"
 const Settings = {}
 
 const hostBase = {
-    development: "http://localhost:3000"
+    development: "http://localhost:3000",
+    prod: "https://yadev.app"
 }
 
 const backendUrl = {
     development: "http://localhost:8000",
-    prod: ""
+    prod: "https://yadevservice-xcweyzognq-uc.a.run.app"
 }
 
 const googleAccountId = {
     development: "233929357765-93jkecls2jnoq7dnhfpj62q44q3f05gt.apps.googleusercontent.com",
-    prod: ""
-}
-
-const facebookAccountId = {
-    development: "741130979689938",
-    prod: ""
+    prod: "233929357765-93jkecls2jnoq7dnhfpj62q44q3f05gt.apps.googleusercontent.com"
 }
 
 const githubAccountId = {
     development: "Iv1.b47720c18cd81698",
-    prod: ""
+    prod: "Iv1.eeb78cf56c62c9a3"
 }
 
 Settings.VERSION = VERSION

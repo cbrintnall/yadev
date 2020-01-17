@@ -9,6 +9,7 @@ import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
 import Footer from './components/Footer';
 import { loggedIn } from './utils';
+import Settings from './settings';
 
 export default class App extends React.Component {
   constructor() {
@@ -27,6 +28,9 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/messages/:to/:from" component={BrokerPage} />
+            <Route exact path="/settings" component={p => {
+              return <div> {JSON.stringify(Settings)} </div>
+            }} />
           </Switch>
         </Router>
         <Footer

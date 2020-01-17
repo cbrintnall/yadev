@@ -13,11 +13,10 @@ import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
-import { logout, userToken, getTokenInfo, messageToConversation, loggedIn } from '../utils';
+import { logout, userToken, getTokenInfo, loggedIn } from '../utils';
 import { getMessages } from '../calls';
 import * as colors from '../colors';
 import './css/mainnav.css';
-import Button from 'react-bootstrap/Button';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
