@@ -26,4 +26,4 @@ jobs:
           yarn build
 
       - name: Deploy
-        run: gsutil cp -r dist/* gs://yadev.app
+        run: gsutil cp -r build/* gs://yadev.app
