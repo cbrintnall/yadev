@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - feature/add-gcs-deployment
 
 jobs:
   build-deploy:
