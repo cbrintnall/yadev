@@ -49,7 +49,7 @@ class MessageButton extends React.Component {
     return (
       <span>
         Messages
-                <Badge
+        <Badge
           variant={this.props.messages && this.props.messages.length > 0 ? "danger" : "primary"}
           style={{ marginLeft: ".3rem", marginRight: ".1rem" }}
         >
@@ -245,10 +245,13 @@ class MainNav extends React.Component {
               width: "100%"
             }}
           >
-            <Navbar.Brand href="/">
+            <Navbar.Brand
+              href="#"
+              onClick={() => this.props.history.push('/')}
+            >
               <h2>
                 YaDev
-                        </h2>
+              </h2>
             </Navbar.Brand>
             <LoginModal
               show={this.state.showLoginModal}
@@ -287,11 +290,13 @@ class MainNav extends React.Component {
                 text="Home"
                 onClick={() => this.props.history.push('/')}
               />
-              <YouDevButton
-                style={{ marginLeft: "1rem" }}
-                text="Profile"
-                onClick={() => this.props.history.push('/profile/me')}
-              />
+              {
+                userToken() && <YouDevButton
+                  style={{ marginLeft: "1rem" }}
+                  text="Profile"
+                  onClick={() => this.props.history.push('/profile/me')}
+                />
+              }
               {this.getAccountButton()}
             </Row>
           </Navbar>
