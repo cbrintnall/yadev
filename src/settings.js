@@ -1,5 +1,5 @@
-const VERSION = "0.2.0";
-const ENV = "development"
+const VERSION = "0.3.0";
+const ENV = "prod"
 const Settings = {}
 
 const hostBase = {
