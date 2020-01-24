@@ -42,6 +42,5 @@ export const getUsersRatings = (ids) => {
 }
 
 export const getUsersPosts = (id, page = 1) => {
-  console.log(id)
   return instance.get(`/user/${id}/posts/${page}`);
 }

@@ -41,10 +41,12 @@ export default class ContactModal extends React.Component {
             clearTimeout(this.state.submitTimer);
         }
 
+        console.log(userToken())
+
         sendMessage(
-            getTokenInfo()._id, 
-            this.props.contact.owner, 
-            this.textRef.current.value, this.props.contact._id,
+            getTokenInfo()._id,
+            this.props.contact.owner,
+            this.textRef.current.value,
             userToken()
         ).then(res => {
                 GlobalNotificationManager.push('alert',  {

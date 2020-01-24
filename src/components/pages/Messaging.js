@@ -30,10 +30,15 @@ class BrokerPage extends React.Component {
 
     componentDidMount() {
         const currUser = getTokenInfo();
+
         const {
             to,
             from
         } = this.props.match.params;
+
+        if (to === from) {
+            this.props.history && this.props.history.push('/')
+        }
 
         const otherUser = from === currUser._id ? to : from;
 

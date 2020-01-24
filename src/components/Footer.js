@@ -39,7 +39,7 @@ class Footer extends React.Component {
                 margin: "0px",
                 height: "100%",
                 bottom:"0px",
-                overflowY: "hidden"
+                zIndex: 5000
             }}
             >
                 <Col>

@@ -4,6 +4,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
+import Profile from './components/pages/Profile';
 import Home from './components/pages/Home';
 import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
@@ -20,7 +21,6 @@ export default class App extends React.Component {
     return (
       <div style={{
         height: "100vh",
-        overflow: "hidden"
       }}>
         <Router>
             <MainNav
@@ -29,6 +29,7 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/messages/:to/:from" component={BrokerPage} />
+            <Route exact path="/profile/me" component={Profile} />
             <Route exact path="/settings" component={_ => {
               return <div> {JSON.stringify(Settings)} </div>
             }} />

@@ -13,10 +13,10 @@ class Rating extends React.Component {
 
         for (let i = 0; i < this.props.ratings; i++) {
             ratings.push(
-                <IoIosStar 
-                    key={i+500} 
+                <IoIosStar
+                    key={i + 500}
                     style={{
-                        fontSize: "20px", 
+                        fontSize: "20px",
                         color: "gold"
                     }}
                 />
@@ -25,10 +25,10 @@ class Rating extends React.Component {
 
         for (let i = 0; i < MAX_RATING - this.props.ratings; i++) {
             ratings.push(
-                <IoMdStarOutline 
-                    key={i+51} 
+                <IoMdStarOutline
+                    key={i + 51}
                     style={{
-                        fontSize: "20px", 
+                        fontSize: "20px",
                         color: "gold"
                     }}
                 />
