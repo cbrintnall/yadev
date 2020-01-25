@@ -161,13 +161,16 @@ class Post extends React.Component {
             <Col>
               <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
             </Col>
-            <Col>
-              <BadgeButton
-                variant="primary"
-              >
-                Link
-              </BadgeButton>
-            </Col>
+            {
+              userIsOwner &&
+              <Col>
+                <BadgeButton
+                  variant="primary"
+                >
+                  Create Link
+                </BadgeButton>
+              </Col>
+            }
             {userIsOwner && <Col><BadgeButton variant="danger" style={{ marginLeft: ".1rem" }} onClick={() => { this.props.onRemovePost(post) }}> Remove </BadgeButton></Col>}
           </Row>
         </Card.Body>
