@@ -2,7 +2,6 @@ import './css/mainnav.css';
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import LoginModal from './LoginModal';
-import Form from 'react-bootstrap/Form';
 import YouDevButton from './YouDevButton';
 import PostModal from './PostModal';
 import Alert from 'react-bootstrap/Alert';
@@ -14,7 +13,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
 import { logout, userToken, getTokenInfo, loggedIn } from '../utils';
-import { getMessages } from '../calls';
+import { getMessages, getSentMessages } from '../calls';
 import * as colors from '../colors';
 import './css/mainnav.css';
 
@@ -53,23 +52,24 @@ class MessageButton extends React.Component {
           variant={this.props.messages && this.props.messages.length > 0 ? "danger" : "primary"}
           style={{ marginLeft: ".3rem", marginRight: ".1rem" }}
         >
-          {this.getMessagesPerUser() && this.getMessagesPerUser().length}
+          { this.getMessagesPerUser() && this.getMessagesPerUser().length }
         </Badge>
       </span>
     )
   }
 
   getMessagesPerUser() {
+    const { _id } = getTokenInfo()
+
     return this.props.messages && [
       ...new Set(
         this.props.messages
-          .filter(item => item.sender != getTokenInfo()._id)
+          // .filter(item => item.sender != _id)
       )
     ];
   }
 
   render() {
-    this.getMessagesPerUser()
     return (
       <DropdownButton
         disabled={this.props.messages && this.props.messages.length === 0}
@@ -85,6 +85,7 @@ class MessageButton extends React.Component {
         <hr />
         {
           this.getMessagesPerUser() && this.getMessagesPerUser().map((msg, i) => {
+            console.log(msg)
             return (
               <Dropdown.Item
                 key={i}
@@ -141,11 +142,11 @@ class MainNav extends React.Component {
 
     logout();
 
-    history.push('/')
-
     this.setState({
       loggedIn: false
     })
+
+    history.push('/')
   }
 
   getMessages() {
@@ -155,13 +156,27 @@ class MainNav extends React.Component {
     const userId = getTokenInfo()._id
     const token = userToken()
 
-    getMessages(userId, token)
+    getSentMessages()
       .then(res => {
+        const messages = this.state.messages || [];
+
         this.setState({
-          messages: res.data.results
+          messages: [...messages, ...res.data.results]
         })
       })
-      .catch(_ => {
+      .catch(err => {
+        console.log(err)
+      })
+
+    getMessages(userId, token)
+      .then(res => {
+        const messages = this.state.messages || [];
+
+        this.setState({
+          messages: [...messages, ...res.data.results]
+        })
+      })
+      .catch(err => {
         GlobalNotificationManager.push('alert', { msg: "Failed to retrieve messages!", ok: false });
       })
   }

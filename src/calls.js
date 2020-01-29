@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+import * as utils from './utils';
 import Settings from './settings';
 
 const instance = axios.create({
@@ -43,4 +45,8 @@ export const getUsersRatings = (ids) => {
 
 export const getUsersPosts = (id, page = 1) => {
   return instance.get(`/user/${id}/posts/${page}`);
+}
+
+export const getSentMessages = (token = utils.userToken()) => {
+  return instance.get('/user/messages/sent', { headers: { token }});
 }

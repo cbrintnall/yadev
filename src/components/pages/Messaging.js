@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Badge from 'react-bootstrap/Badge';
 
 import "./css/messaging.css";
+import BadgeButton from '../buttons/BadgeButton';
 import Rating from '../Rating';
 import * as colors from '../../colors';
 import GlobalNotificationManager from '../../gnm';
@@ -13,188 +14,231 @@ import PostList from '../lists/PostList';
 import { userToken, getTokenInfo } from '../../utils';
 import { getConversation, getUser, sendMessage, getUsersPosts } from '../../calls';
 
+const OfferButtons = (props) => {
+  return (
+    <div>
+      <BadgeButton
+        onClick={props.onOffer && props.onOffer()}
+        badgecolor={colors.acceptanceGreen}
+        style={{
+          borderRadius: "12px",
+          border: "3px solid white",
+          padding: "24px 48px 24px 48px"
+        }}
+      >
+        <h1>Offer</h1>
+      </BadgeButton>
+      <BadgeButton
+        onClick={props.onReject && props.onReject()}
+        badgecolor={colors.rejectionRed}
+        style={{
+          borderRadius: "12px",
+          border: "3px solid black",
+          padding: "24px 48px 24px 48px"
+        }}
+      >
+        <h1>Reject</h1>
+      </BadgeButton>
+    </div>
+  )
+}
+
 class BrokerPage extends React.Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.state = {
-            messages: [],
-            selectedMessage: {},
-            selectedMessageUser: {},
-            selectUserRating: 0,
-            otherUsersPosts: []
-        }
-
-        this.setSelectedMessage = this.setSelectedMessage.bind(this);
+    this.state = {
+      messages: [],
+      selectedMessage: {},
+      selectedMessageUser: {},
+      selectUserRating: 0,
+      otherUsersPosts: []
     }
 
-    componentDidMount() {
-        const currUser = getTokenInfo();
+    this.setSelectedMessage = this.setSelectedMessage.bind(this);
+  }
 
-        const {
-            to,
-            from
-        } = this.props.match.params;
+  componentDidMount() {
+    const currUser = getTokenInfo();
 
-        if (to === from) {
-            this.props.history && this.props.history.push('/')
-        }
+    const {
+      to,
+      from
+    } = this.props.match.params;
 
-        const otherUser = from === currUser._id ? to : from;
-
-        getUsersPosts(otherUser)
-            .then(res => {
-                this.setState({
-                    otherUsersPosts: res.data.results
-                })
-            })
-            .catch(err => {
-                GlobalNotificationManager.push('alert', { 
-                    msg: "Failed to get other user's posts", ok: false 
-                })
-            })
-
-        getConversation(to, from, userToken())
-        .then(res => {
-            this.setState({
-                messages: res.data.results
-            })
-
-            if (this.state.messages.length > 0) {
-                this.setSelectedMessage(this.state.messages[0])
-            }
-        })
-        .catch(err => {
-            GlobalNotificationManager.push('alert', { 
-                msg: "Failed to get conversation", ok: false 
-            })
-        })
+    if (to === from) {
+      this.props.history && this.props.history.push('/')
     }
 
-    setSelectedMessage(msg) {
-        const currUser = getTokenInfo();
-        const {
-            receiver,
-            sender
-        } = msg;
+    const otherUser = from === currUser._id ? to : from;
 
-        // NOTE: Determines who isn't the current user in this conversation.
-        const otherUser = sender === currUser._id ? receiver : sender;
-
-
-
-        getUser(otherUser)
-        .then(res => {
-            this.setState({
-                selectedMessageUser: res.data
-            })
-        })
-        .catch(err => {
-            GlobalNotificationManager.push('alert', { 
-                msg: "Failed to grab user data.", ok: false 
-            })
-        })
-
+    getUsersPosts(otherUser)
+      .then(res => {
         this.setState({
-            selectedMessage: msg
+          otherUsersPosts: res.data.results
         })
-    }
+      })
+      .catch(err => {
+        GlobalNotificationManager.push('alert', {
+          msg: "Failed to get other user's posts", ok: false
+        })
+      })
 
-    sendMessage(msg) {
-        const {
-            to,
-            from
-        } = this.props.match.params;
+    getConversation(to, from, userToken())
+      .then(res => {
+        this.setState({
+          messages: res.data.results
+        })
 
-        sendMessage(from, to, msg, userToken())
-            .then(res => {
-                const messages = [res.data, ...this.state.messages]
-                this.setState({ messages })
-            })
-            .catch(err => {
-                GlobalNotificationManager.push('alert', { 
-                    msg: "Failed to send message!", ok: false 
-                })
-            })
-    }
+        if (this.state.messages.length > 0) {
+          this.setSelectedMessage(this.state.messages[0])
+        }
+      })
+      .catch(err => {
+        GlobalNotificationManager.push('alert', {
+          msg: "Failed to get conversation", ok: false
+        })
+      })
+  }
 
-    render() {
-        return (
-            <Container fluid style={{height: "100%"}}>
-                <Row
-                    className="justify-content-md-center"
-                >
-                    <Col
-                        sm={2}
-                        style={{
-                            padding: "1rem",
-                            borderRadius: "2rem",
-                            textAlign: "center",
-                            margin: "24px 0px 24px 0px",
-                            backgroundColor: colors.yaDevPurple,
-                            boxShadow: ("10px -10px " + colors.yaDevGrey),
-                            border: "3px solid white"
-                        }}
-                    >
-                        <h3 style={{
-                                padding: "0rem 1rem .3rem 1rem",
-                                color: "white"
-                            }}
-                        >
-                            { this.state.selectedMessageUser.username }
-                        </h3>
-                        <Row>
-                            <Col>
-                                <Badge variant="info">
-                                    Completed: { this.state.selectedMessageUser.completed } 
-                                </Badge>
-                            </Col>
-                            <Col>
-                                <Rating
-                                    ratings={this.state.selectUserRating}
-                                />
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col 
-                        sm={7}
-                    >
-                        <PostList
-                            display
-                            posts={this.state.otherUsersPosts}
-                        />
-                    </Col>
-                    <Col 
-                        xs={12}
-                        sm={5}
-                    >
-                        <MessageBox
-                            style={{marginBottom: "12px"}}
-                            onSubmit={this.sendMessage.bind(this)}
-                        />
-                        <Row
-                            style={{
-                                border: "3px solid black",
-                                borderRadius: "12px",
-                                margin: "24px",
-                                maxHeight: "50vh",
-                                overflow: "scroll",
-                                overflowX: "hidden",
-                                boxShadow: (`10px -10px ${colors.yaDevGrey}`)
-                            }}
-                        >
-                            <MessageList
-                                messages={this.state.messages}
-                                selectedMessage={this.setSelectedMessage}
-                            />
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
-        )
-    }
+  setSelectedMessage(msg) {
+    const currUser = getTokenInfo();
+    const {
+      receiver,
+      sender
+    } = msg;
+
+    // NOTE: Determines who isn't the current user in this conversation.
+    const otherUser = sender === currUser._id ? receiver : sender;
+
+    getUser(otherUser)
+      .then(res => {
+        this.setState({
+          selectedMessageUser: res.data
+        })
+      })
+      .catch(err => {
+        GlobalNotificationManager.push('alert', {
+          msg: "Failed to grab user data.", ok: false
+        })
+      })
+
+    this.setState({
+      selectedMessage: msg
+    })
+  }
+
+  sendMessage(msg) {
+    const {
+      to,
+      from
+    } = this.props.match.params;
+
+    sendMessage(from, to, msg, userToken())
+      .then(res => {
+        const messages = [res.data, ...this.state.messages]
+        this.setState({ messages })
+      })
+      .catch(err => {
+        GlobalNotificationManager.push('alert', {
+          msg: "Failed to send message!", ok: false
+        })
+      })
+  }
+
+  onOffer() {
+
+  }
+
+  onReject() {
+
+  }
+
+  render() {
+    return (
+      <Container fluid style={{ height: "100%" }}>
+        <Row
+          className="justify-content-md-center"
+        >
+          <Col
+            sm={2}
+            style={{
+              padding: "1rem",
+              borderRadius: "2rem",
+              textAlign: "center",
+              margin: "24px 0px 24px 0px",
+              backgroundColor: colors.yaDevPurple,
+              boxShadow: ("10px -10px " + colors.yaDevGrey),
+              border: "3px solid white"
+            }}
+          >
+            <h3 style={{
+              padding: "0rem 1rem .3rem 1rem",
+              color: "white"
+            }}
+            >
+              {this.state.selectedMessageUser.username}
+            </h3>
+            <Row>
+              <Col>
+                <Badge variant="info">
+                  Completed: {this.state.selectedMessageUser.completed}
+                </Badge>
+              </Col>
+              <Col>
+                <Rating
+                  ratings={this.state.selectUserRating}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row style={{ textAlign: "center", float: "none", margin: "0 auto" }}>
+          <Col style={{ display: "inline" }}>
+            <OfferButtons
+              onOffer={this.onOffer}
+              onReject={this.onReject}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            sm={7}
+          >
+            <PostList
+              display
+              posts={this.state.otherUsersPosts}
+            />
+          </Col>
+          <Col
+            xs={12}
+            sm={5}
+          >
+            <MessageBox
+              style={{ marginBottom: "12px" }}
+              onSubmit={this.sendMessage.bind(this)}
+            />
+            <Row
+              style={{
+                border: "3px solid black",
+                borderRadius: "12px",
+                margin: "24px",
+                maxHeight: "50vh",
+                overflow: "scroll",
+                overflowX: "hidden",
+                boxShadow: (`10px -10px ${colors.yaDevGrey}`)
+              }}
+            >
+              <MessageList
+                messages={this.state.messages}
+                selectedMessage={this.setSelectedMessage}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
 }
 
 export default BrokerPage;
