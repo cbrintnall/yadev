@@ -14,35 +14,6 @@ import PostList from '../lists/PostList';
 import { userToken, getTokenInfo } from '../../utils';
 import { getConversation, getUser, sendMessage, getUsersPosts } from '../../calls';
 
-const OfferButtons = (props) => {
-  return (
-    <div>
-      <BadgeButton
-        onClick={props.onOffer && props.onOffer()}
-        badgecolor={colors.acceptanceGreen}
-        style={{
-          borderRadius: "12px",
-          border: "3px solid white",
-          padding: "24px 48px 24px 48px"
-        }}
-      >
-        <h1>Offer</h1>
-      </BadgeButton>
-      <BadgeButton
-        onClick={props.onReject && props.onReject()}
-        badgecolor={colors.rejectionRed}
-        style={{
-          borderRadius: "12px",
-          border: "3px solid black",
-          padding: "24px 48px 24px 48px"
-        }}
-      >
-        <h1>Reject</h1>
-      </BadgeButton>
-    </div>
-  )
-}
-
 class BrokerPage extends React.Component {
   constructor() {
     super();
@@ -157,11 +128,22 @@ class BrokerPage extends React.Component {
   render() {
     return (
       <Container fluid style={{ height: "100%" }}>
-        <Row
-          className="justify-content-md-center"
-        >
+        <Row className="justify-content-md-center">
+          <Col sm={"auto"}>
+            <BadgeButton
+              onClick={this.onOffer()}
+              badgecolor={colors.acceptanceGreen}
+              style={{
+                borderRadius: "12px",
+                border: "3px solid white",
+                padding: "24px 48px 24px 48px"
+              }}
+            >
+              <h1>Offer</h1>
+            </BadgeButton>
+          </Col>
           <Col
-            sm={2}
+            sm={3}
             style={{
               padding: "1rem",
               borderRadius: "2rem",
@@ -192,13 +174,20 @@ class BrokerPage extends React.Component {
               </Col>
             </Row>
           </Col>
-        </Row>
-        <Row style={{ textAlign: "center", float: "none", margin: "0 auto" }}>
-          <Col style={{ display: "inline" }}>
-            <OfferButtons
-              onOffer={this.onOffer}
-              onReject={this.onReject}
-            />
+          <Col
+            sm={"auto"}
+          >
+            <BadgeButton
+              onClick={this.onReject()}
+              badgecolor={colors.rejectionRed}
+              style={{
+                borderRadius: "12px",
+                border: "3px solid black",
+                padding: "24px 48px 24px 48px"
+              }}
+            >
+              <h1>Reject</h1>
+            </BadgeButton>
           </Col>
         </Row>
         <Row>

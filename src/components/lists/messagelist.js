@@ -88,7 +88,7 @@ class MessageTab extends React.Component {
             margin: ".25rem .5rem .25rem .5rem",
             overflow: "auto",
             wordWrap: "normal",
-            wordBreak: "break-all",
+            wordBreak: "break-word",
         }
 
         return (
