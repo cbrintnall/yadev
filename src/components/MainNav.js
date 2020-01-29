@@ -64,7 +64,7 @@ class MessageButton extends React.Component {
     return this.props.messages && [
       ...new Set(
         this.props.messages
-          // .filter(item => item.sender != _id)
+          .filter(item => item.sender != _id)
       )
     ];
   }
@@ -72,7 +72,7 @@ class MessageButton extends React.Component {
   render() {
     return (
       <DropdownButton
-        disabled={this.props.messages && this.props.messages.length === 0}
+        disabled={this.getMessagesPerUser() && this.getMessagesPerUser().length === 0}
         id="msgInner"
         title={this.getTitle()}
       >
@@ -85,7 +85,6 @@ class MessageButton extends React.Component {
         <hr />
         {
           this.getMessagesPerUser() && this.getMessagesPerUser().map((msg, i) => {
-            console.log(msg)
             return (
               <Dropdown.Item
                 key={i}

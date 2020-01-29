@@ -20,13 +20,10 @@ class BrokerPage extends React.Component {
 
     this.state = {
       messages: [],
-      selectedMessage: {},
-      selectedMessageUser: {},
-      selectUserRating: 0,
-      otherUsersPosts: []
+      otherUser: {},
+      otherUsersPosts: [],
+      otherUserRating: 0 // TODO: Implement this
     }
-
-    this.setSelectedMessage = this.setSelectedMessage.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +39,16 @@ class BrokerPage extends React.Component {
     }
 
     const otherUser = from === currUser._id ? to : from;
+
+    getUser(otherUser)
+      .then(res => {
+        this.setState({ otherUser: res.data })
+      })
+      .catch(_ => {
+        GlobalNotificationManager.push('alert', {
+          msg: 'Failed to grab other user\'s data', ok: false
+        })
+      })
 
     getUsersPosts(otherUser)
       .then(res => {
@@ -60,43 +67,12 @@ class BrokerPage extends React.Component {
         this.setState({
           messages: res.data.results
         })
-
-        if (this.state.messages.length > 0) {
-          this.setSelectedMessage(this.state.messages[0])
-        }
       })
       .catch(err => {
         GlobalNotificationManager.push('alert', {
           msg: "Failed to get conversation", ok: false
         })
       })
-  }
-
-  setSelectedMessage(msg) {
-    const currUser = getTokenInfo();
-    const {
-      receiver,
-      sender
-    } = msg;
-
-    // NOTE: Determines who isn't the current user in this conversation.
-    const otherUser = sender === currUser._id ? receiver : sender;
-
-    getUser(otherUser)
-      .then(res => {
-        this.setState({
-          selectedMessageUser: res.data
-        })
-      })
-      .catch(err => {
-        GlobalNotificationManager.push('alert', {
-          msg: "Failed to grab user data.", ok: false
-        })
-      })
-
-    this.setState({
-      selectedMessage: msg
-    })
   }
 
   sendMessage(msg) {
@@ -159,17 +135,17 @@ class BrokerPage extends React.Component {
               color: "white"
             }}
             >
-              {this.state.selectedMessageUser.username}
+              {this.state.otherUser.username}
             </h3>
             <Row>
               <Col>
                 <Badge variant="info">
-                  Completed: {this.state.selectedMessageUser.completed}
+                  Completed: {this.state.otherUser.completed}
                 </Badge>
               </Col>
               <Col>
                 <Rating
-                  ratings={this.state.selectUserRating}
+                  ratings={this.state.otherUserRating}
                 />
               </Col>
             </Row>
@@ -220,7 +196,6 @@ class BrokerPage extends React.Component {
             >
               <MessageList
                 messages={this.state.messages}
-                selectedMessage={this.setSelectedMessage}
               />
             </Row>
           </Col>
