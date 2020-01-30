@@ -37,7 +37,8 @@ class Footer extends React.Component {
         margin: "0px",
         height: "100%",
         bottom: "0px",
-        zIndex: 5000
+        zIndex: 5000,
+        ...this.props.style
       }}
       >
         <Col>
@@ -48,8 +49,8 @@ class Footer extends React.Component {
                 <hr />
                 <FooterList>
                   <FooterElement>
-                    <a style={{ color: "black" }} target="_blank" href={Settings.source}>View Source</a>❤️
-                                    </FooterElement>
+                    <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.source}>View Source <span style={{color: "red"}}>❤️</span></a>
+                  </FooterElement>
                 </FooterList>
               </Col>
             </Row>

@@ -19,9 +19,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div style={{
-        height: "100vh",
-      }}>
+      <div>
         <Router>
             <MainNav
               loggedIn={loggedIn()}
@@ -30,13 +28,13 @@ export default class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/messages/:to/:from" component={BrokerPage} />
             <Route exact path="/profile/me" component={Profile} />
-            <Route exact path="/settings" component={_ => {
-              return <div> {JSON.stringify(Settings)} </div>
-            }} />
           </Switch>
         </Router>
         <Footer
-          style={{bottom: "0px", height: "100%"}}
+          style={{
+            height: "100%",
+            padding: "0px 128px 128px 128px"
+          }}
         />
       </div>
     );
