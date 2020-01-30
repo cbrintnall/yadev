@@ -46,7 +46,11 @@ class MessageButton extends React.Component {
 
   getTitle() {
     return (
-      <span>
+      <span
+        style={{
+          display: "block"
+        }}
+      >
         Messages
         <Badge
           variant={this.props.messages && this.props.messages.length > 0 ? "danger" : "primary"}
@@ -259,14 +263,6 @@ class MainNav extends React.Component {
               width: "100%"
             }}
           >
-            <Navbar.Brand
-              href="#"
-              onClick={() => this.props.history.push('/')}
-            >
-              <h2>
-                YaDev
-              </h2>
-            </Navbar.Brand>
             <LoginModal
               show={this.state.showLoginModal}
               onHide={() => this.setState({ showLoginModal: false })}
@@ -278,15 +274,27 @@ class MainNav extends React.Component {
               onPostError={this.onPostError.bind(this)}
             />
             <Row
-              className="justify-content-end"
+              className=""
               style={{
                 width: "100%",
                 paddingRight: "2rem"
               }}
             >
+              <Navbar.Brand
+                href="#"
+                onClick={() => this.props.history.push('/')}
+                style={{
+                  margin: "0px 24px 0px 12px"
+                }}
+              >
+              <h2>
+                YaDev
+              </h2>
+            </Navbar.Brand>
               {
                 this.state.loggedIn &&
                 <MessageButton
+                  style={{marginLeft: "1rem"}}
                   messages={this.state.messages}
                   onMessageClick={this.onMessageClick.bind(this)}
                 />

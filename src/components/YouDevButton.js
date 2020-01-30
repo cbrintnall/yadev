@@ -9,13 +9,11 @@ export default class YouDevButton extends React.Component {
     }
     
     render() {
-        const type = this.props.subtype || "default";
-        const ButtonType = type === "default" ? Button : DropdownButton
-
         return (
-            <ButtonType
+            <Button
                 {...this.props}
                 style={{
+                    display: "inline-block",
                     backgroundColor: color.yaDevPurple,
                     color: "white",
                     ...this.props.style
@@ -23,7 +21,7 @@ export default class YouDevButton extends React.Component {
             >
                 {this.props.text}
                 {this.props.children}
-            </ButtonType>
+            </Button>
         )
     }
 }
