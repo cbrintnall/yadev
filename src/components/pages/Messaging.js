@@ -11,6 +11,7 @@ import * as colors from '../../colors';
 import GlobalNotificationManager from '../../gnm';
 import MessageList, { MessageBox } from '../lists/messagelist';
 import PostList from '../lists/PostList';
+import OfferModal from '../modals/OfferModal';
 import { userToken, getTokenInfo } from '../../utils';
 import { getConversation, getUser, sendMessage, getUsersPosts } from '../../calls';
 
@@ -104,6 +105,10 @@ class BrokerPage extends React.Component {
   render() {
     return (
       <Container fluid style={{ height: "100%" }}>
+        <OfferModal
+          show
+          user={this.state.otherUser}
+        />
         <Row className="justify-content-md-center">
           <Col sm={"auto"}>
             <BadgeButton
