@@ -5,7 +5,7 @@ import * as color from '../colors';
 
 const YouDevButton = (props) => {
     const [hover, setHover] = useState(false);
-    const shadowLength = props.shadowlength || 5
+    const shadowLength = props.shadowlength || 2
 
     return (
         <div style={{paddingBottom: hover ? "0px" : `${shadowLength}px`}}>

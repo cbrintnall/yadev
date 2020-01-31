@@ -248,19 +248,19 @@ class MainNav extends React.Component {
 
   render() {
     return (
-      <Col style={{ padding: "0px" }}>
+      <Col>
         <Row>
           {this.state.alerts}
         </Row>
         <Row>
           <Navbar
-            expand="lg"
             style={{
               zIndex: "500",
               backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)",
               borderBottom: "3px solid black",
-              margin: "0px 12px 0px 12px",
-              width: "100%"
+              width: "100%",
+              overflowX: "hidden",
+              padding: "20px"
             }}
           >
             <LoginModal
@@ -284,7 +284,7 @@ class MainNav extends React.Component {
                 href="#"
                 onClick={() => this.props.history.push('/')}
                 style={{
-                  margin: "0px 24px 0px 12px"
+                  // margin: "0px 24px 0px 12px"
                 }}
               >
               <h2>

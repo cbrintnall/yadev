@@ -216,7 +216,13 @@ export default class PostList extends React.Component {
 
     return posts.map((post, i) => {
       return (
-        <Col key={i}>
+        <Col 
+          key={i}
+          xs={{ span: "auto" }}
+          sm={{ span: "auto" }}
+          md={{ span: "auto" }}
+          lg={{ span: "auto" }}
+        >
           <Post
             display={this.props.display}
             post={post}
@@ -232,7 +238,7 @@ export default class PostList extends React.Component {
   render() {
     return (
       <Container>
-        <Row className="justify-content-end">
+        <Row>
           {this.createPosts()}
         </Row>
       </Container>
