@@ -9,28 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import { getPosts, getUsersRatings, getUser } from '../../calls';
 import { IoIosRefresh } from 'react-icons/io';
 import GlobalNotificationManager from '../../gnm';
-
-function createFakePosts() {
-    let amt = 10;
-    let obj = {
-        user: {
-            username: "Jon101",
-            avgRating: 2,
-            completed: 100
-        },
-        description: "Need a Youtuber with gaming experience, 500+ subscribers required. Need promotion for new action adventure indie game.",
-        askingPrice: 50,
-        isDev: true,
-        tags: ["Urgent", "Indie"],
-        hasBeenAccepted: true,
-        contacted: true
-    };
-
-    let arr = [];
-    for (let i = 0; i < amt; i ++) arr.push(obj)
-
-    return arr;
-  }
+import YouDevButton from '../YouDevButton';
 
 class Home extends React.Component {
     constructor() {
@@ -120,14 +99,14 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div style={{height: "70%"}}>
+            <div>
                 <Container >
                     <Row>
                       <Col>
                       {/* <PostFilter
                         TODO: Add this back in!
                       /> */}
-                      <Nav className="justify-content-end" style={{margin: "1rem"}}>
+                      <Nav className="justify-content-start" style={{margin: "1rem"}}>
                         <Nav.Item>
                           <h3>
                             <IoIosRefresh
@@ -135,6 +114,18 @@ class Home extends React.Component {
                             />
                           </h3>
                         </Nav.Item>
+                        {/* 
+                        TODO: Add back in once hiding saves between sessions.
+                        <Nav.Item>
+                          <YouDevButton
+                            text="Show All"
+                            style={{
+                              display: "inline-block",
+                              marginLeft: "12px",
+                              marginTop: "3px"
+                            }}
+                          />
+                        </Nav.Item> */}
                       </Nav>
                       </Col>
                     </Row>

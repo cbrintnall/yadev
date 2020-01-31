@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import * as color from '../colors';
 
 const YouDevButton = (props) => {
     const [hover, setHover] = useState(false);
-    const shadowLength = props.shadowlength || 2
+    const shadowLength = props.shadowlength || 3
+
+    const showEffects = hover && !props.disabled
 
     return (
-        <div style={{paddingBottom: hover ? "0px" : `${shadowLength}px`}}>
+        <div style={{paddingBottom: showEffects ? "0px" : `${shadowLength}px`}}>
             <Button
                 {...props}
                 style={{
                     ...props.style,
+                    height: "100%",
                     display: "inline-block",
                     backgroundColor: color.yaDevPurple,
                     color: "white",
-                    borderBottom: hover ? `${shadowLength}px solid ${color.yaDevGrey}` : "",
+                    borderBottom: showEffects ? `${shadowLength}px solid ${color.yaDevGrey}` : "",
                 }}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}

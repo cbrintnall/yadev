@@ -47,9 +47,6 @@ class MessageButton extends React.Component {
   getTitle() {
     return (
       <span
-        style={{
-          display: "block"
-        }}
       >
         Messages
         <Badge
@@ -82,7 +79,7 @@ class MessageButton extends React.Component {
       >
         <Dropdown.Item
           disabled
-          style={{ color: "black" }}
+          style={{ color: "black", display: "fixed" }}
         >
           <h5>Messages:</h5>
         </Dropdown.Item>
@@ -313,7 +310,8 @@ class MainNav extends React.Component {
                 onClick={() => this.props.history.push('/')}
               />
               {
-                userToken() && <YouDevButton
+                userToken() && 
+                <YouDevButton
                   style={{ marginLeft: "1rem" }}
                   text="Profile"
                   onClick={() => this.props.history.push('/profile/me')}
