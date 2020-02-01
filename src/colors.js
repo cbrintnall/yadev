@@ -4,4 +4,4 @@ export const myMessage = "#DC8EF5";
 export const yaDevGrey = "lightgray";
 export const acceptanceGreen = "#A3FFB7";
 export const rejectionRed = "#FF6450";
-export const yaDevBlue = "#A1D9FF";
+export const yaDevBlue = "#8FD2FF";

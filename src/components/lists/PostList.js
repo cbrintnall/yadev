@@ -93,7 +93,8 @@ export class Post extends React.Component {
         borderRadius: '2rem',
         margin: "1rem",
         boxShadow: ("10px -10px " + this.getShadow()),
-        border: "4px solid black"
+        border: "4px solid black",
+        ...this.props.style
       }}
       >
         <Card.Body>

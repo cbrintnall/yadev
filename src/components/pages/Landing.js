@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Post } from '../lists/PostList';
 import * as colors from '../../colors';
+import * as utils from '../../utils';
+import BadgeButton from '../buttons/BadgeButton';
 
 const FAKE_DESCRIPTION =`
 We're a relatively small
@@ -17,6 +19,31 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue ipsum, sod
 const CONTENT_CREATOR_EXPLANATION = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue ipsum, sodales vitae laoreet vitae, interdum vel risus. Nulla facilisi. Suspendisse posuere rhoncus placerat. Nunc ut ante eget odio auctor mattis ut sit amet augue. In tincidunt, sem at aliquam varius, risus sapien tempus dui, eu iaculis nisl lorem eu enim. Suspendisse venenatis nisi lacus. Aliquam tellus felis, pretium vitae bibendum sit amet, elementum ut enim. Pellentesque facilisis non dui eget porttitor. Nam a mattis sem, at congue ex. Ut lectus neque, laoreet eget lectus ut, venenatis tempus turpis.
 `
+
+const LandingSignInButton = (props) => {
+  return (
+    <BadgeButton
+      {...props}
+      style={{
+        backgroundColor: colors.myMessage, 
+        padding: "12px", 
+        color: "white",
+        paddingRight: "24px",
+        paddingLeft: "24px"
+      }}
+    >
+      <h1 
+        style={{
+          borderBottom: "2px solid white", 
+          paddingBottom: "4px",
+          borderRadius: "2px"
+        }}
+      > 
+        { props.title } 
+      </h1>
+    </BadgeButton>
+  )
+}
 
 const LandingTitle = (props) => {
   return (
@@ -80,9 +107,14 @@ const Landing = (props) => {
             />
         </Col>
       </Row>
+      <hr />
       <Row>
-        <Col md={6}>
+        <Col md={4} lg={4}>
           <Post
+            style={{
+              float: "right",
+              marginRight: "20%"
+            }}
             noHide
             post={{
               hireable: true,
@@ -96,7 +128,7 @@ const Landing = (props) => {
             }}
           />
         </Col>
-        <Col md={6}>
+        <Col md={8}>
           <LandingTitle>
             Not a developer?
           </LandingTitle>
@@ -109,9 +141,17 @@ const Landing = (props) => {
           <Col md={12} style={{textAlign: "center"}}>
           <hr />
             <LandingTitle>
-              Sign in with Github or Google
+              Get started with Github or Google
             </LandingTitle>
             <hr />
+            <LandingSignInButton
+              title="Github"
+              onClick={utils.loginGithub}
+            />
+            <LandingSignInButton
+              title="Google"
+              onClick={utils.loginGoogle}
+            />
           </Col>
         </Row>
     </Container>
