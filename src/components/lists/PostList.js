@@ -17,7 +17,7 @@ const OK_END = 30;
 const GOOD_END = 60;
 const AMAZING_END = 100;
 
-class Post extends React.Component {
+export class Post extends React.Component {
   constructor() {
     super();
 
@@ -155,9 +155,12 @@ class Post extends React.Component {
             </Col>
           </Row>
           <Row style={{padding: "8px 0px 4px 0px"}}>
-            <Col>
-              <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
-            </Col>
+            {
+              !this.props.noHide && 
+              <Col>
+                <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
+              </Col>
+            }
             {userIsOwner && <Col><BadgeButton variant="danger" style={{ marginLeft: ".1rem" }} onClick={() => { this.props.onRemovePost(post) }}> Remove </BadgeButton></Col>}
           </Row>
         </Card.Body>

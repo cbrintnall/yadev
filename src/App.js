@@ -10,33 +10,30 @@ import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
 import Footer from './components/Footer';
 import { loggedIn } from './utils';
-import Settings from './settings';
+import Landing from './components/pages/Landing';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    return (
-      <div>
-        <Router>
-            <MainNav
-              loggedIn={loggedIn()}
-            />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/messages/:to/:from" component={BrokerPage} />
-            <Route exact path="/profile/me" component={Profile} />
-          </Switch>
-        </Router>
-        <Footer
-          style={{
-            height: "100%",
-            padding: "0px 128px 128px 128px"
-          }}
-        />
-      </div>
-    );
- }
+const App = (props) => {
+  return (
+    <div>
+      <Router>
+          <MainNav
+            loggedIn={loggedIn()}
+          />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/messages/:to/:from" component={BrokerPage} />
+          <Route exact path="/profile/me" component={Profile} />
+          <Route exact path="/landing" component={Landing} />
+        </Switch>
+      </Router>
+      <Footer
+        style={{
+          height: "100%",
+          padding: "0px 128px 128px 128px"
+        }}
+      />
+    </div>
+  );
 }
+
+export default App;

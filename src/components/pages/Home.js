@@ -10,6 +10,7 @@ import { getPosts, getUsersRatings, getUser } from '../../calls';
 import { IoIosRefresh } from 'react-icons/io';
 import GlobalNotificationManager from '../../gnm';
 import YouDevButton from '../YouDevButton';
+import { loggedIn } from '../../utils';
 
 class Home extends React.Component {
     constructor() {
@@ -98,6 +99,10 @@ class Home extends React.Component {
     }
 
     render() {
+        if (!loggedIn()) {
+          this.props.history.push('/landing')
+        }
+
         return (
             <div>
                 <Container >

@@ -253,7 +253,7 @@ class MainNav extends React.Component {
           <Navbar
             style={{
               zIndex: "500",
-              backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)",
+              backgroundImage: `linear-gradient(${colors.yaDevBlue}, ${colors.yaDevPurple})`,
               borderBottom: "3px solid black",
               width: "100%",
               overflowX: "hidden",
@@ -281,7 +281,9 @@ class MainNav extends React.Component {
                 href="#"
                 onClick={() => this.props.history.push('/')}
                 style={{
-                  // margin: "0px 24px 0px 12px"
+                  margin: "0px 12px 0px 12px",
+                  borderRight: "2px solid black",
+                  paddingRight: "12px"
                 }}
               >
               <h2>
