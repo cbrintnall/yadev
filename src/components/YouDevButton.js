@@ -13,12 +13,12 @@ const YouDevButton = (props) => {
             <Button
                 {...props}
                 style={{
-                    ...props.style,
                     height: "100%",
                     display: "inline-block",
                     backgroundColor: color.yaDevPurple,
                     color: "white",
                     borderBottom: showEffects ? `${shadowLength}px solid ${color.yaDevGrey}` : "",
+                    ...props.style,
                 }}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}

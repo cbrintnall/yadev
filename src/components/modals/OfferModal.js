@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form';
 import YouDevButton from '../YouDevButton';
 import * as color from '../../colors';
 
@@ -16,7 +16,13 @@ const OfferModal = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        Testing, testing.
+        <Form>
+          <Form.Group>
+            <Form.Label><h5>Offer:</h5></Form.Label>
+            <Form.Control placeholder="50"/>
+            <Form.Text>Must be above {  } </Form.Text>
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <YouDevButton>Close</YouDevButton>

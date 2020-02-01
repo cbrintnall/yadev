@@ -9,7 +9,6 @@ import YouDevButton from './YouDevButton';
 import GlobalNotificationManager from '../gnm';
 import { sendMessage } from '../calls';
 import { userToken, getTokenInfo } from '../utils';
-import { ok } from 'assert';
 
 // Confirm times out in 5 seconds.
 const CONFIRM_TIMEOUT_SECONDS = 5;

@@ -51,7 +51,7 @@ class BrokerPage extends React.Component {
         })
       })
 
-    getUsersPosts(otherUser)
+    getUsersPosts(currUser._id)
       .then(res => {
         this.setState({
           otherUsersPosts: res.data.results
@@ -94,35 +94,14 @@ class BrokerPage extends React.Component {
       })
   }
 
-  onOffer() {
-
-  }
-
-  onReject() {
-
-  }
-
   render() {
     return (
       <Container fluid style={{ height: "100%" }}>
         <OfferModal
-          show
+          show={false}
           user={this.state.otherUser}
         />
         <Row className="justify-content-md-center">
-          <Col sm={"auto"}>
-            <BadgeButton
-              onClick={this.onOffer()}
-              badgecolor={colors.acceptanceGreen}
-              style={{
-                borderRadius: "12px",
-                border: "3px solid white",
-                padding: "24px 48px 24px 48px"
-              }}
-            >
-              <h1>Offer</h1>
-            </BadgeButton>
-          </Col>
           <Col
             sm={3}
             style={{
@@ -155,28 +134,13 @@ class BrokerPage extends React.Component {
               </Col>
             </Row>
           </Col>
-          <Col
-            sm={"auto"}
-          >
-            <BadgeButton
-              onClick={this.onReject()}
-              badgecolor={colors.rejectionRed}
-              style={{
-                borderRadius: "12px",
-                border: "3px solid black",
-                padding: "24px 48px 24px 48px"
-              }}
-            >
-              <h1>Reject</h1>
-            </BadgeButton>
-          </Col>
         </Row>
         <Row>
           <Col
             sm={7}
           >
             <PostList
-              display
+              offer
               posts={this.state.otherUsersPosts}
             />
           </Col>
