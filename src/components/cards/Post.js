@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import YouDevButton from '../YouDevButton';
 import Rating from '../Rating';
@@ -7,14 +7,39 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import * as colors from '../../colors';
 import { getTokenInfo, loggedIn } from '../../utils';
 import { humanized_time_span } from '../../extra/humanized_time';
-import * as colors from '../../colors';
 
 const OK_START = 10;
 const OK_END = 30;
 const GOOD_END = 60;
 const AMAZING_END = 100;
+
+const OfferButton = (props) => {
+  const [hover, setHover] = useState(false);
+
+  return (
+    <Row>
+      <Col>
+        <Button
+          onMouseEnter={() => { setHover(true) }}
+          onMouseLeave={() => { setHover(false) }}
+          onClick={() => { props.onOffer && props.onOffer() }}
+          style={{
+            backgroundColor: hover ? "white" : colors.acceptanceGreen,
+            color: hover ? colors.yaDevPurple : "black",
+            fontSize: "22px",
+            display: "block",
+            width: "100%",
+          }}
+        >
+          <span> Offer </span>
+        </Button>
+      </Col>
+    </Row>
+  )
+}
 
 class Post extends React.Component {
   constructor() {
@@ -93,6 +118,7 @@ class Post extends React.Component {
         margin: "1rem",
         boxShadow: ("10px -10px " + this.getShadow()),
         border: "4px solid black",
+        overflow: "hidden",
         ...this.props.style
       }}
       >
@@ -111,7 +137,19 @@ class Post extends React.Component {
           </Card.Title>
           <Card.Subtitle>
             <h4>
-              <Badge>${post.price}</Badge> {post.price == 0 && <span style={{ fontSize: "20px" }}><Badge variant="success"><u>Free</u></Badge></span>}
+              <Badge>${post.price}</Badge> 
+              { 
+                post.price === 0 && 
+                <span 
+                  style={{ 
+                    fontSize: "20px" 
+                  }}
+                >
+                  <Badge variant="success">
+                    <u>Free</u>
+                  </Badge>
+                </span> 
+              }
             </h4>
           </Card.Subtitle>
           <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
@@ -170,7 +208,7 @@ class Post extends React.Component {
                   onClick={() => { this.props.onRemovePost(post) }}
                 >
                   Remove
-                  </BadgeButton>
+                </BadgeButton>
               </Col>
             }
           </Row>
@@ -178,24 +216,9 @@ class Post extends React.Component {
         {
           this.props.offer &&
           <Card.Footer style={{ padding: "0px" }}>
-            <Row>
-              <Col>
-                <Button
-                  onClick={this.props.onOffer && this.props.onOffer("hi")}
-                  style={{
-                    backgroundColor: colors.acceptanceGreen,
-                    color: "black",
-                    display: "block",
-                    height: "100%",
-                    width: "100%",
-                    borderRadius: "1.5rem",
-                    overflow: "hidden"
-                  }}
-                >
-                  Offer
-                </Button>
-              </Col>
-            </Row>
+            <OfferButton
+              onOffer={() => { this.props.onOffer && this.props.onOffer(post) } }
+            />
           </Card.Footer>
         }
       </Card>

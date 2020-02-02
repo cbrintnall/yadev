@@ -13,7 +13,7 @@ const YouDevButton = (props) => {
             <Button
                 {...props}
                 style={{
-                    height: "100%",
+                    // height: "100%",
                     display: "inline-block",
                     backgroundColor: color.yaDevPurple,
                     color: "white",

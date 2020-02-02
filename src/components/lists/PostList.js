@@ -6,6 +6,7 @@ import Post from '../cards/Post';
 import { differenceWith, isEqual } from 'lodash';
 import { userToken } from '../../utils';
 import { removePost } from '../../calls';
+import { FaThumbsDown } from 'react-icons/fa';
 
 export default class PostList extends React.Component {
   constructor() {
@@ -67,7 +68,7 @@ export default class PostList extends React.Component {
           <Post
             {...this.props}
             post={post}
-            onOffer={console.log}
+            onOffer={(e) => { this.props.onOffer && this.props.onOffer(e) }}
             onHidePost={this.onHidePost}
             onRemovePost={this.onRemovePost}
             onContact={this.onContact}

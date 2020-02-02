@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Badge from 'react-bootstrap/Badge';
 
 import "./css/messaging.css";
-import BadgeButton from '../buttons/BadgeButton';
 import Rating from '../Rating';
 import * as colors from '../../colors';
 import GlobalNotificationManager from '../../gnm';
@@ -23,7 +22,9 @@ class BrokerPage extends React.Component {
       messages: [],
       otherUser: {},
       otherUsersPosts: [],
-      otherUserRating: 0 // TODO: Implement this
+      otherUserRating: 0, // TODO: Implement this,
+      offering: false,
+      offeredPost: {}
     }
   }
 
@@ -98,7 +99,8 @@ class BrokerPage extends React.Component {
     return (
       <Container fluid style={{ height: "100%" }}>
         <OfferModal
-          show={false}
+          post={this.state.offeredPost}
+          show={this.state.offering}
           user={this.state.otherUser}
         />
         <Row className="justify-content-md-center">
@@ -142,6 +144,7 @@ class BrokerPage extends React.Component {
             <PostList
               offer
               posts={this.state.otherUsersPosts}
+              onOffer={(e) => { this.setState({ offering: true, offeredPost: e }) }}
             />
           </Col>
           <Col

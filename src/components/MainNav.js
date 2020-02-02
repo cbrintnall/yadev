@@ -19,22 +19,16 @@ import './css/mainnav.css';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
-class MessageTab extends React.Component {
-  constructor() {
-    super();
-  }
+const MessageTab = (props) => {
+  const msg = props.message.message.length > MAX_MESSAGE_PREVIEW_LENGTH ?
+      props.message.message.substring(0, MAX_MESSAGE_PREVIEW_LENGTH - 3) + "..." :
+      props.message.message
 
-  render() {
-    const msg = this.props.message.message.length > MAX_MESSAGE_PREVIEW_LENGTH ?
-      this.props.message.message.substring(0, MAX_MESSAGE_PREVIEW_LENGTH - 3) + "..." :
-      this.props.message.message
-
-    return (
-      <div>
-        <p> {msg} </p>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <p> {msg} </p>
+    </div>
+  )
 }
 
 class MessageButton extends React.Component {
@@ -65,7 +59,7 @@ class MessageButton extends React.Component {
     return this.props.messages && [
       ...new Set(
         this.props.messages
-          .filter(item => item.sender != _id)
+          .filter(item => item.sender !== _id)
       )
     ];
   }
@@ -239,10 +233,6 @@ class MainNav extends React.Component {
     this.props.history.push(`/messages/${msg.receiver}/${msg.sender}`);
   }
 
-  onHoverAlert(e) { }
-
-  onLeaveHoverAlert(e) { }
-
   render() {
     return (
       <Col>
@@ -256,7 +246,6 @@ class MainNav extends React.Component {
               backgroundImage: `linear-gradient(${colors.yaDevBlue}, ${colors.yaDevPurple})`,
               borderBottom: "3px solid black",
               width: "100%",
-              overflowX: "hidden",
               padding: "20px"
             }}
           >
@@ -271,9 +260,9 @@ class MainNav extends React.Component {
               onPostError={this.onPostError.bind(this)}
             />
             <Row
-              className=""
               style={{
                 width: "100%",
+                height: "100%",
                 paddingRight: "2rem"
               }}
             >
@@ -293,7 +282,7 @@ class MainNav extends React.Component {
               {
                 this.state.loggedIn &&
                 <MessageButton
-                  style={{marginLeft: "1rem"}}
+                  style={{marginLeft: "1rem", height: "100%"}}
                   messages={this.state.messages}
                   onMessageClick={this.onMessageClick.bind(this)}
                 />

@@ -20,7 +20,7 @@ const OfferModal = (props) => {
           <Form.Group>
             <Form.Label><h5>Offer:</h5></Form.Label>
             <Form.Control placeholder="50"/>
-            <Form.Text>Must be above {  } </Form.Text>
+            <Form.Text style={{color: "lightgrey"}}>Must be above ${ props.post && props.post.price } </Form.Text>
           </Form.Group>
         </Form>
       </Modal.Body>
