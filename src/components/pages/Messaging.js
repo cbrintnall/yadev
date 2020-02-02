@@ -98,11 +98,14 @@ class BrokerPage extends React.Component {
   render() {
     return (
       <Container fluid style={{ height: "100%" }}>
-        <OfferModal
-          post={this.state.offeredPost}
-          show={this.state.offering}
-          user={this.state.otherUser}
-        />
+        {
+          this.state.offering && 
+          <OfferModal
+            post={this.state.offeredPost}
+            user={this.state.otherUser}
+            onHide={() => { this.setState({offering: false}) }}
+          />
+        }
         <Row className="justify-content-md-center">
           <Col
             sm={3}

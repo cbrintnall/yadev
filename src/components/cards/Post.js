@@ -200,7 +200,7 @@ class Post extends React.Component {
               </Col>
             }
             {
-              userIsOwner && !this.props.offer &&
+              userIsOwner && !this.props.offer && !this.props.noRemove &&
               <Col>
                 <BadgeButton
                   variant="danger"
