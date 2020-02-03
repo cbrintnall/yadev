@@ -3,8 +3,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container'
 import Settings from '../settings';
-import BadgeButton from './buttons/BadgeButton'
 import * as colors from '../colors';
+import { FaScroll, FaHeart } from 'react-icons/fa';
 
 const FooterList = ({ props, children }) => {
   return (
@@ -19,7 +19,7 @@ const FooterList = ({ props, children }) => {
 const FooterElement = ({ props, children }) => {
   return (
     <li>
-      {children}
+      <strong> {children} </strong>
     </li>
   )
 }
@@ -49,7 +49,10 @@ class Footer extends React.Component {
                 <hr />
                 <FooterList>
                   <FooterElement>
-                    <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.source}>View Source <span style={{color: "red"}}>❤️</span></a>
+                    <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.source}>View Source <FaHeart style={{color: "red"}} /></a>
+                  </FooterElement>
+                  <FooterElement>
+                    <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.improvementForm}>Help us improve <FaScroll style={{color: "#FFE5A3"}} /></a>
                   </FooterElement>
                 </FooterList>
               </Col>

@@ -6,7 +6,6 @@ import Badge from 'react-bootstrap/Badge';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import * as colors from '../../colors';
-import * as Markdown from 'react-markdown';
 import { humanized_time_span } from '../../extra/humanized_time';
 import { getTokenInfo } from '../../utils';
 import { myMessage, otherMessage } from '../../colors';
@@ -55,7 +54,7 @@ export class MessageBox extends React.Component {
               onClick={this.onSubmit.bind(this)}
             >
               Send
-                        </Button>
+            </Button>
           </InputGroup.Append>
         </InputGroup>
       </div>
@@ -124,7 +123,7 @@ class MessageList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{height: "100%"}}>
         {
           this.props.messages && this.props.messages.map((msg, i) => {
             return <MessageTab

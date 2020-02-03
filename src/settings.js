@@ -22,6 +22,7 @@ const githubAccountId = {
     prod: "Iv1.eeb78cf56c62c9a3"
 }
 
+Settings.improvementForm = "https://forms.gle/raHis8J6jYfyHQtb7"
 Settings.source = "https://github.com/cbrintnall/yadev";
 Settings.VERSION = VERSION
 Settings.postEndpoint = "/post"

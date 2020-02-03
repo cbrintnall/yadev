@@ -50,3 +50,7 @@ export const getUsersPosts = (id, page = 1) => {
 export const getSentMessages = (token = utils.userToken()) => {
   return instance.get('/user/messages/sent', { headers: { token }});
 }
+
+export const submitOffer = (offer, token = utils.userToken()) => {
+  // return instance.
+}
