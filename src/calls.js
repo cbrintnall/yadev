@@ -52,5 +52,5 @@ export const getSentMessages = (token = utils.userToken()) => {
 }
 
 export const submitOffer = (offer, token = utils.userToken()) => {
-  // return instance.
+  return instance.post('/offer', { ...offer }, { headers: { token }});
 }

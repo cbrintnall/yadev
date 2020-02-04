@@ -31,6 +31,10 @@ class GlobalNotificationManager {
       listener(message);
     });
   }
+
+  sendAlert(message, negative) {
+    this.push('alert', { msg: message, ok: negative })
+  }
 }
 
 export default GlobalNotificationManager = new GlobalNotificationManager();

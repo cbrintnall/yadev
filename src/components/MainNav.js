@@ -25,7 +25,7 @@ const MessageTab = (props) => {
     props.message.message
 
   return (
-    <Row style={{ margin: "6px 0px 6px 0px" }} className="d-flex align-items-center">
+    <Row style={{ margin: "6px 0px 6px 0px", borderRadius: "6px", zIndex: "-1" }} className="d-flex align-items-center">
       <p style={{ margin: "0px" }}> {msg} </p>
     </Row>
   )

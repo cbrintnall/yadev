@@ -8,22 +8,44 @@ import * as color from '../../colors';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import GlobalNotificationManager from '../../gnm';
+import { submitOffer } from '../../calls';
 
 const OfferModal = (props) => {
   const [show, setShow] = useState(true)
   const [amount, setAmount] = useState(props.post.price)
+  const [submitting, setSubmitting] = useState(false)
+  const [errors, setErrors] = useState("")
 
   const hide = () => {
     setShow(false);
+
     props.onHide && props.onHide()
   }
 
   const submit = () => {
     const payload = {
       to: props.user._id,
-      offer: amount,
-      
+      post: props.post._id,
+      offer: amount
     }
+
+    setSubmitting(true);
+
+    submitOffer(payload)
+      .then(res => {
+        if (res.status === 201) {
+          setErrors("")
+          setSubmitting(false)
+          setShow(false)
+
+          GlobalNotificationManager.sendAlert(`Successfully sent offer to ${props.user.username}!`, true)
+        }
+      })
+      .catch(err => {
+        setSubmitting(false)
+        setErrors(err.response.data.error || 'Unknown error.')
+      })
   }
 
   return (
@@ -73,6 +95,14 @@ const OfferModal = (props) => {
                       isValid={amount >= props.post.price}
                       isInvalid={amount < props.post.price}
                     />
+                    <br />
+                    {
+                      // If there are errors, display them.
+                      errors &&
+                      <Form.Control.Feedback style={{color: "red"}}>
+                      { errors }
+                      </Form.Control.Feedback>
+                    }
                   </InputGroup>
                   <Form.Text style={{ color: "darkgrey" }}><strong>NOTE</strong>: Must be at least ${props.post && props.post.price} </Form.Text>
                 </Form.Group>
@@ -83,7 +113,7 @@ const OfferModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <YouDevButton onClick={hide}>Close</YouDevButton>
-        <YouDevButton onClick={submit}>Submit Offer</YouDevButton>
+        <YouDevButton onClick={submit}>{submitting ? "Please wait.." : "Submit Offer"}</YouDevButton>
       </Modal.Footer>
     </Modal>
   )
