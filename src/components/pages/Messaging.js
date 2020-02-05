@@ -11,8 +11,9 @@ import GlobalNotificationManager from '../../gnm';
 import MessageList, { MessageBox } from '../lists/messagelist';
 import PostList from '../lists/PostList';
 import OfferModal from '../modals/OfferModal';
+import OfferPanelBottom from '../panels/OfferBottomPanel';
 import { userToken, getTokenInfo } from '../../utils';
-import { getConversation, getUser, sendMessage, getUsersPosts } from '../../calls';
+import { getConversation, getUser, sendMessage, getUsersPosts, getLatestOffer } from '../../calls';
 
 class BrokerPage extends React.Component {
   constructor() {
@@ -24,7 +25,9 @@ class BrokerPage extends React.Component {
       otherUsersPosts: [],
       otherUserRating: 0, // TODO: Implement this,
       offering: false,
-      offeredPost: {}
+      offeredPost: {},
+      offers: [],
+      offerPointer: 0
     }
   }
 
@@ -75,6 +78,14 @@ class BrokerPage extends React.Component {
           msg: "Failed to get conversation", ok: false
         })
       })
+
+    getLatestOffer(to, from)
+      .then(res => {
+        this.setState({
+          offers: res.data.results
+        })
+      })
+      .catch(console.error)
   }
 
   sendMessage(msg) {
@@ -104,6 +115,12 @@ class BrokerPage extends React.Component {
             post={this.state.offeredPost}
             user={this.state.otherUser}
             onHide={() => { this.setState({offering: false}) }}
+          />
+        }
+        {
+          this.state.offers.length > 0 &&
+          <OfferPanelBottom
+            offer={this.state.offers[this.state.offerPointer]}
           />
         }
         <Row className="justify-content-md-center">

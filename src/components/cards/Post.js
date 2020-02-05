@@ -152,9 +152,9 @@ class Post extends React.Component {
               }
             </h4>
           </Card.Subtitle>
-          <Card.Text style={{ backgroundColor: "#AEB3FF", padding: ".5rem", borderRadius: ".5rem" }}>
+          <Card.Text style={{ backgroundColor: "#94B3FF", padding: ".5rem", borderRadius: ".5rem" }}>
             <span
-              style={{ textShadow: "1px 1px 2px black, 0 0 1em blue, 0 0 0.2em", color: "white" }}
+              style={{ color: "white" }}
             >{post.description}</span>
           </Card.Text>
           {post.creation_date && <div><Badge style={{ color: "darkgrey" }}> posted: {this.getDate(post.creation_date)} </Badge> </div>}

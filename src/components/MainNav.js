@@ -211,8 +211,6 @@ class MainNav extends React.Component {
       <Alert
         key={text}
         onClick={this.onAlertClick.bind(this)}
-        onMouseEnter={this.onHoverAlert.bind(this)}
-        onMouseLeave={this.onLeaveHoverAlert.bind(this)}
         style={{ width: "100%", margin: "0px", textAlign: "center" }}
         variant={success ? "success" : "danger"}
       >

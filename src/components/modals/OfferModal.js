@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -10,12 +10,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GlobalNotificationManager from '../../gnm';
 import { submitOffer } from '../../calls';
+import { getTokenInfo } from '../../utils';
 
 const OfferModal = (props) => {
   const [show, setShow] = useState(true)
   const [amount, setAmount] = useState(props.post.price)
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState("")
+  const { _id } = getTokenInfo();
 
   const hide = () => {
     setShow(false);
@@ -25,6 +27,7 @@ const OfferModal = (props) => {
 
   const submit = () => {
     const payload = {
+      from: _id,
       to: props.user._id,
       post: props.post._id,
       offer: amount
@@ -35,7 +38,7 @@ const OfferModal = (props) => {
     submitOffer(payload)
       .then(res => {
         if (res.status === 201) {
-          setErrors("")
+          setErrors(undefined)
           setSubmitting(false)
           setShow(false)
 
@@ -44,7 +47,12 @@ const OfferModal = (props) => {
       })
       .catch(err => {
         setSubmitting(false)
-        setErrors(err.response.data.error || 'Unknown error.')
+
+        console.error(err.response)
+
+        if (err.response) {
+          setErrors(err.response.data.error || 'Unknown error.')
+        }
       })
   }
 

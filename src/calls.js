@@ -54,3 +54,7 @@ export const getSentMessages = (token = utils.userToken()) => {
 export const submitOffer = (offer, token = utils.userToken()) => {
   return instance.post('/offer', { ...offer }, { headers: { token }});
 }
+
+export const getLatestOffer = (u1, u2, token = utils.userToken()) => {
+  return instance.get(`/offer/latest/${u1}/${u2}`, { headers: { token }});
+}
