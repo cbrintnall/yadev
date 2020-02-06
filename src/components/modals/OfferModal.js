@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GlobalNotificationManager from '../../gnm';
-import { submitOffer } from '../../calls';
+import { submitOffer, counterOffer } from '../../calls';
 import { getTokenInfo } from '../../utils';
 
 const OfferModal = (props) => {

@@ -55,6 +55,15 @@ export const submitOffer = (offer, token = utils.userToken()) => {
   return instance.post('/offer', { ...offer }, { headers: { token }});
 }
 
-export const getLatestOffer = (u1, u2, token = utils.userToken()) => {
+// u2 should be the other user
+export const getLatestOffer = (u2, u1 = utils.getTokenInfo()._id, token = utils.userToken()) => {
   return instance.get(`/offer/latest/${u1}/${u2}`, { headers: { token }});
+}
+
+export const counterOffer = (offer_id, counter, token = utils.userToken()) => {
+  return instance.put(`/offer/${offer_id}/counter`, { counter }, { headers: { token }})
+}
+
+export const getMainLatestOffers = (token = utils.userToken()) => {
+  return instance.get(`/offer/main/latest`, { headers: { token }})
 }

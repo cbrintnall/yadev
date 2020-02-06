@@ -7,17 +7,22 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import BadgeButton from '../buttons/BadgeButton';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { counterOffer } from '../../calls';
 
 const INTERVALS = [
+  -15,
   -10,
   -5,
   5,
-  10
+  10,
+  15
 ]
 
 const OfferPanelBottom = (props) => {
   const [countering, setCountering] = useState(false)
   const [value, setValue] = useState(props.offer.offer)
+
+  const baseOffer = props.offer.offer;
 
   const onCounter = () => {
     setCountering(true)
@@ -26,6 +31,18 @@ const OfferPanelBottom = (props) => {
   const onReject = () => {
     if (countering) {
       setCountering(false)
+    } else {
+
+    }
+  }
+
+  const onAccept = () => {
+    if (countering) {
+      counterOffer(props.offer._id, value)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(console.error)
     } else {
 
     }
@@ -52,7 +69,7 @@ const OfferPanelBottom = (props) => {
 
   const getAccept = () => {
     return (
-      <Button style={{ marginLeft: "12px", backgroundColor: color.acceptanceGreen, color: "black" }}>
+      <Button style={{ marginLeft: "12px", backgroundColor: color.acceptanceGreen, color: "black" }} onClick={onAccept}>
         { countering ? 'Submit Counter' : 'Accept' }
       </Button>
     )
@@ -84,6 +101,12 @@ const OfferPanelBottom = (props) => {
             <Form.Group>
               <div>
                 { getIntervals() }
+                <BadgeButton
+                  style={{margin: "6px 6px 8px 6px", backgroundColor: color.yaDevPurple, fontSize: "16px"}}
+                  onClick={() => setValue(baseOffer)}
+                >
+                  Restore
+                </BadgeButton>
               </div>
               <InputGroup>
                 <InputGroup.Prepend>

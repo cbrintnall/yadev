@@ -11,6 +11,8 @@ import { IoIosRefresh } from 'react-icons/io';
 import GlobalNotificationManager from '../../gnm';
 import YouDevButton from '../YouDevButton';
 import { loggedIn } from '../../utils';
+import HomeRightBar from './components/HomeRightBar';
+import HomeLeftBar from './components/HomeLeftBar';
 
 class Home extends React.Component {
     constructor() {
@@ -135,15 +137,26 @@ class Home extends React.Component {
                       </Col>
                     </Row>
                     <Row>
+                      <HomeLeftBar
+                      />
+                      <Col
+                        className="d-flex align-items-center justify-content-center"
+                        lg={10}
+                        md={8}
+                        sm={8}
+                      >
+                        <PostList
+                          posts={this.state.posts}
+                          onContact={this.onContact}
+                        />
+                      </Col>
+                      <HomeRightBar
+                      />
                       <ContactModal
                           contact={this.state.currentContact}
                           show={this.state.showContactModal}
                           onHide={() => this.setState({showContactModal: false})}
                           onSubmit={() => this.setState({showContactModal: false})}
-                      />
-                      <PostList
-                          posts={this.state.posts}
-                          onContact={this.onContact}
                       />
                     </Row>
                 </Container>

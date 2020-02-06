@@ -63,7 +63,7 @@ class BrokerPage extends React.Component {
       })
       .catch(err => {
         GlobalNotificationManager.push('alert', {
-          msg: "Failed to get other user's posts", ok: false
+          msg: "Failed to get other posts", ok: false
         })
       })
 
@@ -79,7 +79,7 @@ class BrokerPage extends React.Component {
         })
       })
 
-    getLatestOffer(to, from)
+    getLatestOffer(otherUser)
       .then(res => {
         this.setState({
           offers: res.data.results
