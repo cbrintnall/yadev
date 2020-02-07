@@ -201,7 +201,7 @@ class PostModal extends React.Component {
                     this.postRef.current.tags.value.split(',').map(val => {
                       if (val && val.trim().length > 0 && val !== "") {
                         return (
-                          <div style={{ marginLeft: ".05rem", marginRight: ".05rem", display: "inline" }}>
+                          <div key={val} style={{ marginLeft: ".05rem", marginRight: ".05rem", display: "inline" }}>
                             <Badge variant="dark"> {val} </Badge>
                           </div>
                         )

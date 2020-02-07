@@ -123,9 +123,13 @@ class BrokerPage extends React.Component {
             offer={this.state.offers[this.state.offerPointer]}
           />
         }
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-center">
           <Col
-            sm={3}
+            lg={"auto"}
+            md={"auto"}
+            sm={"auto"}
+            xs={"auto"}
+
             style={{
               padding: "1rem",
               borderRadius: "2rem",

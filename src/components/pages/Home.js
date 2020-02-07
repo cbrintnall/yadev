@@ -138,10 +138,13 @@ class Home extends React.Component {
                     </Row>
                     <Row>
                       <HomeLeftBar
+                        lg={3}
+                        md={3}
+                        sm={4}
                       />
                       <Col
                         className="d-flex align-items-center justify-content-center"
-                        lg={10}
+                        lg={8}
                         md={8}
                         sm={8}
                       >
@@ -151,6 +154,7 @@ class Home extends React.Component {
                         />
                       </Col>
                       <HomeRightBar
+
                       />
                       <ContactModal
                           contact={this.state.currentContact}

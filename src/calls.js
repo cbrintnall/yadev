@@ -67,3 +67,11 @@ export const counterOffer = (offer_id, counter, token = utils.userToken()) => {
 export const getMainLatestOffers = (token = utils.userToken()) => {
   return instance.get(`/offer/main/latest`, { headers: { token }})
 }
+
+export const rejectOffer = (offer_id, token = utils.userToken()) => {
+  return instance.put(`/offer/${offer_id}/reject`, {}, { headers: { token }})
+}
+
+export const acceptOffer = (offer_id, token = utils.userToken()) => {
+  return instance.put(`/offer/${offer_id}/accept`, {}, { headers: { token }})
+}

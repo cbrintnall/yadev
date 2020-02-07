@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import BadgeButton from '../buttons/BadgeButton';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { counterOffer } from '../../calls';
+import { counterOffer, acceptOffer, rejectOffer } from '../../calls';
 
 const INTERVALS = [
   -15,
@@ -21,6 +21,7 @@ const INTERVALS = [
 const OfferPanelBottom = (props) => {
   const [countering, setCountering] = useState(false)
   const [value, setValue] = useState(props.offer.offer)
+  const [errors, setErrors] = useState("");
 
   const baseOffer = props.offer.offer;
 
@@ -30,21 +31,30 @@ const OfferPanelBottom = (props) => {
 
   const onReject = () => {
     if (countering) {
+      setErrors("");
       setCountering(false)
     } else {
-
+      rejectOffer(props.offer._id)
+        .then(console.log)
+        .catch(console.error)
     }
   }
 
   const onAccept = () => {
     if (countering) {
+      setErrors("")
+
       counterOffer(props.offer._id, value)
         .then(res => {
           console.log(res)
         })
-        .catch(console.error)
+        .catch(err => {
+          setErrors(err.response.data.error)
+        })
     } else {
-
+      acceptOffer(props.offer._id)
+        .then(console.log)
+        .catch(console.error)
     }
   }
 
@@ -118,6 +128,10 @@ const OfferPanelBottom = (props) => {
                   onChange={(e) => setValue(e.target.value)}
                 />
               </InputGroup>
+              {
+                errors &&
+                <div style={{color: color.rejectionRed, marginTop: ".5rem"}}><strong>{errors}</strong></div>
+              }
             </Form.Group>
           }
           {
