@@ -75,3 +75,11 @@ export const rejectOffer = (offer_id, token = utils.userToken()) => {
 export const acceptOffer = (offer_id, token = utils.userToken()) => {
   return instance.put(`/offer/${offer_id}/accept`, {}, { headers: { token }})
 }
+
+export const getAcceptedOffers = (token = utils.userToken()) => {
+  return instance.get(`/offer/accepted`, { headers: { token }})
+}
+
+export const getRejectedOffers = (token = utils.userToken()) => {
+  return instance.get(`/offer/rejected`, { headers: { token }})
+}

@@ -80,11 +80,9 @@ export default class PostList extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          {this.createPosts()}
-        </Row>
-      </Container>
+      <Row>
+        {this.createPosts()}
+      </Row>
     )
   }
 }

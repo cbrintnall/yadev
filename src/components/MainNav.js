@@ -321,27 +321,6 @@ class MainNav extends React.Component {
             </Row>
           </Navbar>
         </Row>
-        {
-          loggedIn() &&
-          <Row style={{
-            textAlign: "center",
-          }}
-          >
-            <Col>
-              <span style={{
-                display: "inline-block",
-                transform: "translateY(-1em)",
-                marginTop: "6px",
-                zIndex: "-500000",
-                color: "white",
-                padding: "16px",
-                backgroundColor: colors.yaDevPurple,
-                borderRadius: "12px"
-              }}
-              > Logged in as <u>{getTokenInfo().username}</u> </span>
-            </Col>
-          </Row>
-        }
       </Col>
     )
   }
