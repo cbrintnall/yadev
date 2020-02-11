@@ -5,10 +5,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import YouDevButton from './YouDevButton';
-import GlobalNotificationManager from '../gnm';
-import { sendMessage } from '../calls';
-import { userToken, getTokenInfo } from '../utils';
+import YouDevButton from '../buttons/YouDevButton';
+import GlobalNotificationManager from '../../gnm';
+import { sendMessage } from '../../calls';
+import { userToken, getTokenInfo } from '../../utils';
 
 // Confirm times out in 5 seconds.
 const CONFIRM_TIMEOUT_SECONDS = 5;

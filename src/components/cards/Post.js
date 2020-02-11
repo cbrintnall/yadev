@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
-import YouDevButton from '../YouDevButton';
+import YouDevButton from '../buttons/YouDevButton';
 import Rating from '../Rating';
 import BadgeButton from '../buttons/BadgeButton';
 import Card from 'react-bootstrap/Card';

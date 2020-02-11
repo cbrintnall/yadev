@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import YouDevButton from '../YouDevButton';
+import YouDevButton from '../buttons/YouDevButton';
 import Post from '../cards/Post';
 import * as color from '../../colors';
 import Container from 'react-bootstrap/Container';

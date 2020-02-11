@@ -3,8 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
-import * as utils from '../utils';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
+import * as utils from '../../utils';
 
 const LoginModal = (props) => {
   return (

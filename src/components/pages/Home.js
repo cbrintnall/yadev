@@ -2,14 +2,10 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PostList from '../lists/PostList';
-import PostFilter from '../PostFilter';
 import Container from 'react-bootstrap/Container';
-import ContactModal from '../ContactModal';
-import Nav from 'react-bootstrap/Nav';
+import ContactModal from '../modals/ContactModal';
 import { getPosts, getUsersRatings, getUser } from '../../calls';
-import { IoIosRefresh } from 'react-icons/io';
 import GlobalNotificationManager from '../../gnm';
-import YouDevButton from '../YouDevButton';
 import { loggedIn } from '../../utils';
 import HomeRightBar from './components/HomeRightBar';
 import HomeLeftBar from './components/HomeLeftBar';
@@ -115,7 +111,8 @@ class Home extends React.Component {
               sm={4}
             />
             <Col
-              className="d-flex align-items-center justify-content-center"
+              style={{marginTop: "16px"}}
+              className="d-flex align-items-start justify-content-center"
               lg={8}
               md={6}
               sm={8}

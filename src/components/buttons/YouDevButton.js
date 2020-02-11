@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import * as color from '../colors';
+import * as color from '../../colors';
 
 const YouDevButton = (props) => {
     const [hover, setHover] = useState(false);

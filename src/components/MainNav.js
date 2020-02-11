@@ -1,9 +1,9 @@
 import './css/mainnav.css';
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import LoginModal from './LoginModal';
-import YouDevButton from './YouDevButton';
-import PostModal from './PostModal';
+import YouDevButton from './buttons/YouDevButton';
+import LoginModal from './modals/LoginModal';
+import PostModal from './modals/PostModal';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -12,10 +12,9 @@ import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
-import { logout, userToken, getTokenInfo, loggedIn } from '../utils';
+import { logout, userToken, getTokenInfo } from '../utils';
 import { getMessages, getSentMessages } from '../calls';
 import * as colors from '../colors';
-import './css/mainnav.css';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 

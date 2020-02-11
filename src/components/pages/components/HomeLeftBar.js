@@ -46,7 +46,7 @@ class HomeLeftBar extends React.Component {
     getMainLatestOffers()
       .then(result => {
         this.setState({
-          offers: [...result.data, ...result.data, ...result.data]
+          offers: result.data
         })
       })
       .catch(console.error)
@@ -163,12 +163,6 @@ class AcceptedOffers extends React.Component {
   }
 
   onContractSend = (offer, date) => {
-    // const offers = 
-    //   this.state.offers
-    //     .filter(o => o !== offer)
-
-    // this.setState({ offers })
-
     createNewContract({
       estimateDate: date,
       from: offer.from,
@@ -176,15 +170,18 @@ class AcceptedOffers extends React.Component {
       offer: offer._id
     })
       .then(res => {
-
+        const offers = 
+          this.state.offers
+            .filter(o => o !== offer)
+    
+        this.setState({ offers })
+        GlobalNotificationManager.sendAlert("Sent contract!", true)
+        GlobalNotificationManager.push('new_contract', res.data)
       })
-      .catch(err => {
-
+      .catch(_ => {
+        console.log(_)
+        GlobalNotificationManager.sendAlert('Failed to create contract.', false)
       })
-
-    console.log(date)
-
-    GlobalNotificationManager.sendAlert("Sent contract!", true)
   }
 
   render() {

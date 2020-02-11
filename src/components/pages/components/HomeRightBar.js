@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import * as colors from '../../../colors';
+import GlobalNotificationManager from '../../../gnm';
 import { getLatestContracts } from '../../../calls';
 import { humanized_time_span } from '../../../extra/humanized_time';
 
@@ -44,18 +45,26 @@ class HomeRightBar extends React.Component {
     this.state = {
       contracts: []
     }
+
+    GlobalNotificationManager.subscribe('new_contract', this.onNewContract)
   }
 
-  componentDidMount() {
+  onNewContract = (contract) => {
+    this.setContracts([...this.state.contracts, contract])
+  }
+
+  setContracts = (contracts) => {
+    return contracts
+      .filter(contract => new Date(contract.estimateDate) > new Date())
+      .sort()
+      .reverse()
+  }
+
+  componentDidMount = () => {
     getLatestContracts()
       .then(res => {
-        const contracts = 
-          res.data
-            .filter(contract => new Date(contract.estimateDate) > new Date())
-            .sort()
-            .reverse()
-
-        this.setState({ contracts: contracts })
+        console.log(res.data)
+        this.setState({ contracts: this.setContracts(res.data) })
       })
       .catch(console.error)
   }
@@ -70,7 +79,7 @@ class HomeRightBar extends React.Component {
           {
             this.state.contracts && this.state.contracts.length > 0 &&
             this.state.contracts
-              .map(contract => <ContractItem contract={contract} />)
+              .map((contract, i) => <ContractItem key={i} contract={contract} />)
           }
         </ListGroup>
       </Col>
