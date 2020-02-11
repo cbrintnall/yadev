@@ -195,7 +195,7 @@ class Post extends React.Component {
           <Row style={{ padding: "8px 0px 4px 0px" }}>
             {
               !this.props.noHide && !this.props.offer &&
-              <Col>
+              <Col className="d-flex align-items-center justify-content-center">
                 <BadgeButton variant="secondary" onClick={() => { this.props.onHidePost && this.props.onHidePost(post) }}> Hide </BadgeButton>
               </Col>
             }

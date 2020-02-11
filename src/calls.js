@@ -83,3 +83,11 @@ export const getAcceptedOffers = (token = utils.userToken()) => {
 export const getRejectedOffers = (token = utils.userToken()) => {
   return instance.get(`/offer/rejected`, { headers: { token }})
 }
+
+export const createNewContract = (payload, token = utils.userToken()) => {
+  return instance.post('/contract', payload, { headers: { token }})
+}
+
+export const getLatestContracts = (token = utils.userToken()) => {
+  return instance.get('/contract/latest', { headers: { token }})
+}

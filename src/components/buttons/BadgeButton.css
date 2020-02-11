@@ -4,6 +4,11 @@
     -moz-animation:    sink .1s forwards; /* Fx 5+ */
     -o-animation:      sink .1s forwards; /* Opera 12+ */
     animation:         sink .1s forwards;
+
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 @keyframes sink {
