@@ -26,7 +26,7 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <Row>
+      <Row style={{marginTop: "24px"}}>
         <Col
           style={{
             height: "50vh",

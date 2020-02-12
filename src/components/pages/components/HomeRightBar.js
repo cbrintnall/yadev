@@ -54,10 +54,11 @@ class HomeRightBar extends React.Component {
   }
 
   setContracts = (contracts) => {
+    // Filters contracts to those that are after today,
+    // and then sorts them by comparing their times.
     return contracts
       .filter(contract => new Date(contract.estimateDate) > new Date())
-      .sort()
-      .reverse()
+      .sort((c, n) => new Date(c.estimateDate).getTime() - new Date(n.estimateDate).getTime())
   }
 
   componentDidMount = () => {
