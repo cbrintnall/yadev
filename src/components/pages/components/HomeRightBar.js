@@ -50,6 +50,8 @@ class HomeRightBar extends React.Component {
   }
 
   onNewContract = (contract) => {
+    console.log(`New contract ${contract}`)
+
     this.setContracts([...this.state.contracts, contract])
   }
 

@@ -11,19 +11,21 @@ import BrokerPage from './components/pages/Messaging';
 import Footer from './components/Footer';
 import { loggedIn } from './utils';
 import Landing from './components/pages/Landing';
+import About from './components/pages/About';
 
 const App = (props) => {
   return (
     <div>
       <Router>
-          <MainNav
-            loggedIn={loggedIn()}
-          />
+        <MainNav
+          loggedIn={loggedIn()}
+        />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/messages/:to/:from" component={BrokerPage} />
           <Route exact path="/profile/me" component={Profile} />
           <Route exact path="/landing" component={Landing} />
+          <Route exact path="/about" component={About} />
         </Switch>
       </Router>
       <Footer
