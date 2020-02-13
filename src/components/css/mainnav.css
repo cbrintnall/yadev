@@ -23,3 +23,7 @@ textarea:focus, textarea.active.focus {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.brand:hover {
+    color: white
+}

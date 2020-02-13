@@ -268,7 +268,7 @@ class MainNav extends React.Component {
             href="#"
             onClick={() => this.props.history.push('/')}
           >
-            <FaGamepad /> <span> YaDev </span> |
+            <FaGamepad className="brand" /> <span className="brand"> YaDev </span> |
           </Navbar.Brand>
           {
             this.state.loggedIn &&
