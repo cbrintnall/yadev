@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom';
 import { logout, userToken, getTokenInfo } from '../utils';
 import { getMessages, getSentMessages } from '../calls';
 import * as colors from '../colors';
+import { FaGamepad } from 'react-icons/fa';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
@@ -242,85 +243,65 @@ class MainNav extends React.Component {
 
   render() {
     return (
-      <Col>
+      <div>
         <Row>
           {this.state.alerts}
         </Row>
-        <Row>
-          <Navbar
-            style={{
-              zIndex: "500",
-              backgroundImage: `linear-gradient(${colors.yaDevBlue}, ${colors.yaDevPurple})`,
-              borderBottom: "3px solid black",
-              width: "100%",
-              padding: "20px",
-            }}
+        <LoginModal
+          show={this.state.showLoginModal}
+          onHide={() => this.setState({ showLoginModal: false })}
+        />
+        <PostModal
+          show={this.state.showPostModal}
+          onHide={() => this.setState({ showPostModal: false })}
+          onPost={this.onPostSuccess.bind(this)}
+          onPostError={this.onPostError.bind(this)}
+        />
+        <Navbar
+          style={{
+            padding: "12px",
+            backgroundImage: `linear-gradient(${colors.yaDevBlue}, ${colors.yaDevPurple})`,
+            borderBottom: "3px solid black",
+          }}
+        >
+          <Navbar.Brand
+            href="#"
+            onClick={() => this.props.history.push('/')}
           >
-            <LoginModal
-              show={this.state.showLoginModal}
-              onHide={() => this.setState({ showLoginModal: false })}
+            <FaGamepad /> <span> YaDev </span> |
+          </Navbar.Brand>
+          {
+            this.state.loggedIn &&
+            <MessageButton
+              style={{ marginLeft: "1rem", height: "100%" }}
+              messages={this.state.messages}
+              onMessageClick={this.onMessageClick.bind(this)}
             />
-            <PostModal
-              show={this.state.showPostModal}
-              onHide={() => this.setState({ showPostModal: false })}
-              onPost={this.onPostSuccess.bind(this)}
-              onPostError={this.onPostError.bind(this)}
+          }
+          {
+            this.state.loggedIn &&
+            <YouDevButton
+              style={{ marginLeft: "1rem" }}
+              text="Make Post"
+              onClick={() => this.setState({ showPostModal: true })}
             />
-            <Row
-              className="align-items-center"
-              style={{
-                width: "100%",
-                height: "100%",
-                paddingRight: "2rem"
-              }}
-            >
-              <Navbar.Brand
-                href="#"
-                onClick={() => this.props.history.push('/')}
-                style={{
-                  margin: "0px 12px 0px 12px",
-                  borderRight: "2px solid black",
-                  paddingRight: "12px"
-                }}
-              >
-                <h2>
-                  YaDev
-              </h2>
-              </Navbar.Brand>
-              {
-                this.state.loggedIn &&
-                <MessageButton
-                  style={{ marginLeft: "1rem", height: "100%" }}
-                  messages={this.state.messages}
-                  onMessageClick={this.onMessageClick.bind(this)}
-                />
-              }
-              {
-                this.state.loggedIn &&
-                <YouDevButton
-                  style={{ marginLeft: "1rem" }}
-                  text="Make Post"
-                  onClick={() => this.setState({ showPostModal: true })}
-                />
-              }
-              <YouDevButton
-                style={{ marginLeft: "1rem" }}
-                text="Home"
-                onClick={() => this.props.history.push('/')}
-              />
-              {
-                userToken() &&
-                <YouDevButton
-                  style={{ marginLeft: "1rem" }}
-                  text="Profile"
-                  onClick={() => this.props.history.push('/profile/me')}
-                />
-              }
-              {this.getAccountButton()}
-            </Row>
-          </Navbar>
-        </Row>
-      </Col>
+          }
+          <YouDevButton
+            style={{ marginLeft: "1rem" }}
+            text="Home"
+            onClick={() => this.props.history.push('/')}
+          />
+          {
+            userToken() &&
+            <YouDevButton
+              style={{ marginLeft: "1rem" }}
+              text="Profile"
+              onClick={() => this.props.history.push('/profile/me')}
+            />
+          }
+          {this.getAccountButton()}
+        </Navbar>
+      </div>
     )
   }
 }

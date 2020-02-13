@@ -12,29 +12,25 @@ import Footer from './components/Footer';
 import { loggedIn } from './utils';
 import Landing from './components/pages/Landing';
 import About from './components/pages/About';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 const App = (props) => {
   return (
-    <div>
-      <Router>
-        <MainNav
-          loggedIn={loggedIn()}
-        />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/messages/:to/:from" component={BrokerPage} />
-          <Route exact path="/profile/me" component={Profile} />
-          <Route exact path="/landing" component={Landing} />
-          <Route exact path="/about" component={About} />
-        </Switch>
-      </Router>
-      <Footer
-        style={{
-          height: "100%",
-          padding: "0px 128px 128px 128px"
-        }}
+    <Router>
+      <MainNav
+        loggedIn={loggedIn()}
       />
-    </div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/messages/:to/:from" component={BrokerPage} />
+        <Route exact path="/profile/me" component={Profile} />
+        <Route exact path="/landing" component={Landing} />
+        <Route exact path="/about" component={About} />
+      </Switch>
+      <Footer />
+    </Router>
   );
 }
 

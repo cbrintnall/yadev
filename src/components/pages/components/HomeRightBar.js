@@ -7,6 +7,7 @@ import * as colors from '../../../colors';
 import GlobalNotificationManager from '../../../gnm';
 import { getLatestContracts } from '../../../calls';
 import { humanized_time_span } from '../../../extra/humanized_time';
+import { FaCheck } from 'react-icons/fa';
 
 const oneWeek = 8 * 24 * 60 * 60 * 1000;
 
@@ -75,14 +76,19 @@ class HomeRightBar extends React.Component {
   render() {
     return (
       <Col {...this.props} style={{ padding: 0 }}>
-        <ListGroup style={{ borderLeft: "3px solid black", borderBottom: "3px solid black" }}>
+        <ListGroup>
           <ListGroup.Item style={{backgroundColor: colors.yaDevGrey}}>
             In Progress:
           </ListGroup.Item>
           {
-            this.state.contracts && this.state.contracts.length > 0 &&
+            this.state.contracts && this.state.contracts.length > 0 ?
             this.state.contracts
-              .map((contract, i) => <ContractItem key={i} contract={contract} />)
+              .map((contract, i) => <ContractItem key={i} contract={contract} />) :
+            <ListGroup.Item>
+              <Row className="d-flex justify-content-center align-items-center">
+                NONE <FaCheck style={{color: colors.acceptanceGreen, marginLeft: ".5rem"}} />
+              </Row>
+            </ListGroup.Item>
           }
         </ListGroup>
       </Col>

@@ -31,15 +31,15 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <Row style={{
-        backgroundColor: colors.yaDevPurple,
-        borderTop: "3px solid black",
-        margin: "0px",
-        height: "100%",
-        bottom: "0px",
-        zIndex: 5000,
-        ...this.props.style
-      }}
+      <Row 
+        style={{
+          backgroundColor: colors.yaDevPurple,
+          borderTop: "3px solid black",
+          margin: "0px",
+          zIndex: 5000,
+          width: "100%",
+          ...this.props.style
+        }}
       >
         <Col>
           <Container>
