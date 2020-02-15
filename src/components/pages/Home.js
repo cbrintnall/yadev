@@ -112,7 +112,6 @@ class Home extends React.Component {
             />
             <Col
               style={{marginTop: "16px"}}
-              className="d-flex align-items-start justify-content-center"
               lg={8}
               md={6}
               sm={8}

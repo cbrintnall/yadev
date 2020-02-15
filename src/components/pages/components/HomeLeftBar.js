@@ -61,8 +61,6 @@ class HomeLeftBar extends React.Component {
   render() {
     return (
       <Col
-        {...this.props}
-
         style={{
           width: "100%",
           height: "100%",

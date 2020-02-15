@@ -51,8 +51,6 @@ class HomeRightBar extends React.Component {
   }
 
   onNewContract = (contract) => {
-    console.log(`New contract ${contract}`)
-
     this.setContracts([...this.state.contracts, contract])
   }
 
@@ -67,7 +65,6 @@ class HomeRightBar extends React.Component {
   componentDidMount = () => {
     getLatestContracts()
       .then(res => {
-        console.log(res.data)
         this.setState({ contracts: this.setContracts(res.data) })
       })
       .catch(console.error)

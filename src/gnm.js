@@ -32,7 +32,7 @@ class GlobalNotificationManager {
     });
   }
 
-  sendAlert(message, negative) {
+  sendAlert(message, negative=true) {
     this.push('alert', { msg: message, ok: negative })
   }
 }

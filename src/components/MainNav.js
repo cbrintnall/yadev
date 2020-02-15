@@ -115,27 +115,13 @@ class MainNav extends React.Component {
     this.state = {
       showLoginModal: false,
       showPostModal: false,
-      alerts: [],
       messages: []
-    }
-
-    GlobalNotificationManager.subscribe('alert', this.onAlertNotification.bind(this));
-  }
-
-  onAlertNotification(msg) {
-    if (typeof msg === "string") {
-      this.addAlert(msg, false);
-    }
-
-    if (typeof msg === "object") {
-      this.addAlert(msg.msg, msg.ok);
     }
   }
 
   componentDidMount() {
     this.setState({
-      loggedIn: !!this.props.loggedIn,
-      alerts: this.props.alerts ? this.props.alerts : []
+      loggedIn: !!this.props.loggedIn
     })
 
     this.getMessages()
@@ -205,36 +191,14 @@ class MainNav extends React.Component {
     }
   }
 
-  addAlert(text, success = true) {
-    let alerts = this.state.alerts;
-    alerts.push(
-      <Alert
-        key={text}
-        onClick={this.onAlertClick.bind(this)}
-        style={{ width: "100%", margin: "0px", textAlign: "center" }}
-        variant={success ? "success" : "danger"}
-      >
-        {text} <strong> ( Click to remove ) </strong>
-      </Alert>
-    )
-
-    this.setState({ alerts })
-  }
-
   onPostSuccess(payload) {
-    this.addAlert("Successfully added post!");
+    GlobalNotificationManager.sendAlert("Successfully added post!", true)
     this.setState({ showPostModal: false });
   }
 
   onPostError(payload) {
-    this.addAlert("Failed to post!", false);
+    GlobalNotificationManager.sendAlert("Failed to post!", false)
     this.setState({ showPostModal: false });
-  }
-
-  onAlertClick(e) {
-    if (e.target.classList.contains('alert')) {
-      e.target.remove();
-    }
   }
 
   onMessageClick(msg) {
@@ -244,9 +208,6 @@ class MainNav extends React.Component {
   render() {
     return (
       <div>
-        <Row>
-          {this.state.alerts}
-        </Row>
         <LoginModal
           show={this.state.showLoginModal}
           onHide={() => this.setState({ showLoginModal: false })}

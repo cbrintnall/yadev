@@ -6,7 +6,6 @@ import Post from '../cards/Post';
 import { differenceWith, isEqual } from 'lodash';
 import { userToken } from '../../utils';
 import { removePost } from '../../calls';
-import { FaThumbsDown } from 'react-icons/fa';
 
 export default class PostList extends React.Component {
   constructor() {
@@ -80,7 +79,7 @@ export default class PostList extends React.Component {
 
   render() {
     return (
-      <Row>
+      <Row className="d-flex justify-content-center">
         {this.createPosts()}
       </Row>
     )
