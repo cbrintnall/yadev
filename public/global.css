@@ -32,14 +32,6 @@ html, body, #root {
     bottom: 0;
 }
 
-.alert-bar {
-    position: fixed;
-    z-index: 500;
-    width: 90%;
-    left: 50%;
-    transform: translate(-50%, 25%);
-}
-
 .alert-bar:hover {
     cursor: pointer;
     opacity: 75%;

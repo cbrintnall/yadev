@@ -36,6 +36,13 @@ class AlertBar extends React.Component {
         className="alert-bar"
         fluid
         onClick={this.onClick}
+        style={{
+            position: "fixed",
+            zIndex: "500",
+            width: "90%",
+            left: "50%",
+            transform: "translate(-50%, 25%)"
+        }}
       >
         {
           Object.keys(this.state.alert).length > 0 &&

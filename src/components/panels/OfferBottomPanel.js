@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import BadgeButton from '../buttons/BadgeButton';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { counterOffer, acceptOffer, rejectOffer } from '../../calls';
+import GlobalNotificationManager from '../../gnm';
 
 const INTERVALS = [
   -15,
@@ -52,9 +53,10 @@ const OfferPanelBottom = (props) => {
           setErrors(err.response.data.error)
         })
     } else {
-      acceptOffer(props.offer._id)
-        .then(console.log)
-        .catch(console.error)
+      GlobalNotificationManager.sendAlert('Hi')
+      // acceptOffer(props.offer._id)
+      //   .then(console.log)
+      //   .catch(console.error)
     }
   }
 
