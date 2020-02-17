@@ -1,5 +1,5 @@
 const VERSION = "0.5.0";
-const ENV = "development"
+const ENV = "prod"
 const Settings = {}
 
 const hostBase = {
@@ -14,7 +14,7 @@ const backendUrl = {
 
 const googleAccountId = {
     development: "233929357765-93jkecls2jnoq7dnhfpj62q44q3f05gt.apps.googleusercontent.com",
-    prod: "233929357765-93jkecls2jnoq7dnhfpj62q44q3f05gt.apps.googleusercontent.com"
+    prod: "388579103128-hojvqefhssf01164h51v5vvfecit4vlc.apps.googleusercontent.com"
 }
 
 const githubAccountId = {
