@@ -26,10 +26,6 @@ const OfferPanelBottom = (props) => {
 
   const baseOffer = props.offer.offer;
 
-  const onCounter = () => {
-    setCountering(true)
-  }
-
   const onReject = () => {
     if (countering) {
       setErrors("");
@@ -106,7 +102,7 @@ const OfferPanelBottom = (props) => {
     <Row style={{ 
         borderTop: "3px solid black",
         padding: "16px",
-        backgroundColor: "white",
+        backgroundColor: color.yaDevBlue,
         width: "100%",
         position: "fixed",
         bottom: "0",
@@ -145,7 +141,7 @@ const OfferPanelBottom = (props) => {
           }
           {
             !countering &&
-            <Button style={{backgroundColor: color.yaDevGrey, color: "black" }} onClick={onCounter}>
+            <Button style={{backgroundColor: "darkgrey", color: "black" }} onClick={_ => { setCountering(true) }}>
               Counter Offer
             </Button>
           }

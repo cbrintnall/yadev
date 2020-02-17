@@ -110,9 +110,9 @@ class BrokerPage extends React.Component {
 
   getOfferButton() {
     return (
-      <Row className="justify-content-center">
-          <YaDevButton onClick={() => this.setState({ showOffers: !this.state.showOffers })}>
-            <span style={{fontSize: "24px"}}> Offer </span>
+      <Row className="justify-content-center" >
+          <YaDevButton style={{border: "3px solid white" }} onClick={() => this.setState({ showOffers: !this.state.showOffers })}>
+            <span style={{fontSize: "22px"}}> { this.state.showOffers ? "Hide Offer" : "View Offer" } </span>
           </YaDevButton>
       </Row>
     )
