@@ -39,7 +39,6 @@ class Home extends React.Component {
   }
 
   onNewPost(post) {
-    console.log("hello?")
     const posts = this.state.posts;
     posts.push(post)
 
@@ -47,6 +46,8 @@ class Home extends React.Component {
   }
 
   setPosts() {
+    if (!loggedIn()) return;
+
     getPosts(this.state.currentPage)
       .then(res => {
         this.setState({
