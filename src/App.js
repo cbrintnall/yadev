@@ -1,3 +1,5 @@
+import './global.css';
+
 import React from 'react';
 import {
     BrowserRouter as Router,
@@ -10,35 +12,29 @@ import MainNav from './components/MainNav';
 import BrokerPage from './components/pages/Messaging';
 import Footer from './components/Footer';
 import { loggedIn } from './utils';
-import Settings from './settings';
+import Landing from './components/pages/Landing';
+import About from './components/pages/About';
+import AlertBar from './AlertBar';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    return (
-      <div style={{
-        height: "100vh",
-      }}>
-        <Router>
-            <MainNav
-              loggedIn={loggedIn()}
-            />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/messages/:to/:from" component={BrokerPage} />
-            <Route exact path="/profile/me" component={Profile} />
-            <Route exact path="/settings" component={_ => {
-              return <div> {JSON.stringify(Settings)} </div>
-            }} />
-          </Switch>
-        </Router>
-        <Footer
-          style={{bottom: "0px", height: "100%"}}
+const App = (props) => {
+  return (
+    <Router>
+      <AlertBar />
+      <section id="main_content">
+        <MainNav
+          loggedIn={loggedIn()}
         />
-      </div>
-    );
- }
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/messages/:to/:from" component={BrokerPage} />
+          <Route exact path="/profile/me" component={Profile} />
+          <Route exact path="/landing" component={Landing} />
+          <Route exact path="/about" component={About} />
+        </Switch>
+      </section>
+      <Footer id="footer" />
+    </Router>
+  );
 }
+
+export default App;

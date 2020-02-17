@@ -2,88 +2,68 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PostList from '../lists/PostList';
-import PostFilter from '../PostFilter';
 import Container from 'react-bootstrap/Container';
-import ContactModal from '../ContactModal';
-import Nav from 'react-bootstrap/Nav';
+import ContactModal from '../modals/ContactModal';
 import { getPosts, getUsersRatings, getUser } from '../../calls';
-import { IoIosRefresh } from 'react-icons/io';
 import GlobalNotificationManager from '../../gnm';
-
-function createFakePosts() {
-    let amt = 10;
-    let obj = {
-        user: {
-            username: "Jon101",
-            avgRating: 2,
-            completed: 100
-        },
-        description: "Need a Youtuber with gaming experience, 500+ subscribers required. Need promotion for new action adventure indie game.",
-        askingPrice: 50,
-        isDev: true,
-        tags: ["Urgent", "Indie"],
-        hasBeenAccepted: true,
-        contacted: true
-    };
-
-    let arr = [];
-    for (let i = 0; i < amt; i ++) arr.push(obj)
-
-    return arr;
-  }
+import { loggedIn } from '../../utils';
+import HomeRightBar from './components/HomeRightBar';
+import HomeLeftBar from './components/HomeLeftBar';
+import CreatePost from '../panels/CreatePost';
 
 class Home extends React.Component {
-    constructor() {
-        super()
+  constructor() {
+    super()
 
-        this.state = {
-            showLoginModal: false,
-            showContactModal: false,
-            currentContact: {},
-            currentPage: 1,
-            posts: []
-        }
-
-        this.getUserInfo = this.getUserInfo.bind(this);
-        this.onContact = this.onContact.bind(this);
-        this.onNewPost = this.onNewPost.bind(this);
-
-        GlobalNotificationManager.subscribe('newPost', this.onNewPost);
+    this.state = {
+      showLoginModal: false,
+      showContactModal: false,
+      currentContact: {},
+      currentPage: 1,
+      posts: []
     }
 
-    onContact(contact) {
+    this.getUserInfo = this.getUserInfo.bind(this);
+    this.onContact = this.onContact.bind(this);
+    this.onNewPost = this.onNewPost.bind(this);
+
+    GlobalNotificationManager.subscribe('newPost', this.onNewPost);
+  }
+
+  onContact(contact) {
+    this.setState({
+      showContactModal: true,
+      currentContact: contact,
+      loggedIn: false
+    })
+  }
+
+  onNewPost(post) {
+    console.log("hello?")
+    const posts = this.state.posts;
+    posts.push(post)
+
+    this.setState({ posts }, () => console.log(this.state))
+  }
+
+  setPosts() {
+    getPosts(this.state.currentPage)
+      .then(res => {
         this.setState({
-            showContactModal: true,
-            currentContact: contact,
-            loggedIn: false
+          posts: res.data.results
         })
-    }
 
-    onNewPost(post) {
-      let posts = this.state.posts;
-      posts.push(post)
+        this.getUserInfo();
+      })
+      .catch(err => {
+        GlobalNotificationManager.sendAlert('There was an error retrieving posts - please report this down below.', false)
+      });
+  }
 
-      this.setState({ posts })
-    }
+  getUserInfo() {
+    const users = this.state.posts.map(val => val.owner);
 
-    setPosts() {
-      getPosts(this.state.currentPage)
-        .then(res => {
-          this.setState({
-            posts: res.data.results
-          })
-
-          this.getUserInfo();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-
-    getUserInfo() {
-      const users = this.state.posts.map(val => val.owner);
-
-      getUsersRatings(users)
+    getUsersRatings(users)
       .then(res => {
         const userRatings = {};
 
@@ -107,53 +87,60 @@ class Home extends React.Component {
         console.log(err)
       })
 
-      //get users completion amount
+    //get users completion amount
+  }
+
+  onRefresh() {
+    this.setPosts();
+  }
+
+  componentDidMount() {
+    this.setPosts()
+  }
+
+  render() {
+    if (!loggedIn()) {
+      this.props.history.push('/landing')
     }
 
-    onRefresh() {
-      this.setPosts();
-    }
-
-    componentDidMount() {
-      this.setPosts()
-    }
-
-    render() {
-        return (
-            <div style={{height: "70%"}}>
-                <Container >
-                    <Row>
-                      <Col>
-                      {/* <PostFilter
-                        TODO: Add this back in!
-                      /> */}
-                      <Nav className="justify-content-end" style={{margin: "1rem"}}>
-                        <Nav.Item>
-                          <h3>
-                            <IoIosRefresh
-                              onClick={this.onRefresh.bind(this)}
-                            />
-                          </h3>
-                        </Nav.Item>
-                      </Nav>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <ContactModal
-                          contact={this.state.currentContact}
-                          show={this.state.showContactModal}
-                          onHide={() => this.setState({showContactModal: false})}
-                          onSubmit={() => this.setState({showContactModal: false})}
-                      />
-                      <PostList
-                          posts={this.state.posts}
-                          onContact={this.onContact}
-                      />
-                    </Row>
-                </Container>
-            </div>
-        )
-    }
+    return (
+      <div>
+        <Container style={{ margin: "0px", maxWidth: "100%" }}>
+          <Row>
+            <HomeLeftBar
+              lg={2}
+              md={3}
+              sm={4}
+            />
+            <Col
+              style={{ marginTop: "16px" }}
+              lg={8}
+              md={6}
+              sm={8}
+            >
+              <CreatePost
+              />
+              <PostList
+                style={{marginTop: "30px"}}
+                posts={this.state.posts}
+                onContact={this.onContact}
+              />
+            </Col>
+            <HomeRightBar
+              lg={2}
+              md={3}
+            />
+            <ContactModal
+              contact={this.state.currentContact}
+              show={this.state.showContactModal}
+              onHide={() => this.setState({ showContactModal: false })}
+              onSubmit={() => this.setState({ showContactModal: false })}
+            />
+          </Row>
+        </Container>
+      </div>
+    )
+  }
 }
 
 export default Home;

@@ -1,10 +1,9 @@
 import './css/mainnav.css';
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import LoginModal from './LoginModal';
-import Form from 'react-bootstrap/Form';
-import YouDevButton from './YouDevButton';
-import PostModal from './PostModal';
+import YouDevButton from './buttons/YouDevButton';
+import LoginModal from './modals/LoginModal';
+import PostModal from './modals/PostModal';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -13,29 +12,23 @@ import Badge from 'react-bootstrap/Badge';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
-import { logout, userToken, getTokenInfo, loggedIn } from '../utils';
-import { getMessages } from '../calls';
+import { logout, userToken, getTokenInfo } from '../utils';
+import { getMessages, getSentMessages } from '../calls';
 import * as colors from '../colors';
-import './css/mainnav.css';
+import { FaGamepad } from 'react-icons/fa';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
-class MessageTab extends React.Component {
-  constructor() {
-    super();
-  }
+const MessageTab = (props) => {
+  const msg = props.message.message.length > MAX_MESSAGE_PREVIEW_LENGTH ?
+    props.message.message.substring(0, MAX_MESSAGE_PREVIEW_LENGTH - 3) + "..." :
+    props.message.message
 
-  render() {
-    const msg = this.props.message.message.length > MAX_MESSAGE_PREVIEW_LENGTH ?
-      this.props.message.message.substring(0, MAX_MESSAGE_PREVIEW_LENGTH - 3) + "..." :
-      this.props.message.message
-
-    return (
-      <div>
-        <p> {msg} </p>
-      </div>
-    )
-  }
+  return (
+    <Row style={{ margin: "6px 0px 6px 0px", borderRadius: "6px", zIndex: "-1" }} className="d-flex align-items-center">
+      <p style={{ margin: "0px" }}> {msg} </p>
+    </Row>
+  )
 }
 
 class MessageButton extends React.Component {
@@ -47,7 +40,8 @@ class MessageButton extends React.Component {
 
   getTitle() {
     return (
-      <span>
+      <span
+      >
         Messages
         <Badge
           variant={this.props.messages && this.props.messages.length > 0 ? "danger" : "primary"}
@@ -60,44 +54,55 @@ class MessageButton extends React.Component {
   }
 
   getMessagesPerUser() {
-    return this.props.messages && [
+    const { _id } = getTokenInfo();
+    const encountered = [];
+
+    const messages = this.props.messages && [
       ...new Set(
         this.props.messages
-          .filter(item => item.sender != getTokenInfo()._id)
+          .filter(item => item.sender !== _id)
       )
     ];
+
+    return messages
+      .filter(item => {
+        if (encountered.indexOf(item.sender)) {
+          encountered.push(item.sender);
+          return true;
+        }
+      })
   }
 
   render() {
-    this.getMessagesPerUser()
     return (
       <DropdownButton
-        disabled={this.props.messages && this.props.messages.length === 0}
+        disabled={this.getMessagesPerUser() && this.getMessagesPerUser().length === 0}
         id="msgInner"
         title={this.getTitle()}
+        style={{ padding: "0px" }}
       >
-        <Dropdown.Item
-          disabled
-          style={{ color: "black" }}
+        <div
+          style={{
+            border: "3px solid black",
+            borderRadius: "6px"
+          }}
         >
-          <h5>Messages:</h5>
-        </Dropdown.Item>
-        <hr />
-        {
-          this.getMessagesPerUser() && this.getMessagesPerUser().map((msg, i) => {
-            return (
-              <Dropdown.Item
-                key={i}
-                eventKey={msg}
-                onClick={() => { this.props.onMessageClick && this.props.onMessageClick(msg) }}
-              >
-                <MessageTab
-                  message={msg}
-                />
-              </Dropdown.Item>
-            )
-          })
-        }
+          {
+            this.getMessagesPerUser() && this.getMessagesPerUser().map((msg, i) => {
+              return (
+                <Dropdown.Item
+                  key={i}
+                  eventKey={msg}
+                  onClick={() => { this.props.onMessageClick && this.props.onMessageClick(msg) }}
+                >
+                  <MessageTab
+                    message={msg}
+                  />
+                </Dropdown.Item>
+              )
+            })
+          }
+        </div>
       </DropdownButton>
     )
   }
@@ -110,27 +115,13 @@ class MainNav extends React.Component {
     this.state = {
       showLoginModal: false,
       showPostModal: false,
-      alerts: [],
       messages: []
-    }
-
-    GlobalNotificationManager.subscribe('alert', this.onAlertNotification.bind(this));
-  }
-
-  onAlertNotification(msg) {
-    if (typeof msg === "string") {
-      this.addAlert(msg, false);
-    }
-
-    if (typeof msg === "object") {
-      this.addAlert(msg.msg, msg.ok);
     }
   }
 
   componentDidMount() {
     this.setState({
-      loggedIn: !!this.props.loggedIn,
-      alerts: this.props.alerts ? this.props.alerts : []
+      loggedIn: !!this.props.loggedIn
     })
 
     this.getMessages()
@@ -141,11 +132,11 @@ class MainNav extends React.Component {
 
     logout();
 
-    history.push('/')
-
     this.setState({
       loggedIn: false
     })
+
+    history.push('/')
   }
 
   getMessages() {
@@ -155,13 +146,27 @@ class MainNav extends React.Component {
     const userId = getTokenInfo()._id
     const token = userToken()
 
-    getMessages(userId, token)
+    getSentMessages()
       .then(res => {
+        const messages = this.state.messages || [];
+
         this.setState({
-          messages: res.data.results
+          messages: [...messages, ...res.data.results]
         })
       })
-      .catch(_ => {
+      .catch(err => {
+        console.log(err)
+      })
+
+    getMessages(userId, token)
+      .then(res => {
+        const messages = this.state.messages || [];
+
+        this.setState({
+          messages: [...messages, ...res.data.results]
+        })
+      })
+      .catch(err => {
         GlobalNotificationManager.push('alert', { msg: "Failed to retrieve messages!", ok: false });
       })
   }
@@ -186,143 +191,64 @@ class MainNav extends React.Component {
     }
   }
 
-  addAlert(text, success = true) {
-    let alerts = this.state.alerts;
-    alerts.push(
-      <Alert
-        key={text}
-        onClick={this.onAlertClick.bind(this)}
-        onMouseEnter={this.onHoverAlert.bind(this)}
-        onMouseLeave={this.onLeaveHoverAlert.bind(this)}
-        style={{ width: "100%", margin: "0px", textAlign: "center" }}
-        variant={success ? "success" : "danger"}
-      >
-        {text} <strong> ( Click to remove ) </strong>
-      </Alert>
-    )
-
-    this.setState({ alerts })
-  }
-
   onPostSuccess(payload) {
-    this.addAlert("Successfully added post!");
+    GlobalNotificationManager.sendAlert("Successfully added post!", true)
     this.setState({ showPostModal: false });
   }
 
   onPostError(payload) {
-    this.addAlert("Failed to post!", false);
+    GlobalNotificationManager.sendAlert("Failed to post!", false)
     this.setState({ showPostModal: false });
-  }
-
-  onAlertClick(e) {
-    if (e.target.classList.contains('alert')) {
-      e.target.remove();
-    }
   }
 
   onMessageClick(msg) {
     this.props.history.push(`/messages/${msg.receiver}/${msg.sender}`);
   }
 
-  onHoverAlert(e) { }
-
-  onLeaveHoverAlert(e) { }
-
   render() {
     return (
-      <Col style={{ padding: "0px" }}>
-        <Row>
-          {this.state.alerts}
-        </Row>
-        <Row>
-          <Navbar
-            expand="lg"
-            style={{
-              zIndex: "500",
-              backgroundImage: "linear-gradient(#A1D9FF, #CEA1FF)",
-              borderBottom: "3px solid black",
-              margin: "0px 12px 0px 12px",
-              width: "100%"
-            }}
-          >
-            <Navbar.Brand
-              href="#"
-              onClick={() => this.props.history.push('/')}
-            >
-              <h2>
-                YaDev
-              </h2>
-            </Navbar.Brand>
-            <LoginModal
-              show={this.state.showLoginModal}
-              onHide={() => this.setState({ showLoginModal: false })}
-            />
-            <PostModal
-              show={this.state.showPostModal}
-              onHide={() => this.setState({ showPostModal: false })}
-              onPost={this.onPostSuccess.bind(this)}
-              onPostError={this.onPostError.bind(this)}
-            />
-            <Row
-              className="justify-content-end"
-              style={{
-                width: "100%",
-                paddingRight: "2rem"
-              }}
-            >
-              {
-                this.state.loggedIn &&
-                <MessageButton
-                  messages={this.state.messages}
-                  onMessageClick={this.onMessageClick.bind(this)}
-                />
-              }
-              {
-                this.state.loggedIn &&
-                <YouDevButton
-                  style={{ marginLeft: "1rem" }}
-                  text="Make Post"
-                  onClick={() => this.setState({ showPostModal: true })}
-                />
-              }
-              <YouDevButton
-                style={{ marginLeft: "1rem" }}
-                text="Home"
-                onClick={() => this.props.history.push('/')}
-              />
-              {
-                userToken() && <YouDevButton
-                  style={{ marginLeft: "1rem" }}
-                  text="Profile"
-                  onClick={() => this.props.history.push('/profile/me')}
-                />
-              }
-              {this.getAccountButton()}
-            </Row>
-          </Navbar>
-        </Row>
-        {
-          loggedIn() &&
-          <Row style={{
-            textAlign: "center",
+      <div>
+        <LoginModal
+          show={this.state.showLoginModal}
+          onHide={() => this.setState({ showLoginModal: false })}
+        />
+        <Navbar
+          style={{
+            padding: "12px",
+            backgroundImage: `linear-gradient(${colors.yaDevBlue}, ${colors.yaDevPurple})`,
+            borderBottom: "3px solid black",
           }}
+        >
+          <Navbar.Brand
+            href="#"
+            onClick={() => this.props.history.push('/')}
           >
-            <Col>
-              <span style={{
-                display: "inline-block",
-                transform: "translateY(-1em)",
-                marginTop: "6px",
-                zIndex: "-500000",
-                color: "white",
-                padding: "16px",
-                backgroundColor: colors.yaDevPurple,
-                borderRadius: "12px"
-              }}
-              > Logged in as <u>{getTokenInfo().username}</u> </span>
-            </Col>
-          </Row>
-        }
-      </Col>
+            <FaGamepad className="brand" /> <span className="brand"> YaDev </span> |
+          </Navbar.Brand>
+          {
+            this.state.loggedIn &&
+            <MessageButton
+              style={{ marginLeft: "1rem", height: "100%" }}
+              messages={this.state.messages}
+              onMessageClick={this.onMessageClick.bind(this)}
+            />
+          }
+          <YouDevButton
+            style={{ marginLeft: "1rem" }}
+            text="Home"
+            onClick={() => this.props.history.push('/')}
+          />
+          {
+            userToken() &&
+            <YouDevButton
+              style={{ marginLeft: "1rem" }}
+              text="Profile"
+              onClick={() => this.props.history.push('/profile/me')}
+            />
+          }
+          {this.getAccountButton()}
+        </Navbar>
+      </div>
     )
   }
 }

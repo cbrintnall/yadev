@@ -3,13 +3,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import YouDevButton from './YouDevButton';
-import TagInput from './TagInput';
+import YouDevButton from '../buttons/YouDevButton';
+import TagInput from '../TagInput';
 import Badge from 'react-bootstrap/Badge';
 import Spinner from 'react-bootstrap/Spinner';
-import { sendPost } from '../calls';
-import { getTokenInfo } from '../utils';
-import GlobalNotificationManager from '../gnm';
+import { sendPost } from '../../calls';
+import { getTokenInfo } from '../../utils';
+import GlobalNotificationManager from '../../gnm';
 
 const MAX_TAGS_AMOUNT = 15;
 const MAX_DESCRIPTION_LENGTH = 120;
@@ -201,7 +201,7 @@ class PostModal extends React.Component {
                     this.postRef.current.tags.value.split(',').map(val => {
                       if (val && val.trim().length > 0 && val !== "") {
                         return (
-                          <div style={{ marginLeft: ".05rem", marginRight: ".05rem", display: "inline" }}>
+                          <div key={val} style={{ marginLeft: ".05rem", marginRight: ".05rem", display: "inline" }}>
                             <Badge variant="dark"> {val} </Badge>
                           </div>
                         )

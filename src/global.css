@@ -1,0 +1,38 @@
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Oswald', sans-serif;
+}
+
+span,
+p,
+textarea,
+input,
+form,
+input,
+div {
+    font-family: 'Alata', sans-serif;
+}
+
+html, body, #root {
+    height: 100%
+}
+
+[data-reactroot] 
+{height: 100% !important; }
+
+#main_content {
+    position: relative;
+    min-height: 100vh;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.alert-bar:hover {
+    cursor: pointer;
+    opacity: 75%;
+}

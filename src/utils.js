@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
+import * as settings from './settings';
+
 export const userToken = () => {
     return Cookies.get('token');
 }
@@ -36,4 +38,12 @@ export const messageToConversation = (msgs) => {
         return msg;
     }
   }).filter(item => !!item);
+}
+
+export const loginGithub = () => {
+  window.location = `https://github.com/login/oauth/authorize?client_id=${settings.default.githubAccountId}&redirect_uri=${settings.default.backendUrl}/auth/github?next=${settings.default.hostBase}/`
+}
+
+export const loginGoogle = () => {
+  window.location = `${settings.default.backendUrl}/auth/google?next=${settings.default.hostBase}`;
 }

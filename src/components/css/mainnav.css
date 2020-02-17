@@ -2,6 +2,11 @@
     background-color: #A492E8;
 }
 
+.dropdown-menu {
+    padding: 0px;
+    border-radius: 6px;
+}
+
 .btn {
     border: none;
     border-radius: 6px;
@@ -17,4 +22,8 @@
 textarea:focus, textarea.active.focus {
     outline: none !important;
     box-shadow: none !important;
+}
+
+.brand:hover {
+    color: white
 }

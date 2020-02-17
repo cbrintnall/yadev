@@ -1,5 +1,5 @@
-const VERSION = "0.3.0";
-const ENV = "prod"
+const VERSION = "0.5.0";
+const ENV = "development"
 const Settings = {}
 
 const hostBase = {
@@ -22,7 +22,10 @@ const githubAccountId = {
     prod: "Iv1.eeb78cf56c62c9a3"
 }
 
-Settings.source = "https://github.com/cbrintnall/yadev";
+Settings.trelloBoard = "https://trello.com/b/IpnWRlgS/yadev"
+Settings.improvementForm = "https://forms.gle/raHis8J6jYfyHQtb7"
+Settings.source = "https://github.com/cbrintnall/yadev"
+Settings.githubIssues = `${Settings.source}/issues`
 Settings.VERSION = VERSION
 Settings.postEndpoint = "/post"
 Settings.authRedirect = "/"
