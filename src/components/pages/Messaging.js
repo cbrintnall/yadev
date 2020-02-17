@@ -12,6 +12,7 @@ import MessageList, { MessageBox } from '../lists/messagelist';
 import PostList from '../lists/PostList';
 import OfferModal from '../modals/OfferModal';
 import OfferPanelBottom from '../panels/OfferBottomPanel';
+import YaDevButton from '../buttons/YouDevButton';
 import { userToken, getTokenInfo } from '../../utils';
 import { getConversation, getUser, sendMessage, getUsersPosts, getLatestOffer } from '../../calls';
 
@@ -27,7 +28,8 @@ class BrokerPage extends React.Component {
       offering: false,
       offeredPost: {},
       offers: [],
-      offerPointer: 0
+      offerPointer: 0,
+      showOffers: false
     }
   }
 
@@ -106,6 +108,16 @@ class BrokerPage extends React.Component {
       })
   }
 
+  getOfferButton() {
+    return (
+      <Row className="justify-content-center">
+          <YaDevButton onClick={() => this.setState({ showOffers: !this.state.showOffers })}>
+            <span style={{fontSize: "24px"}}> Offer </span>
+          </YaDevButton>
+      </Row>
+    )
+  }
+
   render() {
     return (
       <Container fluid style={{ height: "100%" }}>
@@ -118,14 +130,14 @@ class BrokerPage extends React.Component {
           />
         }
         {
-          this.state.offers.length > 0 &&
+          this.state.showOffers &&
           <OfferPanelBottom
             offer={this.state.offers[this.state.offerPointer]}
           />
         }
         <Row className="justify-content-center">
           <Col
-            lg={"auto"}
+            lg={2}
             md={"auto"}
             sm={"auto"}
             xs={"auto"}
@@ -161,6 +173,10 @@ class BrokerPage extends React.Component {
             </Row>
           </Col>
         </Row>
+        {
+          this.state.offers.length > 0 &&
+          this.getOfferButton()
+        }
         <Row>
           <Col
             sm={7}
@@ -171,10 +187,7 @@ class BrokerPage extends React.Component {
               onOffer={(e) => { this.setState({ offering: true, offeredPost: e }) }}
             />
           </Col>
-          <Col
-            xs={12}
-            sm={5}
-          >
+          <Col>
             <MessageBox
               style={{ marginBottom: "12px" }}
               onSubmit={this.sendMessage.bind(this)}

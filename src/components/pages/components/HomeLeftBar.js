@@ -20,6 +20,7 @@ import {
   getRejectedOffers,
   createNewContract
 } from '../../../calls';
+import { loggedIn } from '../../../utils';
 
 const FinalizeAccordionToggle = ({ _, eventKey }) => {
   const [open, setOpen] = useState(false);
@@ -147,7 +148,8 @@ class AcceptedOffers extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([getAcceptedOffers(), getRejectedOffers()])
+    if (loggedIn()) {
+      Promise.all([getAcceptedOffers(), getRejectedOffers()])
       .then(res => {
         res.map(result => {
           this.setState({
@@ -158,6 +160,7 @@ class AcceptedOffers extends React.Component {
       .catch(err => {
         GlobalNotificationManager.sendAlert("Failed to retrieve accepted and rejected offers", false)
       })
+    }
   }
 
   onContractSend = (offer, date) => {
@@ -177,7 +180,6 @@ class AcceptedOffers extends React.Component {
         GlobalNotificationManager.push('new_contract', res.data)
       })
       .catch(_ => {
-        console.log(_)
         GlobalNotificationManager.sendAlert('Failed to create contract.', false)
       })
   }
@@ -193,7 +195,7 @@ class AcceptedOffers extends React.Component {
       >
         {
           this.state.offers && this.state.offers.length > 0 &&
-          <ListGroup style={{ borderRight: "3px solid black" }}>
+          <ListGroup>
             <ListGroup.Item
               style={{
                 borderRadius: "0px",
@@ -205,9 +207,10 @@ class AcceptedOffers extends React.Component {
             {
               this.state.offers
                 .filter(offer => offer.accepted)
-                .map(offer => {
+                .map((offer, i) => {
                   return (
                     <OfferAccordionItem
+                      key={i}
                       offer={offer}
                       onSubmit={this.onContractSend}
                     />
@@ -279,7 +282,7 @@ const OfferAccordionItem = (props) => {
                   color: "white"
                 }}
               >
-                <span style={{textAlign: "center"}}> Submit </span>
+                <span style={{textAlign: "center"}}> Submit Estimate </span>
               </Col>
             </Row> :
             <Row noGutters>

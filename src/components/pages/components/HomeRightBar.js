@@ -74,11 +74,12 @@ class HomeRightBar extends React.Component {
     return (
       <Col {...this.props} style={{ padding: 0 }}>
         <ListGroup>
-          <ListGroup.Item style={{backgroundColor: colors.yaDevGrey}}>
+          <ListGroup.Item style={{position: "relative",backgroundColor: colors.yaDevGrey}}>
             In Progress:
           </ListGroup.Item>
           {
-            this.state.contracts && this.state.contracts.length > 0 ?
+            this.state.contracts && 
+              this.state.contracts.length > 0 ?
             this.state.contracts
               .map((contract, i) => <ContractItem key={i} contract={contract} />) :
             <ListGroup.Item>

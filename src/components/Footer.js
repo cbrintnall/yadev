@@ -24,6 +24,12 @@ const FooterElement = ({ props, children }) => {
   )
 }
 
+const FooterLink = (props) => {
+  return (
+    <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={props.link}> { props.text } </a>
+  )
+}
+
 class Footer extends React.Component {
   constructor() {
     super();
@@ -53,13 +59,19 @@ class Footer extends React.Component {
                     <hr />
                     <FooterList>
                       <FooterElement>
-                        <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href='/about'>About Us</a>
+                        <FooterLink text="About" link="/about" />
                       </FooterElement>
                       <FooterElement>
-                        <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.source}>View Source <FaHeart style={{ color: "red" }} /></a>
+                        <FooterLink text="View source" link={Settings.source} />
                       </FooterElement>
                       <FooterElement>
-                        <a style={{ color: "black" }} target="_blank" rel="noopener noreferrer" href={Settings.improvementForm}>Help us improve <FaScroll style={{ color: "#FFE5A3" }} /></a>
+                        <FooterLink text="Help us improve" link={Settings.improvementForm} />
+                      </FooterElement>
+                      <FooterElement>
+                        <FooterLink text="Check out our progress" link={Settings.trelloBoard} />
+                      </FooterElement>
+                      <FooterElement>
+                        <FooterLink text="Report a bug" link={`${Settings.githubIssues}/new`} />
                       </FooterElement>
                     </FooterList>
                   </Col>

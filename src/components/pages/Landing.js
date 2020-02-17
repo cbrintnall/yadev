@@ -12,14 +12,6 @@ We're a relatively small
 indie game company based out of Seattle, WA looking for a youtuber to review our game.
 `
 
-const CARD_EXPLANATION = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue ipsum, sodales vitae laoreet vitae, interdum vel risus. Nulla facilisi. Suspendisse posuere rhoncus placerat. Nunc ut ante eget odio auctor mattis ut sit amet augue. In tincidunt, sem at aliquam varius, risus sapien tempus dui, eu iaculis nisl lorem eu enim. Suspendisse venenatis nisi lacus. Aliquam tellus felis, pretium vitae bibendum sit amet, elementum ut enim. Pellentesque facilisis non dui eget porttitor. Nam a mattis sem, at congue ex. Ut lectus neque, laoreet eget lectus ut, venenatis tempus turpis.
-`
-
-const CONTENT_CREATOR_EXPLANATION = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue ipsum, sodales vitae laoreet vitae, interdum vel risus. Nulla facilisi. Suspendisse posuere rhoncus placerat. Nunc ut ante eget odio auctor mattis ut sit amet augue. In tincidunt, sem at aliquam varius, risus sapien tempus dui, eu iaculis nisl lorem eu enim. Suspendisse venenatis nisi lacus. Aliquam tellus felis, pretium vitae bibendum sit amet, elementum ut enim. Pellentesque facilisis non dui eget porttitor. Nam a mattis sem, at congue ex. Ut lectus neque, laoreet eget lectus ut, venenatis tempus turpis.
-`
-
 const LandingSignInButton = (props) => {
   return (
     <BadgeButton
@@ -51,7 +43,8 @@ const LandingTitle = (props) => {
       style={{
         color: "white",
         margin: "24px",
-        textShadow: `2px -2px ${colors.yaDevPurple}`
+        textShadow: `2px -2px ${colors.yaDevPurple}`,
+        ...props.style
       }}
     >
       {props.children}
@@ -65,7 +58,13 @@ const LandingParagraph = (props) => {
       style={{
         color: "white",
         fontSize: "18px",
-        maxWidth: "60rem"
+        maxWidth: "60rem",
+        fontSize: "20px", 
+        color: "white", 
+        backgroundColor: "lightgray", 
+        padding: "12px", 
+        borderRadius: "18px",
+        ...props.style
       }}
     >
       {props.children}
@@ -86,10 +85,20 @@ const Landing = (props) => {
       <Row>
         <Col md={8}>
           <LandingTitle>
-            Easily find advertisement for your games
+            Easily find advertisement for your games ...
           </LandingTitle>
+          <hr/>
           <LandingParagraph>
-            {CARD_EXPLANATION}
+            YaDev aims to provide an easy to use, seamless experience while browsing for potential partners. 
+            We aim to create partnerships between independent game developers and youtubers. To achieve this,
+            we use a simple job board approach. Users can make simple posts that convey only necessary information
+            to begin a partnership.
+            <br/>
+            <br/>
+            Users are able to give a small description of the project, if they're for hiring <em>or</em> hiring, name
+            their price (be it will pay or need to be paid), and finally their actual position. All this coupled with information
+            that we give you to make a snap decision if working together will be worth it. We'll tell you how many jobs they've completed,
+            and what their average rating is, given by other users.
           </LandingParagraph>
         </Col>
         <Col md={4}>
@@ -132,8 +141,11 @@ const Landing = (props) => {
           <LandingTitle>
             Not a developer?
           </LandingTitle>
-          <LandingParagraph>
-            {CONTENT_CREATOR_EXPLANATION}
+          <hr />
+          <LandingParagraph style={{textAlign: "right"}}>
+            Thats okay, the partnership goes both ways. Set yourself up to stand out. Review games before they become more well known. Help out smaller developers.
+            Alternatively, have a developer assist with a creating you a website, or building you Twitch plugins. The possibilities are endless. Our posting platform
+            supports both variations, be it developer or youtuber. Enjoy YaDev with the same ease a developer would.
           </LandingParagraph>
         </Col>
       </Row>

@@ -212,12 +212,6 @@ class MainNav extends React.Component {
           show={this.state.showLoginModal}
           onHide={() => this.setState({ showLoginModal: false })}
         />
-        <PostModal
-          show={this.state.showPostModal}
-          onHide={() => this.setState({ showPostModal: false })}
-          onPost={this.onPostSuccess.bind(this)}
-          onPostError={this.onPostError.bind(this)}
-        />
         <Navbar
           style={{
             padding: "12px",
@@ -237,14 +231,6 @@ class MainNav extends React.Component {
               style={{ marginLeft: "1rem", height: "100%" }}
               messages={this.state.messages}
               onMessageClick={this.onMessageClick.bind(this)}
-            />
-          }
-          {
-            this.state.loggedIn &&
-            <YouDevButton
-              style={{ marginLeft: "1rem" }}
-              text="Make Post"
-              onClick={() => this.setState({ showPostModal: true })}
             />
           }
           <YouDevButton

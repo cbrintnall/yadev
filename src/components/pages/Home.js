@@ -9,6 +9,7 @@ import GlobalNotificationManager from '../../gnm';
 import { loggedIn } from '../../utils';
 import HomeRightBar from './components/HomeRightBar';
 import HomeLeftBar from './components/HomeLeftBar';
+import CreatePost from '../panels/CreatePost';
 
 class Home extends React.Component {
   constructor() {
@@ -38,10 +39,11 @@ class Home extends React.Component {
   }
 
   onNewPost(post) {
-    let posts = this.state.posts;
+    console.log("hello?")
+    const posts = this.state.posts;
     posts.push(post)
 
-    this.setState({ posts })
+    this.setState({ posts }, () => console.log(this.state))
   }
 
   setPosts() {
@@ -54,7 +56,7 @@ class Home extends React.Component {
         this.getUserInfo();
       })
       .catch(err => {
-        console.log(err);
+        GlobalNotificationManager.sendAlert('There was an error retrieving posts - please report this down below.', false)
       });
   }
 
@@ -111,12 +113,15 @@ class Home extends React.Component {
               sm={4}
             />
             <Col
-              style={{marginTop: "16px"}}
+              style={{ marginTop: "16px" }}
               lg={8}
               md={6}
               sm={8}
             >
+              <CreatePost
+              />
               <PostList
+                style={{marginTop: "30px"}}
                 posts={this.state.posts}
                 onContact={this.onContact}
               />

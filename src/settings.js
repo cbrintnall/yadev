@@ -22,8 +22,10 @@ const githubAccountId = {
     prod: "Iv1.eeb78cf56c62c9a3"
 }
 
+Settings.trelloBoard = "https://trello.com/b/IpnWRlgS/yadev"
 Settings.improvementForm = "https://forms.gle/raHis8J6jYfyHQtb7"
-Settings.source = "https://github.com/cbrintnall/yadev";
+Settings.source = "https://github.com/cbrintnall/yadev"
+Settings.githubIssues = `${Settings.source}/issues`
 Settings.VERSION = VERSION
 Settings.postEndpoint = "/post"
 Settings.authRedirect = "/"

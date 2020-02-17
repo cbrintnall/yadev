@@ -36,8 +36,12 @@ const OfferPanelBottom = (props) => {
       setCountering(false)
     } else {
       rejectOffer(props.offer._id)
-        .then(console.log)
-        .catch(console.error)
+        .then(_ => {
+          GlobalNotificationManager.sendAlert(`Rejected offer for $${props.offer.offer}.`, false)
+        })
+        .catch(_ => {
+          GlobalNotificationManager.sendAlert(`We failed to reject the offer, something went wrong :(`, false)
+        })
     }
   }
 
@@ -46,17 +50,20 @@ const OfferPanelBottom = (props) => {
       setErrors("")
 
       counterOffer(props.offer._id, value)
-        .then(res => {
-          console.log(res)
+        .then(_ => {
+          GlobalNotificationManager.sendAlert(`Countered the offer for $${value}.`)
         })
         .catch(err => {
           setErrors(err.response.data.error)
         })
     } else {
-      GlobalNotificationManager.sendAlert('Hi')
-      // acceptOffer(props.offer._id)
-      //   .then(console.log)
-      //   .catch(console.error)
+      acceptOffer(props.offer._id)
+        .then(_ => {
+          GlobalNotificationManager.sendAlert(`Accepted offer for $${props.offer.offer}.`)
+        })
+        .catch(_ => {
+          GlobalNotificationManager.sendAlert(`Failed to accept the offer, something went wrong on our end :(`, false)
+        })
     }
   }
 

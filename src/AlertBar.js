@@ -26,10 +26,6 @@ class AlertBar extends React.Component {
     this.setState({ alert: {} })
   }
 
-  getBackgroundColor = () => {
-    return this.state.alert.negative ? colors.rejectionRed : colors.acceptanceGreen
-  }
-
   render() {
     return (
       <Container
@@ -51,7 +47,7 @@ class AlertBar extends React.Component {
             style={{
               border: "3px solid black",
               borderRadius: "24px",
-              backgroundColor: this.getBackgroundColor()
+              backgroundColor: !this.state.alert.ok ? colors.rejectionRed : colors.acceptanceGreen
             }}
           >
             <Col
