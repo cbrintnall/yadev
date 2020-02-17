@@ -95,7 +95,7 @@ const Landing = (props) => {
             to begin a partnership.
             <br/>
             <br/>
-            Users are able to give a small description of the project, if they're for hiring <em>or</em> hiring, name
+            Users are able to give a small description of the project, if they're for hire <em>or</em> hiring, name
             their price (be it will pay or need to be paid), and finally their actual position. All this coupled with information
             that we give you to make a snap decision if working together will be worth it. We'll tell you how many jobs they've completed,
             and what their average rating is, given by other users.
