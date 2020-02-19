@@ -9,7 +9,7 @@ const hostBase = {
 
 const backendUrl = {
     development: "http://localhost:8000",
-    prod: "https://backend.yadev.app"
+    prod: "https://us-central1-yadev-265117.cloudfunctions.net/yadev"
 }
 
 const googleAccountId = {
