@@ -15,18 +15,18 @@ import * as colors from '../../colors';
 const MAX_DESCRIPTION_LENGTH = 120;
 const MIN_DESCRIPTION_LENGTH = 30;
 
-const SelectableIcon = (props) => {
-  const [selected, setSelected] = useState(false);
+// const SelectableIcon = (props) => {
+//   const [selected, setSelected] = useState(false);
 
-  return (
-    <props.icon
-      onClick={_ => setSelected(!selected)}
-      style={{
-        color: selected ? "white" : "black"
-      }}
-    />
-  )
-}
+//   return (
+//     <props.icon
+//       onClick={_ => setSelected(!selected)}
+//       style={{
+//         color: selected ? "white" : "black"
+//       }}
+//     />
+//   )
+// }
 
 const CreatePost = (props) => {
   const [priceValid, setPriceValid] = useState(false)

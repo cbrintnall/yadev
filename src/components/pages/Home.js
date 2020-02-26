@@ -4,12 +4,13 @@ import Col from 'react-bootstrap/Col';
 import PostList from '../lists/PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from '../modals/ContactModal';
-import { getPosts, getUsersRatings, getUser } from '../../calls';
+import { getPosts, getUsersRatings } from '../../calls';
 import GlobalNotificationManager from '../../gnm';
 import { loggedIn } from '../../utils';
 import HomeRightBar from './components/HomeRightBar';
 import HomeLeftBar from './components/HomeLeftBar';
 import CreatePost from '../panels/CreatePost';
+import PageCounter from '../buttons/PageCounter';
 
 class Home extends React.Component {
   constructor() {
@@ -119,13 +120,24 @@ class Home extends React.Component {
               md={6}
               sm={8}
             >
-              <CreatePost
-              />
-              <PostList
-                style={{marginTop: "30px"}}
-                posts={this.state.posts}
-                onContact={this.onContact}
-              />
+              <Row>
+                <CreatePost
+                />
+              </Row>
+              <Row style={{marginTop: "12px"}}>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <PageCounter
+                    onChange={(p) => this.setState({currentPage: p})}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <PostList
+                  style={{ marginTop: "30px" }}
+                  posts={this.state.posts}
+                  onContact={this.onContact}
+                />
+              </Row>
             </Col>
             <HomeRightBar
               lg={2}
