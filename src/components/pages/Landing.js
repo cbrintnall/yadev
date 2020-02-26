@@ -91,8 +91,8 @@ const Landing = (props) => {
           <LandingParagraph>
             YaDev aims to provide an easy to use, seamless experience while browsing for potential partners. 
             We aim to create partnerships between independent game developers and youtubers. To achieve this,
-            we use a simple job board approach. Users can make simple posts that convey only necessary information
-            to begin a partnership.
+            we use a simple job board approach. Users can make posts that convey only necessary information
+            to begin collaboration.
             <br/>
             <br/>
             Users are able to give a small description of the project, if they're for hire <em>or</em> hiring, name
@@ -116,7 +116,6 @@ const Landing = (props) => {
           />
         </Col>
       </Row>
-      <hr />
       <Row>
         <Col md={4} lg={4}>
           <Post
@@ -144,7 +143,7 @@ const Landing = (props) => {
           <hr />
           <LandingParagraph style={{textAlign: "right"}}>
             Thats okay, the partnership goes both ways. Set yourself up to stand out. Review games before they become more well known. Help out smaller developers.
-            Alternatively, have a developer assist with a creating you a website, or building you Twitch plugins. The possibilities are endless. Our posting platform
+            Alternatively, have a developer assist with creating you a website, or building you Twitch plugins. The possibilities are endless. Our posting platform
             supports both variations, be it developer or youtuber. Enjoy YaDev with the same ease a developer would.
           </LandingParagraph>
         </Col>
@@ -154,7 +153,7 @@ const Landing = (props) => {
           <hr />
           <LandingTitle>
             Get started with Github or Google
-            </LandingTitle>
+          </LandingTitle>
           <hr />
           <LandingSignInButton
             title="Github"

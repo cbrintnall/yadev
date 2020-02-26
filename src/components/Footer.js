@@ -55,7 +55,7 @@ class Footer extends React.Component {
               <Container>
                 <Row style={{ marginTop: "1rem" }}>
                   <Col style={{ textAlign: "center" }}>
-                    <h4 style={{ color: "white", textShadow: "2px 2px black" }}>About <span style={{ fontSize: "12px" }}>v{Settings.VERSION}</span></h4>
+                    <h4 style={{ color: "white", textShadow: "2px 2px black" }}>About <span style={{ fontSize: "12px" }}>v{Settings.VERSION} ({Settings.ENV})</span></h4>
                     <hr />
                     <FooterList>
                       <FooterElement>

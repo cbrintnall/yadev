@@ -4,15 +4,15 @@ import jwtDecode from 'jwt-decode';
 import * as settings from './settings';
 
 export const userToken = () => {
-    return Cookies.get('token');
+  return Cookies.get('token');
 }
 
 export const loggedIn = () => {
-    return !!userToken();
+  return !!userToken();
 }
 
 export const logout = () => {
-    Cookies.remove('token');
+  Cookies.remove('token');
 }
 
 export const getTokenInfo = () => {
@@ -32,10 +32,10 @@ export const messageToConversation = (msgs) => {
     if (!(msg.receiver in conversations)) {
       conversations[msg.receiver] = [];
     }
-  
+
     if (!!conversations[msg.receiver].indexOf(msg.sender)) {
-        conversations[msg.receiver].push(msg.sender);
-        return msg;
+      conversations[msg.receiver].push(msg.sender);
+      return msg;
     }
   }).filter(item => !!item);
 }

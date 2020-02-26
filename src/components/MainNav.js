@@ -3,8 +3,6 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import YouDevButton from './buttons/YouDevButton';
 import LoginModal from './modals/LoginModal';
-import PostModal from './modals/PostModal';
-import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import GlobalNotificationManager from '../gnm';
@@ -14,8 +12,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { withRouter } from 'react-router-dom';
 import { logout, userToken, getTokenInfo } from '../utils';
 import { getMessages, getSentMessages } from '../calls';
-import * as colors from '../colors';
 import { FaGamepad } from 'react-icons/fa';
+import * as colors from '../colors';
+import * as humanized_time from '../extra/humanized_time';
 
 const MAX_MESSAGE_PREVIEW_LENGTH = 45;
 
@@ -219,34 +218,46 @@ class MainNav extends React.Component {
             borderBottom: "3px solid black",
           }}
         >
-          <Navbar.Brand
-            href="#"
-            onClick={() => this.props.history.push('/')}
-          >
-            <FaGamepad className="brand" /> <span className="brand"> YaDev </span> |
-          </Navbar.Brand>
-          {
-            this.state.loggedIn &&
-            <MessageButton
-              style={{ marginLeft: "1rem", height: "100%" }}
-              messages={this.state.messages}
-              onMessageClick={this.onMessageClick.bind(this)}
-            />
-          }
-          <YouDevButton
-            style={{ marginLeft: "1rem" }}
-            text="Home"
-            onClick={() => this.props.history.push('/')}
-          />
-          {
-            userToken() &&
-            <YouDevButton
-              style={{ marginLeft: "1rem" }}
-              text="Profile"
-              onClick={() => this.props.history.push('/profile/me')}
-            />
-          }
-          {this.getAccountButton()}
+          <Row style={{width: "100%"}}>
+            <Col className="d-flex justify-content-start align-items-center">
+              <Navbar.Brand
+                href="#"
+                onClick={() => this.props.history.push('/')}
+              >
+                <FaGamepad className="brand" /> <span className="brand"> YaDev </span> |
+            </Navbar.Brand>
+              {
+                this.state.loggedIn &&
+                <MessageButton
+                  style={{ marginLeft: "1rem", height: "100%" }}
+                  messages={this.state.messages}
+                  onMessageClick={this.onMessageClick.bind(this)}
+                />
+              }
+              <YouDevButton
+                style={{ marginLeft: "1rem" }}
+                text="Home"
+                onClick={() => this.props.history.push('/')}
+              />
+              {
+                userToken() &&
+                <YouDevButton
+                  style={{ marginLeft: "1rem" }}
+                  text="Profile"
+                  onClick={() => this.props.history.push('/profile/me')}
+                />
+              }
+              {this.getAccountButton()}
+            </Col>
+            {
+              getTokenInfo() &&
+              <Col className="d-flex justify-content-end align-items-center">
+                <span style={{color: "black"}}>
+                  Session expires { humanized_time.humanized_time_span(new Date(getTokenInfo().exp * 1000)) }
+                </span>
+              </Col>
+            }
+          </Row>
         </Navbar>
       </div>
     )
