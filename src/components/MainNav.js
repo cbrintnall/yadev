@@ -250,7 +250,7 @@ class MainNav extends React.Component {
               {this.getAccountButton()}
             </Col>
             {
-              getTokenInfo() &&
+              getTokenInfo() && getTokenInfo().exp &&
               <Col className="d-flex justify-content-end align-items-center">
                 <span style={{color: "black"}}>
                   Session expires { humanized_time.humanized_time_span(new Date(getTokenInfo().exp * 1000)) }
