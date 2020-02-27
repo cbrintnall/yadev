@@ -67,7 +67,6 @@ const CreatePost = (props) => {
       })
       .catch(err => {
         console.log(err.response)
-        console.log(err)
 
         setSubmitting(false)
         GlobalNotificationManager.sendAlert('Server had an error while creating the post', false);
@@ -87,11 +86,10 @@ const CreatePost = (props) => {
           backgroundColor: colors.yaDevPurple,
           borderRadius: "14px 14px 0px 0px",
           padding: ".3rem",
-          paddingLeft: "1rem",
           borderBottom: "3px solid black"
         }}
       >
-        <Col>
+        <Col className="d-flex justify-content-start align-items-center">
           <h4 style={{ color: "white" }}> New Post: </h4>
         </Col>
         <Col className="d-flex justify-content-end">

@@ -20,8 +20,8 @@ class Home extends React.Component {
       showLoginModal: false,
       showContactModal: false,
       currentContact: {},
-      currentPage: 1,
-      posts: []
+      posts: [],
+      limitPages: false
     }
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -46,15 +46,16 @@ class Home extends React.Component {
     this.setState({ posts }, () => console.log(this.state))
   }
 
-  setPosts() {
+  setPosts(page = 1) {
     if (!loggedIn()) return;
 
-    getPosts(this.state.currentPage)
+    getPosts(page)
       .then(res => {
         this.setState({
           posts: res.data.results
         })
 
+        this.setState({ limitPages: res.data.limit && res.data.results.length < res.data.limit })
         this.getUserInfo();
       })
       .catch(err => {
@@ -127,7 +128,8 @@ class Home extends React.Component {
               <Row style={{marginTop: "12px"}}>
                 <Col className="d-flex justify-content-center align-items-center">
                   <PageCounter
-                    onChange={(p) => this.setState({currentPage: p})}
+                    limit={this.state.limitPages}
+                    onChange={(p) => this.setPosts(p)}
                   />
                 </Col>
               </Row>

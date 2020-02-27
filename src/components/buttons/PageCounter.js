@@ -10,7 +10,7 @@ const PageCounter = (props) => {
             setCurrent(1)
         } else {
             setCurrent(next)
-            props.onChange && props.onChange(current)
+            props.onChange && props.onChange(next)
         }
     }
 
@@ -40,12 +40,14 @@ const PageCounter = (props) => {
                     {current}
                 </YouDevButton>
                 <YouDevButton
+                    disabled={props.limit || false}
                     onClick={() => { setCurrentWrapper(current + 1) }}
                     style={{ borderRadius: "0px", borderRight: "1px solid lightgray" }}
                 >
                     {current + 1}
                 </YouDevButton>
                 <YouDevButton
+                    disabled={props.limit || false}
                     onClick={() => { setCurrentWrapper(current + 2) }}
                     style={{ borderRadius: "0px 4px 4px 0px" }}
                 >
