@@ -4,10 +4,6 @@ import { IoIosStar, IoMdStarOutline } from 'react-icons/io';
 const MAX_RATING = 5;
 
 class Rating extends React.Component {
-    constructor() {
-        super();
-    }
-
     getRatings() {
         const ratings = [];
 

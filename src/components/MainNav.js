@@ -69,6 +69,8 @@ class MessageButton extends React.Component {
           encountered.push(item.sender);
           return true;
         }
+
+        return false;
       })
   }
 

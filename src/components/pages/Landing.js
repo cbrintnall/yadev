@@ -56,8 +56,6 @@ const LandingParagraph = (props) => {
   return (
     <p
       style={{
-        color: "white",
-        fontSize: "18px",
         maxWidth: "60rem",
         fontSize: "20px", 
         color: "white", 

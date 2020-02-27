@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container'
 import Settings from '../settings';
 import * as colors from '../colors';
-import { FaScroll, FaHeart } from 'react-icons/fa';
 
 const FooterList = ({ props, children }) => {
   return (
@@ -31,10 +30,6 @@ const FooterLink = (props) => {
 }
 
 class Footer extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <footer>

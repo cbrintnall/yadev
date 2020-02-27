@@ -15,18 +15,18 @@ import * as colors from '../../colors';
 const MAX_DESCRIPTION_LENGTH = 120;
 const MIN_DESCRIPTION_LENGTH = 30;
 
-const SelectableIcon = (props) => {
-  const [selected, setSelected] = useState(false);
+// const SelectableIcon = (props) => {
+//   const [selected, setSelected] = useState(false);
 
-  return (
-    <props.icon
-      onClick={_ => setSelected(!selected)}
-      style={{
-        color: selected ? "white" : "black"
-      }}
-    />
-  )
-}
+//   return (
+//     <props.icon
+//       onClick={_ => setSelected(!selected)}
+//       style={{
+//         color: selected ? "white" : "black"
+//       }}
+//     />
+//   )
+// }
 
 const CreatePost = (props) => {
   const [priceValid, setPriceValid] = useState(false)
@@ -67,7 +67,6 @@ const CreatePost = (props) => {
       })
       .catch(err => {
         console.log(err.response)
-        console.log(err)
 
         setSubmitting(false)
         GlobalNotificationManager.sendAlert('Server had an error while creating the post', false);
@@ -87,11 +86,10 @@ const CreatePost = (props) => {
           backgroundColor: colors.yaDevPurple,
           borderRadius: "14px 14px 0px 0px",
           padding: ".3rem",
-          paddingLeft: "1rem",
           borderBottom: "3px solid black"
         }}
       >
-        <Col>
+        <Col className="d-flex justify-content-start align-items-center">
           <h4 style={{ color: "white" }}> New Post: </h4>
         </Col>
         <Col className="d-flex justify-content-end">
