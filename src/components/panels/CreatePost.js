@@ -10,23 +10,46 @@ import Spinner from 'react-bootstrap/Spinner';
 import GlobalNotificationManager from '../../gnm';
 import { getTokenInfo } from '../../utils';
 import { sendPost } from '../../calls';
+import { FaYoutube } from 'react-icons/fa';
+import { MdComputer } from 'react-icons/md';
 import * as colors from '../../colors';
+import { omit } from 'lodash';
 
 const MAX_DESCRIPTION_LENGTH = 120;
 const MIN_DESCRIPTION_LENGTH = 30;
 
-// const SelectableIcon = (props) => {
-//   const [selected, setSelected] = useState(false);
+const SelectableIcon = (props) => {
+  const [value, setValue] = useState(false);
+  const [hovering, setHovering] = useState(false);
 
-//   return (
-//     <props.icon
-//       onClick={_ => setSelected(!selected)}
-//       style={{
-//         color: selected ? "white" : "black"
-//       }}
-//     />
-//   )
-// }
+  return (
+    <div
+      style={{ 
+        display: "inline", 
+        margin: "4px",
+        fontSize: "28px", 
+        cursor: hovering ? "pointer" : "default", 
+      }}
+      onMouseEnter={() => { setHovering(true) }}
+      onMouseLeave={() => { setHovering(false) }}
+    >
+      <props.icon
+        onClick={_ => setValue(!value)}
+        style={{
+          color: value ? "white" : "black",
+          borderBottom: hovering ? "3px solid white" : "none",
+          marginBottom: "8px",
+        }}
+      />
+      <Form.Check
+        checked={value}
+        {...omit(props, 'icon')}
+        style={{ display: "none" }}
+        readOnly
+      />
+    </div>
+  )
+}
 
 const CreatePost = (props) => {
   const [priceValid, setPriceValid] = useState(false)
@@ -46,6 +69,9 @@ const CreatePost = (props) => {
       type: form.elements.type.value,
       hireable: form.elements.hired.value
     }
+
+    console.log(payload)
+    return;
 
     setSubmitting(true)
 
@@ -111,91 +137,101 @@ const CreatePost = (props) => {
       </Row>
       <Row style={{ padding: "1rem" }}>
         <Form ref={postRef} style={{ width: "100%" }}>
-          <Form.Row>
-            <Col>
-              <Form.Label>
-                <h5>Type:</h5>
-              </Form.Label>
-              <br />
-              <Form.Check
-                inline
-                required
-                type="radio"
-                label="Youtuber"
-                name="type"
-                value="youtuber"
-              />
-              <Form.Check
-                inline
-                required
-                type="radio"
-                label="Developer"
-                name="type"
-                value="developer"
-              />
+          <Row>
+            <Col
+              sm={6}
+              md={6}
+            >
+              <Form.Row className="d-flex justify-content-start align-items-center">
+                <div>
+                  <h5>Type:</h5>
+                </div>
+                <div>
+                  <SelectableIcon
+                    icon={FaYoutube}
+                    required
+                    type="radio"
+                    label="Youtuber"
+                    name="type"
+                    value="youtuber"
+                  />
+                  <SelectableIcon
+                    icon={MdComputer}
+                    required
+                    type="radio"
+                    label="Developer"
+                    name="type"
+                    value="developer"
+                  />
+                </div>
+              </Form.Row>
+              <Form.Row>
+                <Form.Label>
+                  <h5>Looking:</h5>
+                </Form.Label>
+                <Form.Check
+                  inline
+                  required
+                  type="radio"
+                  label="Hiring"
+                  name="hired"
+                  value={true}
+                />
+                <Form.Check
+                  inline
+                  required
+                  type="radio"
+                  label="For Hire"
+                  name="hired"
+                  value={false}
+                />
+              </Form.Row>
+              <Form.Row>
+                <Form.Label>
+                  <h5>Asking Price:</h5>
+                </Form.Label>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>$</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="50"
+                    name="price"
+                    isValid={priceValid}
+                    isInvalid={!priceValid}
+                    onChange={e => { setPriceValid(/^\d{1,5}$/.test(e.target.value)) }}
+                  />
+                </InputGroup>
+              </Form.Row>
             </Col>
-            <Col>
-              <Form.Label>
-                <h5>Looking:</h5>
-              </Form.Label>
-              <br />
-              <Form.Check
-                inline
-                required
-                type="radio"
-                label="Hiring"
-                name="hired"
-                value={true}
-              />
-              <Form.Check
-                inline
-                required
-                type="radio"
-                label="For Hire"
-                name="hired"
-                value={false}
-              />
-            </Col>
-            <Col>
-              <Form.Label>
-                <h5>Asking Price:</h5>
-              </Form.Label>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>$</InputGroup.Text>
-                </InputGroup.Prepend>
+            <Col
+              style={{borderLeft: "1px solid white"}}
+              sm={6}
+              md={6}
+            >
+              <Form.Row>
+                <Form.Label>
+                  <h5>Description:</h5>
+                </Form.Label>
                 <Form.Control
                   required
-                  type="text"
-                  placeholder="50"
-                  name="price"
-                  isValid={priceValid}
-                  isInvalid={!priceValid}
-                  onChange={e => { setPriceValid(/^\d{1,5}$/.test(e.target.value)) }}
-                />
-              </InputGroup>
-            </Col>
-          </Form.Row>
-          <hr />
-          <Form.Row>
-            <Form.Label>
-              <h5>Description:</h5>
-              <Badge> {descriptionLength} / {MAX_DESCRIPTION_LENGTH} </Badge>
-            </Form.Label>
-            <Form.Control
-              required
-              as="textarea"
-              name="description"
-              isValid={descriptionValid}
-              isInvalid={!descriptionValid}
-              onChange={e => {
-                const description = e.target.value;
+                  as="textarea"
+                  name="description"
+                  isValid={descriptionValid}
+                  isInvalid={!descriptionValid}
+                  onChange={e => {
+                    const description = e.target.value;
 
-                setDescriptionLength(description.length)
-                setDescriptionValid(description.length >= MIN_DESCRIPTION_LENGTH && description.length <= MAX_DESCRIPTION_LENGTH)
-              }}
-            />
-          </Form.Row>
+                    setDescriptionLength(description.length)
+                    setDescriptionValid(description.length >= MIN_DESCRIPTION_LENGTH && description.length <= MAX_DESCRIPTION_LENGTH)
+                  }}
+                />
+                <Badge> {descriptionLength} / {MAX_DESCRIPTION_LENGTH} </Badge>
+              </Form.Row>
+            </Col>
+          </Row>
         </Form>
       </Row>
     </Container>
