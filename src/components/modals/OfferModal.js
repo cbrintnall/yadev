@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GlobalNotificationManager from '../../gnm';
-import { submitOffer, counterOffer } from '../../calls';
+import { submitOffer } from '../../calls';
 import { getTokenInfo } from '../../utils';
 
 const OfferModal = (props) => {

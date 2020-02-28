@@ -39,6 +39,8 @@ export const messageToConversation = (msgs) => {
       conversations[msg.receiver].push(msg.sender);
       return msg;
     }
+
+    return undefined;
   }).filter(item => !!item);
 }
 

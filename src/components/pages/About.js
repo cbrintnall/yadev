@@ -4,10 +4,6 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import * as colors from '../../colors';
 
-const Post = (props) => {
-
-}
-
 const About = (props) => {
   return (
     <Row>

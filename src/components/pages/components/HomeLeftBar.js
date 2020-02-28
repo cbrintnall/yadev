@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import BadgeButton from '../../buttons/BadgeButton';
 import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { withRouter } from 'react-router';
@@ -12,7 +11,6 @@ import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { FaArrowRight } from 'react-icons/fa';
-import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 import { humanized_time_span } from '../../../extra/humanized_time';
 import { 
   getMainLatestOffers,
@@ -21,17 +19,6 @@ import {
   createNewContract
 } from '../../../calls';
 import { loggedIn } from '../../../utils';
-
-const FinalizeAccordionToggle = ({ _, eventKey }) => {
-  const [open, setOpen] = useState(false);
-  const onClick = useAccordionToggle(eventKey, () => setOpen(!open));
-
-  return (
-    <BadgeButton style={{ backgroundColor: colors.acceptanceGreen }} onClick={onClick}>
-      <h4> Finalize </h4>
-    </BadgeButton>
-  )
-}
 
 class HomeLeftBar extends React.Component {
   constructor() {
@@ -150,7 +137,7 @@ class AcceptedOffers extends React.Component {
     if (loggedIn()) {
       Promise.all([getAcceptedOffers(), getRejectedOffers()])
       .then(res => {
-        res.map(result => {
+        res.forEach(result => {
           this.setState({
             offers: [...this.state.offers, ...result.data]
           })

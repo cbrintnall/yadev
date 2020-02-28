@@ -113,10 +113,6 @@ class MessageTab extends React.Component {
 }
 
 class MessageList extends React.Component {
-  constructor() {
-    super();
-  }
-
   onMessageClick(msg) {
     this.props.selectedMessage && this.props.selectedMessage(msg);
   }

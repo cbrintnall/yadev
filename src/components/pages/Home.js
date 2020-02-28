@@ -4,12 +4,13 @@ import Col from 'react-bootstrap/Col';
 import PostList from '../lists/PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from '../modals/ContactModal';
-import { getPosts, getUsersRatings, getUser } from '../../calls';
+import { getPosts, getUsersRatings } from '../../calls';
 import GlobalNotificationManager from '../../gnm';
 import { loggedIn } from '../../utils';
 import HomeRightBar from './components/HomeRightBar';
 import HomeLeftBar from './components/HomeLeftBar';
 import CreatePost from '../panels/CreatePost';
+import PageCounter from '../buttons/PageCounter';
 
 class Home extends React.Component {
   constructor() {
@@ -19,8 +20,8 @@ class Home extends React.Component {
       showLoginModal: false,
       showContactModal: false,
       currentContact: {},
-      currentPage: 1,
-      posts: []
+      posts: [],
+      limitPages: false
     }
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -45,15 +46,16 @@ class Home extends React.Component {
     this.setState({ posts }, () => console.log(this.state))
   }
 
-  setPosts() {
+  setPosts(page = 1) {
     if (!loggedIn()) return;
 
-    getPosts(this.state.currentPage)
+    getPosts(page)
       .then(res => {
         this.setState({
           posts: res.data.results
         })
 
+        this.setState({ limitPages: res.data.limit && res.data.results.length < res.data.limit })
         this.getUserInfo();
       })
       .catch(err => {
@@ -119,13 +121,25 @@ class Home extends React.Component {
               md={6}
               sm={8}
             >
-              <CreatePost
-              />
-              <PostList
-                style={{marginTop: "30px"}}
-                posts={this.state.posts}
-                onContact={this.onContact}
-              />
+              <Row>
+                <CreatePost
+                />
+              </Row>
+              <Row style={{marginTop: "12px"}}>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <PageCounter
+                    limit={this.state.limitPages}
+                    onChange={(p) => this.setPosts(p)}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <PostList
+                  style={{ marginTop: "30px" }}
+                  posts={this.state.posts}
+                  onContact={this.onContact}
+                />
+              </Row>
             </Col>
             <HomeRightBar
               lg={2}
