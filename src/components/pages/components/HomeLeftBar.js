@@ -33,7 +33,6 @@ const FinalizeAccordionToggle = ({ _, eventKey }) => {
   )
 }
 
-
 class HomeLeftBar extends React.Component {
   constructor() {
     super();
@@ -46,6 +45,8 @@ class HomeLeftBar extends React.Component {
   componentDidMount() {
     getMainLatestOffers()
       .then(result => {
+        console.log(result)
+
         this.setState({
           offers: result.data
         })

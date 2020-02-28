@@ -4,7 +4,8 @@ import jwtDecode from 'jwt-decode';
 import * as settings from './settings';
 
 export const userToken = () => {
-  return Cookies.get('token');
+  const cookie = Cookies.get('token');
+  return cookie;
 }
 
 export const loggedIn = () => {
@@ -12,6 +13,7 @@ export const loggedIn = () => {
 }
 
 export const logout = () => {
+  localStorage.removeItem('authToken');
   Cookies.remove('token');
 }
 

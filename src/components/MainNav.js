@@ -142,8 +142,11 @@ class MainNav extends React.Component {
     // don't attempt to grab messages if the user isn't even logged in
     if (!getTokenInfo()) return;
 
-    const userId = getTokenInfo()._id
-    const token = userToken()
+    // TODO: Just use Lodash to dedup once grabbing messages,
+    // this is here to prevent continuously adding messages to the nav
+    this.setState({
+      messages: []
+    })
 
     getSentMessages()
       .then(res => {
@@ -157,7 +160,7 @@ class MainNav extends React.Component {
         console.log(err)
       })
 
-    getMessages(userId, token)
+    getMessages()
       .then(res => {
         const messages = this.state.messages || [];
 

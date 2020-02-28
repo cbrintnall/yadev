@@ -71,6 +71,8 @@ class BrokerPage extends React.Component {
 
     getConversation(to, from, userToken())
       .then(res => {
+        console.log(res.data.results)
+
         this.setState({
           messages: res.data.results
         })
@@ -88,6 +90,27 @@ class BrokerPage extends React.Component {
         })
       })
       .catch(console.error)
+  }
+
+  componentDidUpdate() {
+    const {
+      to,
+      from
+    } = this.props.match.params;
+
+    getConversation(to, from, userToken())
+      .then(res => {
+        console.log(res.data.results)
+
+        this.setState({
+          messages: res.data.results
+        })
+      })
+      .catch(err => {
+        GlobalNotificationManager.push('alert', {
+          msg: "Failed to get conversation", ok: false
+        })
+      })
   }
 
   sendMessage(msg) {
@@ -111,9 +134,9 @@ class BrokerPage extends React.Component {
   getOfferButton() {
     return (
       <Row className="justify-content-center" >
-          <YaDevButton style={{border: "3px solid white" }} onClick={() => this.setState({ showOffers: !this.state.showOffers })}>
-            <span style={{fontSize: "22px"}}> { this.state.showOffers ? "Hide Offer" : "View Offer" } </span>
-          </YaDevButton>
+        <YaDevButton style={{ border: "3px solid white" }} onClick={() => this.setState({ showOffers: !this.state.showOffers })}>
+          <span style={{ fontSize: "22px" }}> {this.state.showOffers ? "Hide Offer" : "View Offer"} </span>
+        </YaDevButton>
       </Row>
     )
   }
@@ -122,11 +145,11 @@ class BrokerPage extends React.Component {
     return (
       <Container fluid style={{ height: "100%" }}>
         {
-          this.state.offering && 
+          this.state.offering &&
           <OfferModal
             post={this.state.offeredPost}
             user={this.state.otherUser}
-            onHide={() => { this.setState({offering: false}) }}
+            onHide={() => { this.setState({ offering: false }) }}
           />
         }
         {

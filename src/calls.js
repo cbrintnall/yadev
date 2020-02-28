@@ -27,8 +27,8 @@ export const sendMessage = (from, to, message, token) => {
   return instance.post(`/message/${to}/${from}`, { message }, { headers: { token: token }});
 }
 
-export const getMessages = (to, token) => {
-  return instance.get(`/message/${to}`, { headers: { token: token }});
+export const getMessages = (token = utils.userToken()) => {
+  return instance.get(`/user/messages`, { headers: { token }});
 }
 
 export const getConversation = (to, from, token) => {
