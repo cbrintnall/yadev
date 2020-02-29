@@ -22,6 +22,7 @@ class BrokerPage extends React.Component {
 
     this.state = {
       messages: [],
+      lastUserId: '',
       otherUser: {},
       otherUsersPosts: [],
       otherUserRating: 0, // TODO: Implement this,
@@ -47,15 +48,11 @@ class BrokerPage extends React.Component {
 
     const otherUser = from === currUser._id ? to : from;
 
-    getUser(otherUser)
-      .then(res => {
-        this.setState({ otherUser: res.data })
-      })
-      .catch(_ => {
-        GlobalNotificationManager.push('alert', {
-          msg: 'Failed to grab other user\'s data', ok: false
-        })
-      })
+    this.setState({
+      lastUserId: otherUser
+    })
+
+    this.updateBaseInfo();
 
     getUsersPosts(currUser._id)
       .then(res => {
@@ -69,20 +66,6 @@ class BrokerPage extends React.Component {
         })
       })
 
-    getConversation(to, from, userToken())
-      .then(res => {
-        console.log(res.data.results)
-
-        this.setState({
-          messages: res.data.results
-        })
-      })
-      .catch(err => {
-        GlobalNotificationManager.push('alert', {
-          msg: "Failed to get conversation", ok: false
-        })
-      })
-
     getLatestOffer(otherUser)
       .then(res => {
         this.setState({
@@ -92,16 +75,17 @@ class BrokerPage extends React.Component {
       .catch(console.error)
   }
 
-  componentDidUpdate() {
+  updateBaseInfo() {
     const {
       to,
       from
     } = this.props.match.params;
 
+    const currUser = getTokenInfo();
+    const otherUser = from === currUser._id ? to : from;
+
     getConversation(to, from, userToken())
       .then(res => {
-        console.log(res.data.results)
-
         this.setState({
           messages: res.data.results
         })
@@ -111,6 +95,34 @@ class BrokerPage extends React.Component {
           msg: "Failed to get conversation", ok: false
         })
       })
+
+    getUser(otherUser)
+      .then(res => {
+        this.setState({ otherUser: res.data })
+      })
+      .catch(_ => {
+        GlobalNotificationManager.push('alert', {
+          msg: 'Failed to grab other user\'s data', ok: false
+        })
+      })
+  }
+
+  componentDidUpdate() {
+    const {
+      to,
+      from
+    } = this.props.match.params;
+
+    const currUser = getTokenInfo();
+    const otherUser = from === currUser._id ? to : from;
+
+    if (this.state.lastUserId !== otherUser) {
+      this.setState({
+        lastUserId: otherUser
+      })
+
+      this.updateBaseInfo();
+    }
   }
 
   sendMessage(msg) {
@@ -160,7 +172,7 @@ class BrokerPage extends React.Component {
         }
         <Row className="justify-content-center">
           <Col
-            lg={2}
+            lg={"auto"}
             md={"auto"}
             sm={"auto"}
             xs={"auto"}
