@@ -23,8 +23,8 @@ export const getPost = (_id) => {
   return instance.post(`/post/${_id}`);
 }
 
-export const sendMessage = (from, to, message, token) => {
-  return instance.post(`/message/${to}/${from}`, { message }, { headers: { token: token }});
+export const sendMessage = (to, message, token = utils.userToken()) => {
+  return instance.post(`/message/${to}`, { message }, { headers: { token: token }});
 }
 
 export const getMessages = (token = utils.userToken()) => {
