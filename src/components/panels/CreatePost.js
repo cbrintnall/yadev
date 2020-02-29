@@ -109,8 +109,8 @@ const CreatePost = (props) => {
           </YouDevButton>
         </Col>
       </Row>
-      <Row style={{ padding: "1rem" }}>
-        <Form ref={postRef} style={{ width: "100%" }}>
+      <Row style={{ padding: "1rem" }} noGutters className="d-flex justify-content-center">
+        <Form ref={postRef}>
           <Form.Row>
             <Col>
               <Form.Label>

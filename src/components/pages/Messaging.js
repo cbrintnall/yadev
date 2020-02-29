@@ -131,7 +131,7 @@ class BrokerPage extends React.Component {
       from
     } = this.props.match.params;
 
-    sendMessage(from, to, msg, userToken())
+    sendMessage(from, msg)
       .then(res => {
         const messages = [res.data, ...this.state.messages]
         this.setState({ messages })
