@@ -23,28 +23,28 @@ const PageCounter = (props) => {
                     style={{ borderRadius: "4px 0px 0px 4px", borderRight: "1px solid lightgray" }}
                 >
                     ...
-            </YouDevButton>
+                </YouDevButton>
                 {
                     current > 1 &&
                     <YouDevButton
                         onClick={() => { setCurrentWrapper(current - 1) }}
                         style={{ borderRadius: "0px", borderRight: "1px solid lightgray" }}
                     >
-                        {current - 1}
+                        { current - 1 }
                     </YouDevButton>
                 }
                 <YouDevButton
                     onClick={() => { setCurrentWrapper(current) }}
                     style={{ borderRadius: "0px", borderRight: "1px solid lightgray" }}
                 >
-                    {current}
+                    { current }
                 </YouDevButton>
                 <YouDevButton
                     disabled={props.limit || false}
                     onClick={() => { setCurrentWrapper(current + 1) }}
                     style={{ borderRadius: "0px", borderRight: "1px solid lightgray" }}
                 >
-                    {current + 1}
+                    { current + 1 }
                 </YouDevButton>
                 <YouDevButton
                     disabled={props.limit || false}
@@ -52,7 +52,7 @@ const PageCounter = (props) => {
                     style={{ borderRadius: "0px 4px 4px 0px" }}
                 >
                     ...
-            </YouDevButton>
+                </YouDevButton>
             </InputGroup>
         </div>
 

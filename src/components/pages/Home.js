@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import PostList from '../lists/PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from '../modals/ContactModal';
+import CreateContractModal from '../modals/CreateContractModal';
 import { getPosts, getUsersRatings } from '../../calls';
 import GlobalNotificationManager from '../../gnm';
 import { loggedIn } from '../../utils';
@@ -19,6 +20,7 @@ class Home extends React.Component {
     this.state = {
       showLoginModal: false,
       showContactModal: false,
+      needToBeCompletedContracts: [],
       currentContact: {},
       posts: [],
       limitPages: false
@@ -108,6 +110,9 @@ class Home extends React.Component {
 
     return (
       <div>
+        <CreateContractModal
+          contracts={this.state.needToBeCompletedContracts}
+        />
         <Container style={{ margin: "0px", maxWidth: "100%" }}>
           <Row>
             <HomeLeftBar

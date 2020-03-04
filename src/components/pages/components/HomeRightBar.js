@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
+import YouDevButton from '../../buttons/YouDevButton';
 import * as colors from '../../../colors';
 import GlobalNotificationManager from '../../../gnm';
 import { getLatestContracts } from '../../../calls';
@@ -34,6 +35,18 @@ const ContractItem = (props) => {
       >
         <span> Due: { getDate(date) } </span>
         <Badge style={{color: withinWeek ? "black": "darkgrey"}}> { humanized_time_span(date) } </Badge>
+      </Row>
+      <Row
+        className="d-flex justify-content-center align-items-center"
+        style={{marginBottom: "6px"}}
+      >
+        <YouDevButton
+          onClick={() => {
+            console.log('hello')
+          }}
+        >
+          Notify Complete
+        </YouDevButton>
       </Row>
     </ListGroup.Item>
   )
@@ -74,7 +87,7 @@ class HomeRightBar extends React.Component {
     return (
       <Col {...this.props} style={{ padding: 0 }}>
         <ListGroup>
-          <ListGroup.Item style={{position: "relative",backgroundColor: colors.yaDevGrey}}>
+          <ListGroup.Item style={{position: "relative", backgroundColor: colors.yaDevGrey}}>
             In Progress:
           </ListGroup.Item>
           {
