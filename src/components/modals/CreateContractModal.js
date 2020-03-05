@@ -11,23 +11,22 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { humanized_time_span } from '../../extra/humanized_time';
 import { loggedIn } from '../../utils';
-import { getAcceptedOffersWithNoEstimate, createNewContract } from '../../calls';
+import { getAcceptedContractsWithNoEstimate, updateContract } from '../../calls';
 import { isEqual } from 'lodash';
 
 const EstimateTab = (props) => {
   const [isValid, setValid] = useState(false);
   const [date, setDate] = useState("");
 
+  // Contract here is actually an 'offer' object.
   const { contract } = props;
 
   const onSubmit = () => {
     if (!isValid) return;
 
-    createNewContract({
+    updateContract({
       estimateDate: date,
-      from: contract.from,
-      to: contract.to,
-      offer: contract._id
+      contract: contract._id
     })
       .then(_ => {
         if (props.completedSubmission) {
@@ -50,7 +49,7 @@ const EstimateTab = (props) => {
         >
           <InputGroup>
             <InputGroup.Prepend>
-              <InputGroup.Text><span style={{color: "green"}}> ${ contract.offer } </span></InputGroup.Text>
+              <InputGroup.Text><span style={{color: "green"}}> ${ contract.price } </span></InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
               style={{ paddingLeft: "1.25rem", borderRadius: 0, width: "100%" }}
@@ -98,7 +97,7 @@ const CreateContractModal = (props) => {
 
   useEffect(() => {
     if (loggedIn()) {
-      getAcceptedOffersWithNoEstimate()
+      getAcceptedContractsWithNoEstimate()
         .then(res => {
           setContracts(res.data)
         })
@@ -115,11 +114,9 @@ const CreateContractModal = (props) => {
     setContracts(newContracts);
   }
 
-  const needsEstimates = contracts.filter(contract => !!contract.estimateDate)
-
   return (
     <Modal
-      show={needsEstimates.length > 0 || show}
+      show={contracts.length > 0 || show}
       onHide={() => {
         setShow(false);
       }}
@@ -133,7 +130,8 @@ const CreateContractModal = (props) => {
             <Col>
               <ListGroup>
                 {
-                  needsEstimates
+                  contracts && contracts.length > 0 &&
+                  contracts
                   .map((contract, i) => {
                     return (
                       <div key={i}>

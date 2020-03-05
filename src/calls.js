@@ -76,12 +76,16 @@ export const acceptOffer = (offer_id, token = utils.userToken()) => {
   return instance.put(`/offer/${offer_id}/accept`, {}, { headers: { token }})
 }
 
-export const getAcceptedOffersWithNoEstimate = (token = utils.userToken()) => {
-  return instance.get(`/offer/accepted`, { headers: { token }})
+export const getAcceptedContractsWithNoEstimate = (token = utils.userToken()) => {
+  return instance.get(`/contract/estimates`, { headers: { token }})
 }
 
 export const getRejectedOffers = (token = utils.userToken()) => {
   return instance.get(`/offer/rejected`, { headers: { token }})
+}
+
+export const updateContract = (payload, token = utils.userToken()) => {
+  return instance.put('/contract', payload, { headers: { token }})
 }
 
 export const createNewContract = (payload, token = utils.userToken()) => {
@@ -90,4 +94,8 @@ export const createNewContract = (payload, token = utils.userToken()) => {
 
 export const getLatestContracts = (token = utils.userToken()) => {
   return instance.get('/contract/latest', { headers: { token }})
+}
+
+export const notifyCompletion = (contract, token = utils.userToken()) => {
+  return instance.put('/contract/notify', { contract }, { headers: { token }})
 }
