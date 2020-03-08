@@ -5,6 +5,7 @@ import PostList from '../lists/PostList';
 import Container from 'react-bootstrap/Container';
 import ContactModal from '../modals/ContactModal';
 import CreateContractModal from '../modals/CreateContractModal';
+import RateUserModal from '../modals/RateUserModal';
 import { getPosts, getUsersRatings } from '../../calls';
 import GlobalNotificationManager from '../../gnm';
 import { loggedIn } from '../../utils';
@@ -112,6 +113,8 @@ class Home extends React.Component {
       <div>
         <CreateContractModal
           contracts={this.state.needToBeCompletedContracts}
+        />
+        <RateUserModal
         />
         <Container style={{ margin: "0px", maxWidth: "100%" }}>
           <Row>

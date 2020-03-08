@@ -35,12 +35,21 @@ export const getConversation = (to, from, token) => {
   return instance.get(`/message/${to}/${from}`, { headers: { token: token }})
 }
 
+export const getUserProfileInfo = (token = utils.userToken()) => {
+  const id = String(utils.getTokenInfo()._id)
+  return instance.get(`/user/${id}`, { headers: { token }})
+}
+
 export const getUser = (userId, token="") => {
   return instance.get(`/user/${userId}`, { headers: { token: token }})
 }
 
 export const getUsersRatings = (ids) => {
   return instance.get(`/ratings`, { params: { ids } });
+}
+
+export const createNewRating = (to, contract, amount, token = utils.userToken()) => {
+  return instance.post('/ratings', { user: to, relatedContract: contract, value: amount }, { headers: { token }});
 }
 
 export const getUsersPosts = (id, page = 1) => {
@@ -98,4 +107,8 @@ export const getLatestContracts = (token = utils.userToken()) => {
 
 export const notifyCompletion = (contract, token = utils.userToken()) => {
   return instance.put('/contract/notify', { contract }, { headers: { token }})
+}
+
+export const getMissingRatings = (token = utils.userToken()) => {
+  return instance.get('/ratings/missing', { headers: { token }})
 }
