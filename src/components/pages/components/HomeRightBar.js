@@ -9,10 +9,10 @@ import * as colors from '../../../colors';
 import GlobalNotificationManager from '../../../gnm';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { getLatestContracts, notifyCompletion } from '../../../calls';
+import { getLatestContracts, notifyCompletion, getUser } from '../../../calls';
 import { humanized_time_span } from '../../../extra/humanized_time';
 import { FaCheck } from 'react-icons/fa';
-import { loggedIn } from '../../../utils';
+import { loggedIn, getTokenInfo } from '../../../utils';
 
 const oneWeek = 8 * 24 * 60 * 60 * 1000;
 
@@ -66,10 +66,10 @@ const ContractItem = (props) => {
               }}
               onClick={() => {
                 if (confirm) {
+                    props.onComplete(props.contract)
                   if (props.onComplete) {
                     notifyCompletion(props.contract)
                       .then(res => {
-                        console.log(res)
                         props.onComplete(props.contract)
                       })
                       .catch(err => {
@@ -92,8 +92,20 @@ const ContractItem = (props) => {
 }
 
 const CompletionModal = (props) => {
+  const [completed, setCompleted] = useState(-1);
+
+  if (props.show) {
+    getUser(getTokenInfo()._id)
+      .then(result => {
+        setCompleted(result.data.completed)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
-    <Modal {...props} onHide={() => {props.onClose()}}>
+    <Modal {...props} show={props.show && completed !== -1} onHide={() => {props.onClose()}}>
       <Modal.Header style={{textAlign: "center"}}> 
         <Row style={{width: "100%"}}>
           <Col className="d-flex justify-content-center align-items-center">
@@ -102,7 +114,7 @@ const CompletionModal = (props) => {
         </Row>
       </Modal.Header>
       <Modal.Body style={{backgroundColor: "#747880", color: "white" }}>
-        Congrats on completing a job, you're now at <span style={{color: colors.acceptanceGreen }}> REPLACE THIS AMT WITH AMT </span> completed! We'll
+        Congrats on completing a job, you're now at <span style={{color: colors.acceptanceGreen }}> {completed} </span> completed! We'll
         notify the other user that you've finished and ask them to rank you.
       </Modal.Body>
       <Modal.Footer>

@@ -92,7 +92,7 @@ class MessageTab extends React.Component {
     }
 
     return (
-      <Row>
+      <Row className="d-flex justify-content-end">
         {this.isSender() && <Col></Col>}
         <Col>
           <div
@@ -102,11 +102,11 @@ class MessageTab extends React.Component {
             {this.props.message.message}
             <br />
             <Badge style={{ margin: ".1rem .05rem .1rem .05rem" }}>
-              {humanized_time_span(this.props.message.sentAt)}
+              { humanized_time_span(this.props.message.sentAt) }
             </Badge>
           </div>
         </Col>
-        {!this.isSender() && <Col></Col>}
+        { !this.isSender() && <Col></Col> }
       </Row>
     )
   }
@@ -119,7 +119,7 @@ class MessageList extends React.Component {
 
   render() {
     return (
-      <div style={{height: "100%"}}>
+      <div style={{height: "100%", width: "100%"}}>
         {
           this.props.messages && this.props.messages.map((msg, i) => {
             return <MessageTab

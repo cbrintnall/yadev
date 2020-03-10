@@ -53,7 +53,7 @@ class Post extends React.Component {
   }
 
   getCompleteBadge() {
-    if (!this.props.post.user || !this.props.post.user.completed) {
+    if (!this.props.user || !this.props.user.completed) {
       return (<Badge>N/A</Badge>)
     }
 

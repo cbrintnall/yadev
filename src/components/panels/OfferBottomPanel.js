@@ -35,7 +35,7 @@ const OfferPanelBottom = (props) => {
         .then(_ => {
           GlobalNotificationManager.sendAlert(`Rejected offer for $${props.offer.offer}.`, false)
         })
-        .catch(_ => {
+        .catch(err => {
           GlobalNotificationManager.sendAlert(`We failed to reject the offer, something went wrong :(`, false)
         })
     }
@@ -54,11 +54,24 @@ const OfferPanelBottom = (props) => {
         })
     } else {
       acceptOffer(props.offer._id)
-        .then(_ => {
-          GlobalNotificationManager.sendAlert(`Accepted offer for $${props.offer.offer}.`)
+        .then(resp => {
+          switch (resp.status) {
+            case 201:
+              GlobalNotificationManager.sendAlert('Contract accepted!', true);
+              break;
+            case 202:
+              GlobalNotificationManager.sendAlert('Contract has already been accepted.', false);
+              break;
+          }
         })
-        .catch(_ => {
-          GlobalNotificationManager.sendAlert(`Failed to accept the offer, something went wrong on our end :(`, false)
+        .catch(err => {
+          switch(err.response.status) {
+            case 400:
+              GlobalNotificationManager.sendAlert('A contract already exists for this offer', false);
+              break;
+            default:
+              GlobalNotificationManager.sendAlert(`Failed to accept the offer, something went wrong on our end :(`, false)
+          }
         })
     }
   }

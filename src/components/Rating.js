@@ -5,11 +5,13 @@ const MAX_RATING = 5;
 
 const Rating = (props) => {
   const [hovered, setHovered] = useState(-1);
-  const ratingAmt = props.rating || 0;
+  const [value, setValue] = useState(-1);
+  const ratingAmt = props.rating || 1;
 
-  const editing = !(hovered === -1 || !props.editable);
-  const filledStars = editing ? hovered + 1 : ratingAmt;
+  const editing = !((hovered === -1 && value === -1) || !props.editable);
+  const filledStars = editing ? hovered === -1 ? value : hovered + 1 : ratingAmt;
   const emptyStars = MAX_RATING - filledStars;
+  const baseStyle = { fontSize: "20px", color: "gold", ...props.style };
 
   const getRatings = () => {
         const ratings = [];
@@ -18,7 +20,7 @@ const Rating = (props) => {
             ratings.push(
                 <IoIosStar
                     key={i + 500}
-                    style={{ fontSize: "20px", color: "gold" }}
+                    style={baseStyle}
                     onMouseEnter={_ => setHovered(i)}
                     onMouseLeave={_ => setHovered(-1)}
                 />
@@ -29,7 +31,7 @@ const Rating = (props) => {
             ratings.push(
                 <IoMdStarOutline
                     key={i + 51}
-                    style={{ fontSize: "20px", color: "gold" }}
+                    style={baseStyle}
                     onMouseEnter={_ => setHovered(i + filledStars)}
                     onMouseLeave={_ => setHovered(-1)}
                 />
@@ -42,7 +44,7 @@ const Rating = (props) => {
     return (
       <div 
         style={{ cursor: editing ? "pointer" : "inherit" }}
-        onClick={_ => props.onClick && props.onClick(hovered+1)}
+        onClick={_ => !setValue(hovered+1) && props.onClick && props.onClick(hovered+1)}
       >
             { getRatings() }
       </div>
